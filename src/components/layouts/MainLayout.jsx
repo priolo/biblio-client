@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import MenuLayout from './MenuLayout';
 import ElementLayout from "./ElementLayout"
@@ -11,7 +11,7 @@ import { useMenu } from "../../store/menu"
 import styles from './mainLayout.module.scss';
 import MsgBox from '../app/MsgBox';
 import { useLayout } from '../../store/layout';
-import { check, _startStoreSubscribe } from '@priolo/jon/dist/lib/store/recorder';
+import { recorder, player } from '@priolo/jon'
 
 
 
@@ -32,6 +32,8 @@ function MainLayout() {
         fetchDoc()
         fetchMenu()
     }, [])
+
+    const refStates = useRef()
 
 
     // HANDLE
@@ -55,35 +57,24 @@ function MainLayout() {
                     options: { singletone: true }
                 })
             },
-            "debug": () => {
-                //const {state:node}  = getStoreNode()
-                //console.log(node)
-
-                // check stores
-                //check()
 
 
-
-                _startStoreSubscribe()
-
-
-
-                // const store = getStore("auth")
-
-                // // prelevare lo store
-                // console.log(store.state)
+            "recStart": () => {
+                recorder.recorderStart()
+            },
+            "recStop": () => {
+                const states = recorder.recorderStop()
+                refStates.current = states
                 
-                // // setta uno stato nuovo
-                // const newState = {...store.state}
-                // newState.password = "pippo"
-                // store.d ( s => newState )
+            },
+            "recCheck": () => {
+                recorder.recorderCheck()
+            },
+            "play": () => {
+                player.playerStart(refStates.current)
+            },
 
-                // // subcribe/unsubscribe dello store
-                // store.subscribe((name, payload, result) => {
-                //     debugger
-                // })
 
-            }
         }[node.id]()
     }
 
@@ -119,9 +110,12 @@ function MainLayout() {
                     <ElementLayout>
                         <MenuLayout
                             renderBottom={<Tree onClickNode={handleClickMenu} values={[
-                                { label: "Debug", id: "debug" },
                                 { label: "Login", id: "login" },
-                                { label: "Register", id: "register" }
+                                { label: "Register", id: "register" },
+                                { label: "rec start", id: "recStart" },
+                                { label: "rec check", id: "recCheck" },
+                                { label: "rec stop", id: "recStop" },
+                                { label: "play", id: "play" },
                             ]} />}
                         >
                             <Tree
