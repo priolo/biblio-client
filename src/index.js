@@ -6,6 +6,7 @@ import App from './App';
 
 import { BrowserRouter as Router } from "react-router-dom";
 import MultiStoreProvider from './store';
+import './plugins/i18n';
 
 function Base() {
 	return (

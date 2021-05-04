@@ -12,7 +12,7 @@ import styles from './mainLayout.module.scss';
 import MsgBox from '../app/MsgBox';
 import { useLayout } from '../../store/layout';
 import { recorder, player } from '@priolo/jon'
-
+import DebugButton from '../app/debug/DebugButton';
 
 
 
@@ -57,24 +57,6 @@ function MainLayout() {
                     options: { singletone: true }
                 })
             },
-
-
-            "recStart": () => {
-                recorder.recorderStart()
-            },
-            "recStop": () => {
-                const states = recorder.recorderStop()
-                refStates.current = states
-                
-            },
-            "recCheck": () => {
-                recorder.recorderCheck()
-            },
-            "play": () => {
-                player.playerStart(refStates.current)
-            },
-
-
         }[node.id]()
     }
 
@@ -112,10 +94,6 @@ function MainLayout() {
                             renderBottom={<Tree onClickNode={handleClickMenu} values={[
                                 { label: "Login", id: "login" },
                                 { label: "Register", id: "register" },
-                                { label: "rec start", id: "recStart" },
-                                { label: "rec check", id: "recCheck" },
-                                { label: "rec stop", id: "recStop" },
-                                { label: "play", id: "play" },
                             ]} />}
                         >
                             <Tree
@@ -137,6 +115,9 @@ function MainLayout() {
 
             {/* MESSAGE BOX */}
             <MsgBox />
+
+            {/* DEBUG BUTTON */}
+            <DebugButton/>
 
         </div>
     )

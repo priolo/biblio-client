@@ -12,8 +12,8 @@ const store = {
 		focus: null,
 	},
 	getters: {
-		findIndex: (state, id, store) => state.all.findIndex(doc => doc.id==id ),
-		findByType: (state, type, store) => state.all.filter(doc => doc.type==type )
+		findIndex: (state, id, store) => state.all.findIndex(doc => doc.id == id),
+		findByType: (state, type, store) => state.all.filter(doc => doc.type == type)
 	},
 	actions: {
 		fetch: async (state, _, store) => {
@@ -47,11 +47,11 @@ const store = {
 		// inserisce un doc in coda
 		open: async (state, doc, store) => {
 			const { setHash } = getStoreUrl()
-			doc = merge ( doc, DocDefault )
+			doc = merge(doc, DocDefault)
 
 			if (doc.options.singletone) {
 				const docs = store.findByType(doc.type)
-				if ( docs.length > 0 ) {
+				if (docs.length > 0) {
 					setHash(docs[0].id)
 					return
 				}

@@ -11,7 +11,6 @@ const store = {
 	actions: {
 		async fetchAll(state, payload, store) {
 			const response = await ajax.get("nodes");
-			debugger
 			store.setRoot(response)
 		},
 		// async fetchById(state, id, store) {

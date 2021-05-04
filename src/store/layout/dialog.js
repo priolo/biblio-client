@@ -1,5 +1,4 @@
 /* eslint eqeqeq: "off" */
-//import { DIALOG_TYPES } from "./utils";
 //import i18n from "i18next";
 
 // used when dialog closed
@@ -8,6 +7,13 @@ let resolveClose = null;
 const optionsDefault = {
 	modal: true,
 	//type: DIALOG_TYPES.INFO,
+}
+
+export const DIALOG_TYPES = {
+	INFO: "info",
+	WARNING: "warning",
+	ERROR: "error",
+	SUCCESS: "success",
 }
 
 const store = {
@@ -51,4 +57,3 @@ const store = {
 }
 
 export default store
-

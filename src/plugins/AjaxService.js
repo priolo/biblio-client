@@ -1,11 +1,17 @@
 /* eslint eqeqeq: "off" */
 import { getStoreLayout } from "../store/layout"
-//import i18n from "i18next"
-//import { DIALOG_TYPES } from "../stores/layout/utils"
+import i18n from "i18next"
 import { getStoreAuth } from "../store/auth"
+import { DIALOG_TYPES } from "../store/layout/dialog"
+
 
 const optionsDefault = {
 	baseUrl: "/api/"
+}
+
+const optionsDefaultSend = {
+	noBusy: false,
+	noDialog: false,
 }
 
 export class AjaxService {
@@ -39,7 +45,8 @@ export class AjaxService {
 	 */
 	async send(url, method, data, options = {}) {
 		const { setBusy, dialogOpen, setFocus } = getStoreLayout()
-		const { state:auth } = getStoreAuth()
+		const { state: auth } = getStoreAuth()
+		options = { ...optionsDefaultSend, ...options }
 
 		if (!options.noBusy) setBusy(true)
 		const token = auth.token
@@ -58,27 +65,24 @@ export class AjaxService {
 		)
 		if (!options.noBusy) setBusy(false)
 
-		setFocus("")
 		const status = response.status
-		let body = null
-		try {
-			body = await response.json()
-		} catch (e) {}
+		const dataJson = await response.json()
 
 		// error
 		if (status >= 400) {
-			const error = body && body.errors && body.errors[0] ? body.errors[0] : { code: "default", field: "" }
-			// dialogOpen({
-			// 	type: DIALOG_TYPES.ERROR,
-			// 	title: i18n.t(getI18nPathForError(status, url, error.code, "title")),
-			// 	text: i18n.t(getI18nPathForError(status, url, error.code, "text")),
-			// 	labelOk: i18n.t(getI18nPathForError(status, url, error.code, "ok")),
-			// })
-			setFocus(error.field)
+			if (!options.noDialog) {
+				const i18nMsg = {
+					type: DIALOG_TYPES.ERROR,
+					title: i18n.t(getI18nPathForError(status, url, error.code, "title")),
+					text: i18n.t(getI18nPathForError(status, url, error.code, "text")),
+					labelOk: i18n.t(getI18nPathForError(status, url, error.code, "ok")),
+				}
+				dialogOpen( i18nMsg )
+			}
 			throw response;
 		}
-		
-		return body
+
+		return dataJson
 	}
 }
 
@@ -89,18 +93,16 @@ export class AjaxService {
  * @param {*} code 
  * @param {*} prop 
  */
-// function getI18nPathForError(status, url, code, prop) {
-// 	let i
-// 	const context = url.slice(0, (i = url.indexOf("/")) != -1 ? i : undefined)
-// 	return [
-// 		`dialog.error.${context}.${code}.${prop}`,
-// 		`dialog.error.${context}.default.${prop}`,
-// 		`dialog.error.${status}.${code}.${prop}`,
-// 		`dialog.error.${status}.default.${prop}`,
-// 		`dialog.error.default.${prop}`
-// 	]
-// }
-
-
+function getI18nPathForError(status, url, code, prop) {
+	let i
+	const context = url.slice(0, (i = url.indexOf("/")) != -1 ? i : undefined)
+	return [
+		`dialog.error.${context}.${code}.${prop}`,
+		`dialog.error.${context}.default.${prop}`,
+		`dialog.error.${status}.${code}.${prop}`,
+		`dialog.error.${status}.default.${prop}`,
+		`dialog.error.default.${prop}`
+	]
+}
 
 export default new AjaxService()
