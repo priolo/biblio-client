@@ -4,10 +4,12 @@
   "private": false,
   "//dependencies": {
     "@priolo/jon#local": "file:C://Users//iorio//Documents//Jon",
-    "@priolo/jon": "^0.2.2"
+    "@priolo/jon": "^0.2.2",
+    "@priolo/jon-utils#local": "file:C://Users//iorio//Documents//jon-utils"
   },
   "dependencies": {
     "@priolo/jon": "file:C://Users//iorio//Documents//Jon",
+    "@priolo/jon-utils": "file:C://Users//iorio//Documents//jon-utils",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
@@ -27,11 +29,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "watch": "cra-build-watch",
+    "build-watch": "cra-build-watch",
     "test": "react-scripts test",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "cypress:ci": "cypress run --headless",
     "eject": "react-scripts eject"
   },
   "browserslist": {

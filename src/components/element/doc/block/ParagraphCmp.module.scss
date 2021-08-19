@@ -1,0 +1,9 @@
+@import 'style/palette';
+
+.text {
+	color: $palette-text;
+	font-family: $font;
+	font-weight: 700;
+	font-size: 24px;
+}
+

@@ -5,7 +5,6 @@ import MinusIcon from "../../imeges/minus"
 /*
 TREE-NODE
 {
-	id: any,
 	label: string,
 	children: <TREE-NODES>,
 	expanded: bool,

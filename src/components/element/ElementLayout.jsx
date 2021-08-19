@@ -1,5 +1,5 @@
 
-import styles from "./elementLayout.module.scss"
+import styles from "./ElementLayout.module.scss"
 
 
 

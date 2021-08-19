@@ -1,25 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.css'
 import App from './App';
 //import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter as Router } from "react-router-dom";
-import MultiStoreProvider from './store';
+import { MultiStoreProvider } from '@priolo/jon'
+import setups from 'store'
 import './plugins/i18n';
+
+
 
 function Base() {
 	return (
-		<MultiStoreProvider>
+		<MultiStoreProvider setups={setups}>
 			<Router>
 				<App />
 			</Router>
 		</MultiStoreProvider>
 	)
 }
-
-
-
 
 ReactDOM.render(<Base />, document.getElementById('root'));
 

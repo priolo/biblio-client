@@ -1,24 +1,29 @@
-import CloseIcon from "../../imeges/close"
-import { useDoc } from "../../store/doc"
+import { getStore } from "@priolo/jon"
+import CloseIcon from "../../../imeges/close"
 
-import Button from "../app/Button"
+import Button from "../../app/Button"
+import BlockCmp from "./block/BlockCmp"
+import styles from "./DocLayout.module.scss"
 
-import styles from "./docLayout.module.scss"
 
 
 
-function DocLayout ({
-	content
+export default function DocLayout({
+	id,
 }) {
 
 	// HOOKs
-	const { state:doc, close } = useDoc()
 
-
-
+	const { state:doc } = getStore(`doc_${id}`)
 
 	// HANDLE
-	const handleClickClose = e => close(content.id)
+	const handleClickClose = e => {
+		console.log("close()")
+	}
+
+	// RENDER
+
+	//if ( !store ) return null
 
 	return (
 		<div className={styles.container} >
@@ -34,19 +39,20 @@ function DocLayout ({
 				</div>
 			</div>
 
-
 			<div className={styles.center}>
 
 				<div className={styles.header}>
-					<div className={styles.title}>{content.title}</div>
+					<div className={styles.title}>{doc.title}</div>
 					<div className={styles.subtitle}>
-						<span className={styles.author}>{content.author}</span>
-						<span className={styles.date}>{content.date}</span>
+						<span className={styles.author}>{doc.author}</span>
+						<span className={styles.date}>{doc.date}</span>
 					</div>
 				</div>
 
 				<div className={styles.body}>
-					{content.body}
+					{doc.blocks.map((block, index) => (
+						<BlockCmp key={index} block={block} />
+					))}
 				</div>
 
 			</div>
@@ -54,14 +60,13 @@ function DocLayout ({
 
 			<div className={styles.rigth}>
 				<div className={styles.icons}>
-					<Button icon={<CloseIcon />} 
+					<Button icon={<CloseIcon />}
 						onClick={handleClickClose}
 					/>
 				</div>
 			</div>
-			
+
 		</div>
 	)
 }
 
-export default DocLayout

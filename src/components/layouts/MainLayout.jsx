@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from 'react'
 
 import MenuLayout from './MenuLayout';
-import ElementLayout from "./ElementLayout"
-import PolyLayout from './PolyLayout';
+import ElementLayout from "../element/ElementLayout"
+import PolyLayout from '../element/PolyLayout';
 import Tree from "../app/Tree"
 
-import { DOC_TYPE, useDoc } from "../../store/doc"
+import { ELEMENT_TYPE, useElement } from "../../store/element"
 import { useMenu } from "../../store/menu"
 
 import styles from './mainLayout.module.scss';
 import MsgBox from '../app/MsgBox';
 import { useLayout } from '../../store/layout';
-import { recorder, player } from '@priolo/jon'
 import DebugButton from '../app/debug/DebugButton';
 
 
@@ -24,13 +23,13 @@ function MainLayout() {
 
 
     // HOOKs
-    const { state: doc, fetch: fetchDoc, open } = useDoc()
+    const { state: elements, fetch: fetchDoc, open } = useElement()
     const { state: menu, fetch: fetchMenu, setAll } = useMenu()
     const { state: layout, dialogOpen } = useLayout()
 
     useEffect(() => {
         fetchDoc()
-        fetchMenu()
+        //fetchMenu()
     }, [])
 
     const refStates = useRef()
@@ -47,13 +46,13 @@ function MainLayout() {
         const c = {
             "login": () => {
                 open({
-                    type: DOC_TYPE.LOGIN,
+                    type: ELEMENT_TYPE.LOGIN,
                     options: { singletone: true }
                 })
             },
             "register": () => {
                 open({
-                    type: DOC_TYPE.REGISTER,
+                    type: ELEMENT_TYPE.REGISTER,
                     options: { singletone: true }
                 })
             },
@@ -73,9 +72,9 @@ function MainLayout() {
                     {/* spazio vuoto a sinistra del primo doc */}
                     <div className={styles.docLeftSpace} />
 
-                    {doc.all.map((doc, index) => (
-                        <ElementLayout key={doc.id}>
-                            <PolyLayout content={doc} />
+                    {elements.all.map((element, index) => (
+                        <ElementLayout key={element.id}>
+                            <PolyLayout content={element} />
                         </ElementLayout>
                     ))}
 

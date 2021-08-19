@@ -1,4 +1,4 @@
-import CloseIcon from "../../imeges/close"
+import CloseIcon from "imeges/close"
 import styles from './dialog.module.scss';
 
 

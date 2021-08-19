@@ -2,8 +2,7 @@
 import ajax from "../../plugins/AjaxService";
 import Cookies from 'js-cookie'
 import i18n from "i18next";
-import { getStoreNode } from "../node";
-import { DOC_TYPE, getStoreDoc } from "../doc";
+import { ELEMENT_TYPE, getStoreElement } from "store/element";
 import { getStoreLayout } from "../layout";
 import { DIALOG_TYPES } from "../layout/dialog";
 
@@ -27,7 +26,7 @@ const store = {
 	actions: {
 
 		register: async (state, _, store) => {
-			const { open } = getStoreDoc()
+			const { open } = getStoreElement()
 			const { dialogOpen } = getStoreLayout()
 
 			const data = {
@@ -36,12 +35,12 @@ const store = {
 			await ajax.post("auth/register", data)
 
 			dialogOpen({ type: "success", text: "check email", modal: false })
-			open({ type: DOC_TYPE.ACTIVATE, options: { singletone: true } })
+			open({ type: ELEMENT_TYPE.ACTIVATE, options: { singletone: true } })
 		},
 
 		activate: async (state, _, store) => {
 			const { dialogOpen } = getStoreLayout()
-			const { open } = getStoreDoc()
+			const { open } = getStoreElement()
 
 			const data = {
 				code: state.activationToken,
@@ -56,7 +55,7 @@ const store = {
 			}
 
 			dialogOpen({ type: "success", text: "attivato!!!", modal: false })
-			open({ type: DOC_TYPE.LOGIN, options: { singletone: true } })
+			open({ type: ELEMENT_TYPE.LOGIN })
 		},
 
 		login: async (state, _, store) => {
@@ -150,7 +149,7 @@ const store = {
 	},
 	mutators: {
 		// [II] deve essere il layout che pesca lo user e adatta la lista non il contrario
-		setUser: (state, user, store) => ({ user }),
+		setUser: (state, user, store) => ({ user: ""}),
 
 		setToken: (state, token, store) => {
 			if (token == null) {
