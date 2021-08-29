@@ -9,7 +9,7 @@ const store = {
 
 		getSearchUrl: (state, name, store) => {
 			const searchParams = new URLSearchParams(window.location.search)
-			return (searchParams.get(name) ?? "")
+			return searchParams.get(name)
 		},
 
 		getHash: (state, _, store) => {
@@ -21,6 +21,7 @@ const store = {
 	actions: {
 	},
 	mutators: {
+
 		setSearchUrl: (state, { name, value }, store) => {
 			const queryParams = new URLSearchParams(window.location.search)
 			if (value && value.toString().length > 0) {

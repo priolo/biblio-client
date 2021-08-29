@@ -9,6 +9,8 @@ import { useEffect, useRef } from "react"
 
 import { MultiStoreProvider } from "@priolo/jon"
 import docSetup from "../../store/doc/store"
+import AuthorsLayout from "./authors/AuthorsLayout"
+import AuthorDetailLayout from "./authors/AuthorDetailLayout"
 
 
 function PolyLayout({
@@ -30,6 +32,8 @@ function PolyLayout({
 	const setup = {...docSetup}
 	
 	const contents = {
+		[ELEMENT_TYPE.AUTHORS]: <AuthorsLayout />,
+		[ELEMENT_TYPE.AUTHOR_DETAIL]: <AuthorDetailLayout />,
 		[ELEMENT_TYPE.DOC]: (<MultiStoreProvider setups={{[`doc_${content.id}`]:setup}}>
 			<DocLayout id={content.id} />
 		</MultiStoreProvider>),

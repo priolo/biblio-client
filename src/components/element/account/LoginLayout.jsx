@@ -1,11 +1,11 @@
+import styles from "./LoginLayout.module.scss"
 
-import CloseIcon from "../../../imeges/close"
-import Control from "../../app/Control"
-import Button from "../../app/Button"
-import Input from "../../app/Input"
+import CloseIcon from "imeges/close"
+import Control from "components/app/Control"
+import Button from "components/app/Button"
+import Input from "components/app/Input"
 
-import styles from "./loginLayout.module.scss"
-import { useAuth } from "../../../store/auth"
+import { useAuth } from "store/auth"
 
 
 

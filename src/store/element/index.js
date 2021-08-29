@@ -19,6 +19,8 @@ export const ELEMENT_STATUS = {
  * Indica di che tipo è la visualizzazione contenuta nell'ELEMENT
  */
 export const ELEMENT_TYPE = {
+	AUTHORS: "authors",
+	AUTHOR_DETAIL: "author-detail",
 	DOC: "doc",
 	LOGIN: "login",
 	REGISTER: "register",
@@ -37,6 +39,9 @@ export const DocDefault = {
 	title: "",
 	body: "",
 }
+
+
+
 
 // export function buildElement(type, params) {
 // 	const def = ElementTypeDefault[type]

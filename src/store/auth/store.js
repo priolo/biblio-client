@@ -6,7 +6,6 @@ import { ELEMENT_TYPE, getStoreElement } from "store/element";
 import { getStoreLayout } from "../layout";
 import { DIALOG_TYPES } from "../layout/dialog";
 
-let idPolling = null
 
 const store = {
 	state: {
@@ -66,7 +65,7 @@ const store = {
 			}
 			try {
 				await ajax.post("auth/login", data);
-			} catch (error) {
+			} catch (error) {         
 				dialogOpen({ type: "error", text: "no no no!!!", modal: false })
 				//store.logout()
 				return;

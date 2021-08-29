@@ -1,8 +1,7 @@
-import React from 'react'
-import styles from './button.module.scss';
+import styles from './Button.module.scss';
 
 
-function Button({
+export default function Button({
 	children,
 	icon,
 	onClick
@@ -14,5 +13,3 @@ function Button({
         </div>
     )
 }
-
-export default Button

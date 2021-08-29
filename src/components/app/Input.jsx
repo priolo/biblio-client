@@ -1,22 +1,27 @@
-import styles from './input.module.scss';
+import styles from './Input.module.scss';
 
 
 function Input({
-	//children,
-	//icon,
 	value,
+	renderEnd,
+
 	onChange
 }) {
 
 	const handleChange = e => onChange?.(e)
 
     return (
-        <input 
-			className={styles.root}
-			type="text"
-			onChange={handleChange}
-			value={value}
-        />
+		<div className={styles.container}>
+			<input 
+				className={styles.input}
+				type="text"
+				onChange={handleChange}
+				value={value}
+			/>
+			{renderEnd && <div className={styles.end}>
+				{renderEnd}
+			</div>}
+		</div>
     )
 }
 

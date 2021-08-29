@@ -1,0 +1,21 @@
+@import "style/colors";
+
+
+.container {
+	display: flex; flex-direction: row; align-items: center;
+	cursor: pointer;
+	
+	.icon {
+		margin-right: 8px;
+	}
+
+	&:hover {
+		color: black;
+		.icon {
+			stroke: black;
+		}
+	}
+}
+
+
+

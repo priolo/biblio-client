@@ -1,14 +1,15 @@
+import styles from './MainLayout.module.scss';
 import React, { useEffect, useRef } from 'react'
 
 import MenuLayout from './MenuLayout';
 import ElementLayout from "../element/ElementLayout"
 import PolyLayout from '../element/PolyLayout';
-import Tree from "../app/Tree"
+import Tree from "../app/tree/Tree"
 
 import { ELEMENT_TYPE, useElement } from "../../store/element"
 import { useMenu } from "../../store/menu"
 
-import styles from './mainLayout.module.scss';
+
 import MsgBox from '../app/MsgBox';
 import { useLayout } from '../../store/layout';
 import DebugButton from '../app/debug/DebugButton';
@@ -23,13 +24,14 @@ function MainLayout() {
 
 
     // HOOKs
-    const { state: elements, fetch: fetchDoc, open } = useElement()
+    const { state: elements, fetch: fetchDoc, open, update } = useElement()
     const { state: menu, fetch: fetchMenu, setAll } = useMenu()
     const { state: layout, dialogOpen } = useLayout()
 
     useEffect(() => {
         fetchDoc()
         //fetchMenu()
+        update()
     }, [])
 
     const refStates = useRef()
@@ -89,24 +91,7 @@ function MainLayout() {
                 <div className={styles.contHorizMenu}>
 
                     <ElementLayout>
-                        <MenuLayout
-                            renderBottom={<Tree onClickNode={handleClickMenu} values={[
-                                { label: "Login", id: "login" },
-                                { label: "Register", id: "register" },
-                            ]} />}
-                        >
-                            <Tree
-                                values={menu.all}
-                                onClickNode={handleClickNode}
-                                onChangeExpanded={handleChangeExpanded}
-                            />
-                        </MenuLayout>
-                    </ElementLayout>
-
-                    <ElementLayout>
-                        <MenuLayout >
-                            ciccio
-                        </MenuLayout>
+                        <MenuLayout />
                     </ElementLayout>
 
                 </div>

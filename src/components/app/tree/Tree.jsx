@@ -1,6 +1,6 @@
 import styles from "./tree.module.scss"
-import PlusIcon from "../../imeges/plus"
-import MinusIcon from "../../imeges/minus"
+import PlusIcon from "../../../imeges/plus"
+import MinusIcon from "../../../imeges/minus"
 
 /*
 TREE-NODE

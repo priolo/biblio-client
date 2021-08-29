@@ -1,0 +1,10 @@
+
+.container {
+	cursor: pointer;
+	display: flex;
+	&:hover,
+	&:focus,
+	&:active {
+		stroke: #0ed3e9;
+	}
+}

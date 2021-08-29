@@ -1,0 +1,36 @@
+@import "style/colors";
+
+
+.container {
+
+	display: flex; flex: 0 0; flex-direction: column;
+
+	.up {
+
+		display: flex; 
+		align-items: center;
+
+		.title {
+			flex: 1 0 0;
+			font-size: 18px;
+		}
+		.icons {
+			flex: 0 0 0;
+		}
+	}
+
+	.down {
+
+		display: flex; align-items: baseline;
+		color: $color-secondary;
+
+		.subtitle {
+			font-size: 14px;
+		}
+		.date {
+			margin-left: 5px;
+			font-size: 12px;
+		}
+	}
+}
+

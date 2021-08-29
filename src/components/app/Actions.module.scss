@@ -1,0 +1,23 @@
+@import "style/colors";
+
+
+.container {
+
+	display: flex;
+
+	.action {
+
+		color: $color-accent2;
+		cursor: pointer;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: #0ed3e9;
+		}
+
+		&:not(:first-child) {
+			margin-left: 10px;
+		}
+	}
+}

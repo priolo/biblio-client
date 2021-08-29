@@ -1,15 +1,15 @@
 
-import CloseIcon from "../../../imeges/close"
+import styles from "./ActivateLayout.module.scss"
+import CloseIcon from "imeges/close"
 import Control from "../../app/Control"
 import Button from "../../app/Button"
 import Input from "../../app/Input"
 
-import styles from "./activateLayout.module.scss"
-import { useAuth } from "../../../store/auth"
+import { useAuth } from "store/auth"
 
 
 
-function ActivateLayout() {
+export default function ActivateLayout() {
 
 	// HOOKs
 	const { state: auth, setActivationToken, setPassword, activate } = useAuth()
@@ -65,4 +65,3 @@ function ActivateLayout() {
 	)
 }
 
-export default ActivateLayout

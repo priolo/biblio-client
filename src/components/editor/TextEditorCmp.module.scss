@@ -1,0 +1,8 @@
+
+.editor { 
+	color: blue;
+	&:focus-visible {
+		background-color: red;
+		outline: none;
+	}
+}
