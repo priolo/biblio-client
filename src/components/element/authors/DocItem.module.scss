@@ -3,6 +3,34 @@
 
 .container {
 
+	display: flex; flex-direction: column;
+	cursor: pointer;
+
+	&.selected {
+		background-color: $color-accent;
+	}
+
+	.first {
+		font-size: 18px;
+		font-weight: 700;
+	}
+
+	.second {
+
+		display: flex;
+		color: $color-secondary;
+
+		.subtitle {
+			flex: 1 0 0;
+		}
+		.date {
+			font-size: 12px;
+		}
+	}
+
+	.rating {
+
+	}
 }
 
 

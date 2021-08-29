@@ -35,7 +35,7 @@ export default function AuthorsLayout() {
 					{ label: "view" },
 				]}
 			/>
-			<div className={styles.body} >
+			<div className={styles.list} >
 				{authors.map ( author => (
 					<AuthorItemCard key={author.id}
 						className={styles.card} 

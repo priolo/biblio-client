@@ -26,7 +26,7 @@ function PolyLayout({
 	}, [url.url])
 
 	// HANDLEs
-	const handleClickContent = e => setHash(content.id)
+	const handleClickContent = e => {}//setHash(content.id)
 
 	// RENDER
 	const setup = {...docSetup}

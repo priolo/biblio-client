@@ -21,23 +21,22 @@ const store = {
 
 		// inserisce un doc in testa
 		open: async (state, id, store) => {
-			const { getSearchUrl, setSearchUrl } = getStoreUrl()
+			const { getArray, setArray } = getStoreUrl()
 
-			const urlParam = getSearchUrl("d")
-			const docIds = urlParam ? urlParam.split("|") : []
+			const docIds = getArray("d")
 			if (docIds.includes(id)) {
 				console.log("ce sta gia'")
 				return
 			}
 			docIds.push(id)
-			setSearchUrl({ name: "d", value: docIds.join("|") })
+			setArray({ name: "d", value: docIds })
 
 			store.update()
 		},
 
 		update: async (state, _, store) => {
-			const { getSearchUrl, setSearchUrl } = getStoreUrl()
-			const docIds = getSearchUrl("d")?.split("|")
+			const { getArray } = getStoreUrl()
+			const docIds = getArray("d")
 			const { all } = state
 			const docsUpdate = []
 
@@ -49,21 +48,28 @@ const store = {
 			store.setAll(docsUpdate)
 		},
 
-		build: async (state, id, store) => {
+		build: async (state, identity, store) => {
 			const { all } = state
 			let element = null
+			const [type, id] = identity.split("_")
 
-			switch (id) {
+			switch (type) {
 				case "authors":
 					element = {
-						id: id,
+						id: type,
 						type: ELEMENT_TYPE.AUTHORS,
 					}
 					break
 				case "list":
 					element = {
-						id: id,
+						id: type,
 						type: ELEMENT_TYPE.AUTHOR_DETAIL,
+					}
+					break
+				case "doc":
+					element = {
+						id: id,
+						type: ELEMENT_TYPE.DOC,
 					}
 					break
 				default:

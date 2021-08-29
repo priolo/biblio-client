@@ -30,10 +30,12 @@ export default function Card({
 
 			<Image
 				src={mediaSrc}
-				className={`${styles.media} ${cnCliccable}`}
+				className={`${styles.media} ${cnCliccable} ${cnSelected}`}
 				onClick={onClick}
 				onDoubleClick={onDoubleClick}
-			/>
+			>
+				{selected && <div className={styles.overlay} />}
+			</Image>
 
 			<div
 				className={`${styles.title} ${cnCliccable}`}

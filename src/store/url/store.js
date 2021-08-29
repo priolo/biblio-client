@@ -12,6 +12,12 @@ const store = {
 			return searchParams.get(name)
 		},
 
+		getArray: (state, name, store) => {
+			const props = store.getSearchUrl(name)
+			return props ? props.split("-") : []
+		},
+
+
 		getHash: (state, _, store) => {
 			const hash = window.location.hash
 			return hash.slice(1)
@@ -31,6 +37,11 @@ const store = {
 			}
 			window.history.replaceState(null, null, "?" + queryParams.toString())
 			return { url: queryParams.toString() }
+		},
+
+		setArray: (state, { name, value }, store) => {
+			const valueStr = Array.isArray(value) && value.length>0 ? value.join("-") : null
+			return store.setSearchUrl({ name, value: valueStr})
 		},
 
 		setHash: (state, hash, store) => {

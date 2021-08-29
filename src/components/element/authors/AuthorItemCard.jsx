@@ -17,8 +17,7 @@ export default function AuthorItemCard({
 	// HANDLE
 	const handleClick = _ => toggleSelected(author.id)
 	const handleDblClick = _ => {
-		console.log("dbl click")
-		//open ( "list" )
+		open ( "list" )
 	}
 
 	// RENDER

@@ -1,29 +1,30 @@
 import styles from "./AuthorDetailLayout.module.scss"
 
-import { getStoreAuthor } from "store/author"
+
 import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
-import AuthorItemCard from "./AuthorItemCard"
 import Actions from "components/app/Actions"
 import DocItem from "./DocItem"
+import { useAuthorDetail } from "store/authorDetail"
 
 
 export default function AuthorDetailLayout() {
 
 	// HOOKs
 
-	const { state:author } = getStoreAuthor()
+	const { state:author } = useAuthorDetail()
 
 	// HANDLE
+	
 
 	// RENDER
 
-	const authors = author.all
+	const docs = author.docs
 
 	return (
 		<div className={styles.container} > 
 			<HeaderCmp
-				title = "Priolo22's documentation"
+				title = {author.name}
 				subtitle="Priolo22"
 				date="14/08/75"
 			/>
@@ -36,12 +37,12 @@ export default function AuthorDetailLayout() {
 					{ label: "view" },
 				]}
 			/>
-			<div className={styles.body} >
-				{authors.map ( author => (
+			<div className={styles.list}>
+				{docs.map ( doc => (
 					<DocItem 
-						key={author.id}
-						className={styles.card} 
-						author={author}
+						key={doc.id}
+						className={styles.doc} 
+						doc={doc}
 					/>
 				))}
 			</div> 
