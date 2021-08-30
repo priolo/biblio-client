@@ -1,7 +1,7 @@
 import styles from "./MenuLayout.module.scss"
 import Menu from "components/app/menu/Menu"
 import { useMenu } from "store/menu"
-import { ELEMENT_TYPE, useElement } from "store/element"
+import { ELEMENT_TYPE, getIdentity, useElement } from "store/element"
 
 
 export default function MenuLayout() {
@@ -19,7 +19,7 @@ export default function MenuLayout() {
 		console.log(item)
 		switch ( item.name ) {
 			case "authors":
-				open ( "authors" )
+				open ( getIdentity("authors") )
 			break
 		}
 	}

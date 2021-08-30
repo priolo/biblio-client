@@ -1,52 +1,61 @@
-import DocLayout from "./doc/DocLayout"
-import MenuLayout from "../layouts/MenuLayout"
-import LoginLayout from "./account/LoginLayout"
-import RegisterLayout from "./account/RegisterLayout"
-import ActivateLayout from "./account/ActivateLayout"
-import { useUrl } from "../../store/url"
-import { ELEMENT_TYPE } from "../../store/element"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 
-import { MultiStoreProvider } from "@priolo/jon"
-import docSetup from "../../store/doc/store"
+import DocLayout from "./doc/DocLayout"
 import AuthorsLayout from "./authors/AuthorsLayout"
 import AuthorDetailLayout from "./authors/AuthorDetailLayout"
 
+import { MultiStoreProvider } from "@priolo/jon"
+import { useUrl } from "../../store/url"
+import docSetup from "../../store/doc/store"
+import authorDetailSetup from "../../store/authorDetail/store"
 
-function PolyLayout({
-	content
+
+export default function PolyLayout({
+	element
 }) {
 
 	// HOOKs
+
 	const { state: url, setHash, getHash } = useUrl()
 	const contentRef = useRef(null)
 	useEffect(() => {
-		if (getHash() != content.id) return
+		if (getHash() != element.id) return
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
 	}, [url.url])
 
 	// HANDLEs
-	const handleClickContent = e => {}//setHash(content.id)
+
+	const handleClickContent = e => { setHash(element.identity) }
 
 	// RENDER
-	const setup = {...docSetup}
-	
-	const contents = {
-		[ELEMENT_TYPE.AUTHORS]: <AuthorsLayout />,
-		[ELEMENT_TYPE.AUTHOR_DETAIL]: <AuthorDetailLayout />,
-		[ELEMENT_TYPE.DOC]: (<MultiStoreProvider setups={{[`doc_${content.id}`]:setup}}>
-			<DocLayout id={content.id} />
-		</MultiStoreProvider>),
-		[ELEMENT_TYPE.MENU]: <MenuLayout content={content} />,
-		[ELEMENT_TYPE.LOGIN]: <LoginLayout content={content} />,
-		[ELEMENT_TYPE.REGISTER]: <RegisterLayout content={content} />,
-		[ELEMENT_TYPE.ACTIVATE]: <ActivateLayout content={content} />,
-	}
+
+
+
+	const builElement = useCallback(() => {
+		switch (element.type) {
+			case "authors":
+				return <AuthorsLayout />
+			case "list":
+				return <MultiStoreProvider setups={{ [element.identity]: { ...authorDetailSetup } }}>
+					<AuthorDetailLayout element={element} />
+				</MultiStoreProvider>
+			case "doc":
+				return <MultiStoreProvider setups={{ [element.identity]: { ...docSetup } }}>
+					<DocLayout element={element} />
+				</MultiStoreProvider>
+			default:
+				return null
+
+		}
+		// <MenuLayout content={element} />,
+		// <LoginLayout content={element} />,
+		// <RegisterLayout content={element} />,
+		// <ActivateLayout content={element} />,
+	}, [element.identity])
 
 	return <div onClick={handleClickContent} ref={contentRef}>
-		{contents[content.type]}
+		{builElement()}
 	</div>
 
 }
 
-export default PolyLayout

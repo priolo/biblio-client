@@ -1,5 +1,7 @@
 /* eslint eqeqeq: "off"*/
 
+import { getTypeAndId } from "store/element"
+
 
 const store = {
 	state: {
@@ -17,10 +19,23 @@ const store = {
 			return props ? props.split("-") : []
 		},
 
-
 		getHash: (state, _, store) => {
 			const hash = window.location.hash
 			return hash.slice(1)
+		},
+
+		getElements: (state, _, store) => {
+			const identities = store.getArray("i")
+			const elements = identities.map ( identity => {
+				const { type, id } = getTypeAndId(identity)
+				return { identity, type, id }
+			})
+			return elements
+		},
+
+		haveIdentity: (state, identity, store ) => {
+			const identities = store.getArray("i")
+			return identities.includes(identity)
 		},
 
 	},

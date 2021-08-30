@@ -1,71 +1,35 @@
 import styles from './MainLayout.module.scss';
-import React, { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import MenuLayout from './MenuLayout';
 import ElementLayout from "../element/ElementLayout"
 import PolyLayout from '../element/PolyLayout';
-import Tree from "../app/tree/Tree"
-
-import { ELEMENT_TYPE, useElement } from "../../store/element"
-import { useMenu } from "../../store/menu"
-
-
 import MsgBox from '../app/MsgBox';
-import { useLayout } from '../../store/layout';
 import DebugButton from '../app/debug/DebugButton';
 
+import { useElement } from "../../store/element"
+import { useUrl } from 'store/url';
 
 
 /**
  * Gestisce l'intera app 
  * @returns 
  */
-function MainLayout() {
-
+ export default function MainLayout() {
 
     // HOOKs
-    const { state: elements, fetch: fetchDoc, open, update } = useElement()
-    const { state: menu, fetch: fetchMenu, setAll } = useMenu()
-    const { state: layout, dialogOpen } = useLayout()
 
-    useEffect(() => {
-        fetchDoc()
-        //fetchMenu()
-        update()
-    }, [])
-
-    const refStates = useRef()
-
+    const { state: url, getElements } = useUrl()
 
     // HANDLE
-    const handleChangeExpanded = (value) => {
-        setAll(value)
-    }
-    const handleClickNode = (node) => {
-    }
-    const handleClickMenu = (node) => {
-
-        const c = {
-            "login": () => {
-                open({
-                    type: ELEMENT_TYPE.LOGIN,
-                    options: { singletone: true }
-                })
-            },
-            "register": () => {
-                open({
-                    type: ELEMENT_TYPE.REGISTER,
-                    options: { singletone: true }
-                })
-            },
-        }[node.id]()
-    }
 
 
     // RENDER
 
+    const elements = getElements()
+
     return (
-        <div className={styles.main}>
+        <div className={styles.container}>
 
             {/* DOCUMENTI APERTI */}
             <div className={styles.contAbs}>
@@ -74,9 +38,9 @@ function MainLayout() {
                     {/* spazio vuoto a sinistra del primo doc */}
                     <div className={styles.docLeftSpace} />
 
-                    {elements.all.map((element, index) => (
-                        <ElementLayout key={element.id}>
-                            <PolyLayout content={element} />
+                    {elements.map((element) => (
+                        <ElementLayout key={element.identity}>
+                            <PolyLayout element={element} />
                         </ElementLayout>
                     ))}
 
@@ -107,6 +71,6 @@ function MainLayout() {
     )
 }
 
-export default MainLayout
+
 
 

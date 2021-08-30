@@ -1,28 +1,22 @@
 import styles from "./AuthorItemCard.module.scss"
 
 import Card from "components/app/Card"
-import { useAuthor } from "store/author"
-import { useElement } from "store/element"
 
 
 export default function AuthorItemCard({
 	className = "",
 	author = null,
+	selected,
+	onClick,
 }) {
 
 	// HOOKs
-	const { isSelected, toggleSelected } = useAuthor()
-	const { open } = useElement()
 
 	// HANDLE
-	const handleClick = _ => toggleSelected(author.id)
-	const handleDblClick = _ => {
-		open ( "list" )
-	}
+
+	const handleClick = _ => onClick(author)
 
 	// RENDER
-
-	const selected = isSelected(author.id)
 
 	return (
 		<Card cliccable
@@ -31,7 +25,6 @@ export default function AuthorItemCard({
 			mediaSrc={`/images/${author.imageSrc}`}
 			selected={selected}
 			onClick={handleClick}
-			onDoubleClick={handleDblClick}
 		/>
 	)
 }

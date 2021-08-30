@@ -8,7 +8,6 @@ const store = {
 		selected: [],
 	},
 	getters: {
-		isSelected: (state, id, store) => state.selected.includes(id)
 	},
 	actions: {
 		toggleSelected: (state, id, store) => {

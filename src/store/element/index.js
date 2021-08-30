@@ -28,55 +28,12 @@ export const ELEMENT_TYPE = {
 	MENU: "menu",
 }
 
-export const DocDefault = {
-	type: ELEMENT_TYPE.DOC,
-	author: "",
-	date: Date.now(),
-	options: {
-		status: ELEMENT_STATUS.FULL,
-		singletone: false,
-	},
-	title: "",
-	body: "",
+
+export function getIdentity ( type, id ) {
+	const identity = `${type}${id?`_${id}`:""}`
+	return identity
 }
-
-
-
-
-// export function buildElement(type, params) {
-// 	const def = ElementTypeDefault[type]
-// 	const options = utils.merge(params, def)
-// 	return {
-// 		id: params.id,
-// 		type,
-// 		options,
-// 	}
-// }
-
-// const ElementTypeDefault = {
-// 	[ELEMENT_TYPE.DOC]: {
-// 		author: "",
-// 		title: "",
-// 		body: "",
-// 	},
-// 	[ELEMENT_TYPE.ACTIVATE]: {
-// 	},
-// }
-
-/**
- * ELEMENT
- * E' il contenitore che viene visualizzato sul desktop
-{
-	id:string, // identificativo dell'ELEMENT
-	type: ELEMENT_TYPE
-	options: {...} // le opzioni riguardanti l'elemento visualizzato
+export function getTypeAndId ( identity ) {
+	const [type, id] = identity.split("_")
+	return { type, id }
 }
-
-DOC OPTIONS
-{
-	author: "",
-	title: "",
-	body: "",
-}
-
- */

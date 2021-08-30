@@ -1,20 +1,20 @@
-import { getStore } from "@priolo/jon"
+import styles from "./DocLayout.module.scss"
+
+import { useStore } from "@priolo/jon"
 import CloseIcon from "../../../imeges/close"
 
 import Button from "../../app/Button"
 import BlockCmp from "./block/BlockCmp"
-import styles from "./DocLayout.module.scss"
-
 
 
 
 export default function DocLayout({
-	id,
+	element,
 }) {
 
 	// HOOKs
 
-	const { state:doc } = getStore(`doc_${id}`)
+	const { state:doc } = useStore(element.identity)
 
 	// HANDLE
 	const handleClickClose = e => {
