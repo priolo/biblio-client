@@ -1,5 +1,7 @@
-import Icons from "./Icons"
 import styles from "./MenuItem.module.scss"
+
+import Icons from "./Icons"
+
 
 export default function MenuItem({
 	item,
@@ -9,12 +11,14 @@ export default function MenuItem({
 
 	// RENDER
 
+	const cnLabel = `${styles.label} ${item.selected?styles.selected:""}`
+
 	return (
 		<div className={styles.container}
 			onClick={onClick}
 		>
 			{item.name && <Icons className={styles.icon} name={item.name} />}
-			<div className={styles.label}>
+			<div className={cnLabel}>
 				{item.label}
 			</div>
 		</div>

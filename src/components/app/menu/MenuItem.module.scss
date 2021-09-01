@@ -9,6 +9,12 @@
 		margin-right: 8px;
 	}
 
+	.label {
+		&.selected {
+			font-weight: 700;
+		}
+	}
+
 	&:hover {
 		color: black;
 		.icon {

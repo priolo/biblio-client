@@ -5,7 +5,8 @@ import FinderCmp from "../FinderCmp"
 import Actions from "components/app/Actions"
 import DocItem from "./DocItem"
 import { useStore } from "@priolo/jon"
-import { useElement } from "store/element"
+import { getIdentity, useElement } from "store/element"
+import { useUrl } from "store/url"
 
 
 export default function AuthorDetailLayout({
@@ -14,26 +15,27 @@ export default function AuthorDetailLayout({
 
 	// HOOKs
 
-	const { state:author, isSelected, toggleSelected } = useStore(element.identity)
-	const { open } = useElement()
+	const { state: author } = useStore(element.identity)
+	const { haveIdentity, toggleIdentity } = useUrl()
 
 	// HANDLE
-	
+
 	const handleClick = doc => {
-		toggleSelected(doc.id)
-	}
-	const handleDoubleClick = doc => {
-		open ( getIdentity ( "doc", doc.id) )
+		toggleIdentity({
+			identity: getIdentity("doc", doc.id),
+			rightOf: element.identity
+		})
 	}
 
 	// RENDER
 
 	const docs = author.docs
+	const isSelected = (doc) => haveIdentity(getIdentity("doc", doc.id))
 
 	return (
-		<div className={styles.container} > 
+		<div className={styles.container} >
 			<HeaderCmp
-				title = {author.name}
+				title={author.name}
 				subtitle="Priolo22"
 				date="14/08/75"
 				identity={element.identity}
@@ -48,16 +50,15 @@ export default function AuthorDetailLayout({
 				]}
 			/>
 			<div className={styles.list}>
-				{docs.map ( doc => (
+				{docs.map(doc => (
 					<DocItem key={doc.id}
-						className={styles.doc} 
+						className={styles.doc}
 						doc={doc}
-						selected={isSelected(doc.id)}
+						selected={isSelected(doc)}
 						onClick={handleClick}
-						onDoubleClick={handleDoubleClick}
 					/>
 				))}
-			</div> 
+			</div>
 		</div>
 	)
 }

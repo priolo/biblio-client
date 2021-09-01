@@ -1,9 +1,8 @@
+import styles from "./HeaderCmp.module.scss"
 
 import ButtonIcon from "components/app/ButtonIcon"
 import CancelIcon from "imeges/icons/CancelIcon"
-import { useElement } from "store/element"
-import styles from "./HeaderCmp.module.scss"
-
+import { useUrl } from "store/url"
 
 
 
@@ -16,12 +15,12 @@ export default function HeaderCmp({
 
 	// HOOKs
 
-	const { close } = useElement()
+	const { removeIdentity } = useUrl()
 
 	// HANDLERs
 
 	const handleOnClose = _ => {
-		close ( identity )
+		removeIdentity ( identity )
 	}
 
 	// RENDER

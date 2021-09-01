@@ -1,10 +1,9 @@
 import styles from "./DocLayout.module.scss"
 
 import { useStore } from "@priolo/jon"
-import CloseIcon from "../../../imeges/close"
 
-import Button from "../../app/Button"
 import BlockCmp from "./block/BlockCmp"
+import HeaderCmp from "../HeaderCmp"
 
 
 
@@ -14,16 +13,11 @@ export default function DocLayout({
 
 	// HOOKs
 
-	const { state:doc } = useStore(element.identity)
+	const { state: doc } = useStore(element.identity)
 
 	// HANDLE
-	const handleClickClose = e => {
-		console.log("close()")
-	}
 
 	// RENDER
-
-	//if ( !store ) return null
 
 	return (
 		<div className={styles.container} >
@@ -41,13 +35,12 @@ export default function DocLayout({
 
 			<div className={styles.center}>
 
-				<div className={styles.header}>
-					<div className={styles.title}>{doc.title}</div>
-					<div className={styles.subtitle}>
-						<span className={styles.author}>{doc.author}</span>
-						<span className={styles.date}>{doc.date}</span>
-					</div>
-				</div>
+				<HeaderCmp
+					title={doc.title}
+					subtitle={doc.subtitle}
+					date={doc.date}
+					identity={element.identity}
+				/>
 
 				<div className={styles.body}>
 					{doc.blocks.map((block, index) => (
@@ -55,15 +48,6 @@ export default function DocLayout({
 					))}
 				</div>
 
-			</div>
-
-
-			<div className={styles.rigth}>
-				<div className={styles.icons}>
-					<Button icon={<CloseIcon />}
-						onClick={handleClickClose}
-					/>
-				</div>
 			</div>
 
 		</div>

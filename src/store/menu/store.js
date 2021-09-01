@@ -1,11 +1,13 @@
 /* eslint eqeqeq: "off" */
+import { getIdentity } from "store/element"
+import { getStoreUrl } from "store/url"
+import { getStore } from "@priolo/jon"
 import ajax from "../../plugins/AjaxService"
-
 
 
 const store = {
 	state: {
-		all: [
+		main: [
 			{
 				label: "Search",
 				name: "search",
@@ -31,17 +33,36 @@ const store = {
 				disabled: false,
 			},
 		],
-		bottom: [],
+		opened: [],
 	},
 	getters: {
+		getMain: (state, _, store) => {
+			const { haveIdentity } = getStoreUrl()
+			return state.main.map ( item => {
+				switch ( item.name ) {
+					case "authors":
+						item.selected = haveIdentity( getIdentity("authors"))
+						break
+				}
+				return item
+			})
+		},
+		getOpened: (state, _, store) => {
+			const { getElements } = getStoreUrl()
+			return getElements().reduce ( (items, element) => {
+				if ( element.type != "doc" ) return items
+				const { state:doc } = getStore(element.identity)
+				items.push({
+					label: doc.title
+				})
+				return items
+			}, [])
+		}
 	},
 	actions: {
-		select: ( state, id, store ) => {
-			
-		},
 	},
 	mutators: {
-		setAll: (state, all) => ({ all }),
+		setMain: (state, all) => ({ all }),
 	},
 }
 

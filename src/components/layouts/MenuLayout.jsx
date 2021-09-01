@@ -1,39 +1,48 @@
 import styles from "./MenuLayout.module.scss"
+
 import Menu from "components/app/menu/Menu"
 import { useMenu } from "store/menu"
-import { ELEMENT_TYPE, getIdentity, useElement } from "store/element"
+import { getIdentity } from "store/element"
+import { useUrl } from "store/url"
 
 
 export default function MenuLayout() {
 
-	
 	// HOOKs
 
-	const { state: menu } = useMenu()
-	const { open } = useElement()
-
+	const { state: menu, getMain, getOpened } = useMenu()
+	const { addIdentity, haveIdentity } = useUrl()
 
 	// HANDLEs
 
 	const handleClick = (item) => {
 		console.log(item)
-		switch ( item.name ) {
+		switch (item.name) {
 			case "authors":
-				open ( getIdentity("authors") )
-			break
+				addIdentity({ 
+					identity: getIdentity("authors"), 
+					focus: true 
+				})
+				break
 		}
 	}
 
-
 	// RENDER
-	const items = menu.all
+
+	const main = getMain()
+	const openend = getOpened()
 
 	return (
 		<div className={styles.container}>
 			<Menu className={styles.menu}
-				items={items}
+				items={main}
 				onClick={handleClick}
 			/>
+			<Menu className={styles.menu}
+				items={openend}
+				onClick={handleClick}
+			/>
+
 		</div>
 	)
 }

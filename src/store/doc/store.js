@@ -5,6 +5,7 @@ const store = {
 		// visible docs
 		author: "Ivano Iorio",
 		title: "Library JON",
+		subtitle: "sottotitolo",
 		date: "2021/04/09",
 		blocks: [
 			{

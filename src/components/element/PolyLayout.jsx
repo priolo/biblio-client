@@ -18,8 +18,9 @@ export default function PolyLayout({
 
 	const { state: url, setHash, getHash } = useUrl()
 	const contentRef = useRef(null)
+
 	useEffect(() => {
-		if (getHash() != element.id) return
+		if (getHash() != element.identity) return
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
 	}, [url.url])
 
@@ -28,8 +29,6 @@ export default function PolyLayout({
 	const handleClickContent = e => { setHash(element.identity) }
 
 	// RENDER
-
-
 
 	const builElement = useCallback(() => {
 		switch (element.type) {

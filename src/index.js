@@ -10,7 +10,6 @@ import setups from 'store'
 import './plugins/i18n';
 
 
-
 function Base() {
 	return (
 		<MultiStoreProvider setups={setups}>
