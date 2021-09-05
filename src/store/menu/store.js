@@ -1,8 +1,6 @@
 /* eslint eqeqeq: "off" */
-import { ELEMENT_TYPE, getIdentity } from "store/element"
-import { getStoreUrl } from "store/url"
+import { ELEMENT_TYPE, composeIdentity, getStoreUrl, haveIdentity, getUrlHash } from "store/url"
 import { getStore } from "@priolo/jon"
-import ajax from "../../plugins/AjaxService"
 
 
 const store = {
@@ -51,22 +49,21 @@ const store = {
 	},
 	getters: {
 		getMain: (state, _, store) => {
-			const { haveIdentity } = getStoreUrl()
 			return state.main.map ( item => {
 				switch ( item.name ) {
 					case "authors":
-						item.selected = haveIdentity( getIdentity(ELEMENT_TYPE.AUTHORS))
+						item.selected = haveIdentity( composeIdentity(ELEMENT_TYPE.AUTHORS))
 						break
 				}
 				return item
 			})
 		},
 		getOpened: (state, _, store) => {
-			const { getElements, getHash } = getStoreUrl()
+			const { getElements } = getStoreUrl()
 			return getElements().reduce ( (items, element) => {
 				if ( element.type != "doc" ) return items
 				const { state:doc } = getStore(element.identity)
-				const selected = getHash() == element.identity
+				const selected = getUrlHash() == element.identity
 				items.push({
 					label: doc.title,
 					element,

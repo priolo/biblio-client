@@ -1,7 +1,7 @@
 import styles from "./FinderCmp.module.scss"
 
 import InputTags from "components/app/InputTags"
-import { useUrl } from "store/url"
+import { useUrl, getUrlHash } from "store/url"
 import { useCallback, useEffect, useRef } from "react"
 
 
@@ -14,11 +14,11 @@ export default function FinderCmp({
 
 	// HOOKs
 
-	const { state: url, getHash } = useUrl()
-	const hash = getHash()
+	const hash = getUrlHash()
 	const inputRef = useCallback(node => {
 		if (!node || !hash || !element?.identity || hash != element.identity) return
-		node?.focus()
+		setTimeout( ()=>node?.focus(), 500 )
+		
 	}, [hash]);
 
 	// RENDER

@@ -1,3 +1,6 @@
+import styles from "./PolyLayout.module.scss"
+import { CSSTransition } from "react-transition-group"
+
 import { useCallback, useEffect, useRef } from "react"
 
 import DocLayout from "./doc/DocLayout"
@@ -5,10 +8,13 @@ import AuthorsLayout from "./authors/AuthorsLayout"
 import AuthorDetailLayout from "./authors/AuthorDetailLayout"
 
 import { MultiStoreProvider } from "@priolo/jon"
-import { useUrl } from "../../store/url"
 import docSetup from "../../store/doc/store"
 import authorDetailSetup from "../../store/authorDetail/store"
-import { ELEMENT_TYPE } from "store/element"
+import { useUrl, ELEMENT_TYPE, getUrlHash } from "store/url"
+
+
+
+
 
 
 export default function PolyLayout({
@@ -17,12 +23,13 @@ export default function PolyLayout({
 
 	// HOOKs
 
-	const { state: url, setHash, getHash } = useUrl()
+	const { state: url, setHash } = useUrl()
 	const contentRef = useRef(null)
 
 
 	useEffect(() => {
-		if (element && getHash() != element.identity) return
+		if (element && getUrlHash() != element.identity) return
+		contentRef.current?.focus()
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
 	}, [url.url])
 
@@ -35,15 +42,15 @@ export default function PolyLayout({
 	const builElement = useCallback(() => {
 		switch (element.type) {
 			case ELEMENT_TYPE.AUTHORS:
-				return <AuthorsLayout 
+				return <AuthorsLayout
 					element={element}
 				/>
 			case ELEMENT_TYPE.AUTHOR_DETAIL: {
 				const setup = { ...authorDetailSetup }
 				setup.state = { ...setup.state, id: element.id }
 				return <MultiStoreProvider setups={{ [element.identity]: setup }}>
-					<AuthorDetailLayout 
-						element={element} 
+					<AuthorDetailLayout
+						element={element}
 					/>
 				</MultiStoreProvider>
 			}
@@ -51,8 +58,8 @@ export default function PolyLayout({
 				const setup = { ...docSetup }
 				setup.state = { ...setup.state, id: element.id }
 				return <MultiStoreProvider setups={{ [element.identity]: { ...setup } }}>
-					<DocLayout 
-						element={element} 
+					<DocLayout
+						element={element}
 					/>
 				</MultiStoreProvider>
 			}
@@ -66,9 +73,22 @@ export default function PolyLayout({
 		// <ActivateLayout content={element} />,
 	}, [element.identity])
 
-	return <div onClick={handleClickContent} ref={contentRef}>
-		{builElement()}
-	</div>
-
+	return <CSSTransition
+		in={true}
+		classNames={styles}
+		unmountOnExit
+		mountOnEnter
+		appear // appare la prima volta in automatico
+		timeout={{ enter: 500, exit: 300 }}
+	>
+		<div
+			onClick={handleClickContent}
+			ref={contentRef}
+			tabIndex="0"
+			id={element.identity}
+		>
+			{builElement()}
+		</div>
+	</CSSTransition>
 }
 

@@ -5,7 +5,7 @@ import FinderCmp from "../FinderCmp"
 import Actions from "components/app/Actions"
 import DocItem from "./DocItem"
 import { useStore } from "@priolo/jon"
-import { getIdentity, useElement } from "store/element"
+import { composeIdentity, haveIdentity } from "store/url"
 import { useUrl } from "store/url"
 import { useEffect } from "react"
 
@@ -17,7 +17,7 @@ export default function AuthorDetailLayout({
 	// HOOKs
 
 	const { state: author, fetch } = useStore(element.identity)
-	const { haveIdentity, toggleIdentity, setHash, addIdentity } = useUrl()
+	const { toggleIdentity, addIdentity } = useUrl()
 
 	useEffect(() => {
 		fetch()
@@ -30,7 +30,7 @@ export default function AuthorDetailLayout({
 
 		// [II]: è uguale a AuthorsLayout
 
-		const identity = getIdentity("doc", doc.id)
+		const identity = composeIdentity("doc", doc.id)
 		if (go) {
 			e.preventDefault()
 			e.stopPropagation()
@@ -50,7 +50,7 @@ export default function AuthorDetailLayout({
 	// RENDER
 
 	const docs = author.docs
-	const isSelected = (doc) => haveIdentity(getIdentity("doc", doc.id))
+	const isSelected = (doc) => haveIdentity(composeIdentity("doc", doc.id))
 
 	return (
 		<div className={styles.container} >

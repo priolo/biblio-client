@@ -5,7 +5,7 @@ import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
 import AuthorItemCard from "./AuthorItemCard"
 import Actions from "components/app/Actions"
-import { ELEMENT_TYPE, getIdentity } from "store/element"
+import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "store/url"
 import { useUrl } from "store/url"
 
 
@@ -16,7 +16,7 @@ export default function AuthorsLayout({
 	// HOOKs
 
 	const { state: authorStore } = getStoreAuthor()
-	const { haveIdentity, addIdentity, toggleIdentity, setHash } = useUrl()
+	const { addIdentity, toggleIdentity } = useUrl()
 
 	// HANDLE
 
@@ -24,7 +24,7 @@ export default function AuthorsLayout({
 
 		// [II]: è uguale a AuthorDetailLayout
 
-		const identity = getIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id)
+		const identity = composeIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id)
 		if (go) {
 			e.preventDefault()
 			e.stopPropagation()
@@ -44,7 +44,7 @@ export default function AuthorsLayout({
 	// RENDER
 
 	const authors = authorStore.all
-	const isSelected = (author) => haveIdentity(getIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id))
+	const isSelected = (author) => haveIdentity(composeIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id))
 
 	return (
 		<div className={styles.container} >

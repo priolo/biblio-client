@@ -2,7 +2,6 @@
 import ajax from "../../plugins/AjaxService";
 import Cookies from 'js-cookie'
 import i18n from "i18next";
-import { ELEMENT_TYPE, getStoreElement } from "store/element";
 import { getStoreLayout } from "../layout";
 import { DIALOG_TYPES } from "../layout/dialog";
 
@@ -25,36 +24,34 @@ const store = {
 	actions: {
 
 		register: async (state, _, store) => {
-			const { open } = getStoreElement()
-			const { dialogOpen } = getStoreLayout()
+			// const { dialogOpen } = getStoreLayout()
 
-			const data = {
-				email: state.email,
-			}
-			await ajax.post("auth/register", data)
+			// const data = {
+			// 	email: state.email,
+			// }
+			// await ajax.post("auth/register", data)
 
-			dialogOpen({ type: "success", text: "check email", modal: false })
-			open({ type: ELEMENT_TYPE.ACTIVATE, options: { singletone: true } })
+			// dialogOpen({ type: "success", text: "check email", modal: false })
+			// open({ type: ELEMENT_TYPE.ACTIVATE, options: { singletone: true } })
 		},
 
 		activate: async (state, _, store) => {
-			const { dialogOpen } = getStoreLayout()
-			const { open } = getStoreElement()
+			// const { dialogOpen } = getStoreLayout()
 
-			const data = {
-				code: state.activationToken,
-				password: state.password,
-			}
+			// const data = {
+			// 	code: state.activationToken,
+			// 	password: state.password,
+			// }
 
-			try {
-				await ajax.post("auth/activate", data, { noDialog:true })
-			} catch ( response ) {
-				dialogOpen({ type: DIALOG_TYPES.ERROR, text: "Il codice non è corretto!\n ti dovrebbe essere arrivato per email.\nControlla oppure registrati nuovamente" })	
-				return
-			}
+			// try {
+			// 	await ajax.post("auth/activate", data, { noDialog:true })
+			// } catch ( response ) {
+			// 	dialogOpen({ type: DIALOG_TYPES.ERROR, text: "Il codice non è corretto!\n ti dovrebbe essere arrivato per email.\nControlla oppure registrati nuovamente" })	
+			// 	return
+			// }
 
-			dialogOpen({ type: "success", text: "attivato!!!", modal: false })
-			open({ type: ELEMENT_TYPE.LOGIN })
+			// dialogOpen({ type: "success", text: "attivato!!!", modal: false })
+			// open({ type: ELEMENT_TYPE.LOGIN })
 		},
 
 		login: async (state, _, store) => {

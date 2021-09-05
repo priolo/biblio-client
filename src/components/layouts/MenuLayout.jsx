@@ -2,7 +2,7 @@ import styles from "./MenuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
 import { useMenu } from "store/menu"
-import { ELEMENT_TYPE, getIdentity } from "store/element"
+import { ELEMENT_TYPE, composeIdentity } from "store/url"
 import { useUrl } from "store/url"
 
 
@@ -19,7 +19,7 @@ export default function MenuLayout() {
 		switch (item.name) {
 			case "authors":
 				addIdentity({ 
-					identity: getIdentity(ELEMENT_TYPE.AUTHORS), 
+					identity: composeIdentity(ELEMENT_TYPE.AUTHORS), 
 					focus: true 
 				})
 				break
