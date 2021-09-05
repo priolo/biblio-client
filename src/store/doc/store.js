@@ -1,12 +1,12 @@
 /* eslint eqeqeq: "off" */
+import docs from "./docs.mock"
 
 const store = {
 	state: {
-		// visible docs
-		author: "Ivano Iorio",
-		title: "Library JON",
-		subtitle: "sottotitolo",
-		date: "2021/04/09",
+		author: "",
+		title: "",
+		subtitle: "",
+		date: "",
 		blocks: [
 			{
 				type: "chapter",
@@ -50,10 +50,14 @@ const store = {
 	getters: {
 	},
 	actions: {
+		fetch: (state, _, store) => {
+			const doc = docs.find(doc => doc.id == state.id)
+			const newState = { ...state, ...doc }
+			store._update(newState)
+		}
 	},
 	mutators: {
 	},
 }
 
 export default store
-

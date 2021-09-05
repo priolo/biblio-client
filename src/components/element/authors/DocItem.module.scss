@@ -28,8 +28,14 @@
 		}
 	}
 
-	.rating {
+	.buttons {
+		flex: 0 0 0;
+		display: flex;
+		padding: 0px 4px 7px 4px;
 
+		.rating {
+			flex: 1 0 0;
+		}
 	}
 }
 

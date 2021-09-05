@@ -1,6 +1,8 @@
 import styles from "./DocItem.module.scss"
 
+import OptionsIcon from 'imeges/icons/OptionsIcon';
 import Rating from "components/app/Rating"
+import ButtonIcon from "components/app/ButtonIcon"
 
 
 export default function DocItem({
@@ -15,8 +17,9 @@ export default function DocItem({
 
 	// HANDLE
 
-	const handleClick = _ => onClick(doc)
+	const handleClick = e => onClick({ doc }, e)
 	const handleDoubleClick = _ => onDoubleClick(doc)
+	const handleClickOptions = e => onClick({ doc, go: true }, e)
 
 	// RENDER
 
@@ -40,7 +43,12 @@ export default function DocItem({
 					className={styles.date}
 				>{doc.date}</div>
 			</div>
-			<Rating className={styles.rating} />
+			<div className={styles.buttons}>
+				<Rating className={styles.rating} />
+				<ButtonIcon onClick={handleClickOptions}>
+					<OptionsIcon />
+				</ButtonIcon>
+			</div>
 		</div>
 	)
 }

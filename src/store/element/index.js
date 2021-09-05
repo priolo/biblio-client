@@ -10,18 +10,14 @@ export function useElement() {
 
 
 
-export const ELEMENT_STATUS = {
-	FULL: 0,
-	ICON: 1
-}
-
 /**
  * Indica di che tipo è la visualizzazione contenuta nell'ELEMENT
  */
 export const ELEMENT_TYPE = {
-	AUTHORS: "authors",
-	AUTHOR_DETAIL: "author-detail",
+	AUTHORS: "aths",
+	AUTHOR_DETAIL: "athDtl",
 	DOC: "doc",
+
 	LOGIN: "login",
 	REGISTER: "register",
 	ACTIVATE: "activate",
@@ -35,5 +31,12 @@ export function getIdentity ( type, id ) {
 }
 export function getTypeAndId ( identity ) {
 	const [type, id] = identity.split("_")
-	return { type, id }
+	const level = ElementTypeLevel[type]
+	return { type, id, level }
 }
+export const ElementTypeLevel = {
+	[ELEMENT_TYPE.AUTHORS]: 1,
+	[ELEMENT_TYPE.AUTHOR_DETAIL]: 2,
+	[ELEMENT_TYPE.DOC]: 3,
+}
+

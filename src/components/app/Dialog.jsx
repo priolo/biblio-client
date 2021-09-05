@@ -1,8 +1,9 @@
+import styles from './Dialog.module.scss'
+
 import CloseIcon from "imeges/close"
-import styles from './dialog.module.scss';
 
 
-function Dialog({
+export default function Dialog({
     isOpen,
     onClose,
     renderHead,
@@ -10,8 +11,6 @@ function Dialog({
     renderFooter,
     width = "70%"
 }) {
-
-
 
     // RENDER
     const cnDialog = `${styles.root} ${isOpen ? styles.visible_dlg : ""}`
@@ -34,5 +33,3 @@ function Dialog({
         </div>
     )
 }
-
-export default Dialog

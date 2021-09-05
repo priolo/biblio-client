@@ -15,6 +15,7 @@ export default function Card({
 	className = "",
 	onClick,
 	onDoubleClick,
+	onClickOptions,
 }) {
 
 
@@ -47,7 +48,7 @@ export default function Card({
 
 			<div className={styles.buttons}>
 				<Rating className={styles.rating} />
-				<ButtonIcon>
+				<ButtonIcon onClick={onClickOptions}>
 					<OptionsIcon />
 				</ButtonIcon>
 			</div>

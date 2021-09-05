@@ -33,10 +33,10 @@ export default function Menu({
 	if (!items || items.length == 0) return null
 
 	return (<div className={`${styles.container} ${className}`}>
-		{items?.map((item) => (
+		{items?.map((item, index) => (
 
 			<MenuItem 
-				key={item.name}
+				key={index}
 				item={item}
 				onClick={(e) => handleClick(item)}
 			/>

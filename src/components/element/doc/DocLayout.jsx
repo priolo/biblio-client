@@ -4,6 +4,8 @@ import { useStore } from "@priolo/jon"
 
 import BlockCmp from "./block/BlockCmp"
 import HeaderCmp from "../HeaderCmp"
+import { useEffect } from "react"
+import { useUrl } from "store/url"
 
 
 
@@ -13,7 +15,14 @@ export default function DocLayout({
 
 	// HOOKs
 
-	const { state: doc } = useStore(element.identity)
+	const { state: doc, fetch } = useStore(element.identity)
+	const { _update } = useUrl()
+
+	useEffect( () => {
+		fetch()
+		_update()
+	}, [])
+
 
 	// HANDLE
 

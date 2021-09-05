@@ -1,7 +1,7 @@
 import styles from './Input.module.scss';
 
 
-function Input({
+export default function Input({
 	value,
 	renderEnd,
 
@@ -24,5 +24,3 @@ function Input({
 		</div>
     )
 }
-
-export default Input

@@ -10,9 +10,18 @@ const store = {
 		url: "",
 	},
 	init: (store) => {
-		window.addEventListener( "popstate",  function(event) {
+		window.addEventListener("popstate", (e) => {
 			const { url } = store.state
-			store.setUrl( window.location.href )
+			store.setUrl(window.location.href)
+		})
+		document.addEventListener("keydown", (e) => {
+			console.log( e.code )
+			switch ( e.code ) {
+				// tab
+				case 16:
+
+				break
+			}
 		})
 	},
 	getters: {
@@ -21,7 +30,7 @@ const store = {
 			const searchParams = new URLSearchParams(window.location.search)
 			return searchParams.get(name)
 		},
-		
+
 		getArray: (state, name, store) => {
 			const props = store.getSearchUrl(name)
 			return props ? props.split(DIV_PROP) : []
@@ -49,20 +58,40 @@ const store = {
 	},
 	actions: {
 
-		addIdentity: async (state, { identity, rightOf, focus }, store) => {
+		addIdentity: async (state, { identity, by = "level", rightOf, focus }, store) => {
 			let identities = store.getArray("i")
-			let index = rightOf ? identities.indexOf(rightOf) + 1 : -1
-			if (index == -1) index = 0 // identities.length
+
+			// dove lo metto?
+			let index = 0
+			if (by == "level") {
+				const element = getTypeAndId(identity)
+				index = identities.findIndex(idn => {
+					const elm = getTypeAndId(idn)
+					return elm.level >= element.level
+				})
+				if (index == -1) index = identities.length
+
+			} else {
+				index = rightOf ? identities.indexOf(rightOf) + 1 : -1
+				if (index == -1) index = 0 // identities.length	
+			}
+
+			// lo metto
 			if (!identities.includes(identity)) {
 				identities.splice(index, 0, identity)
 				store.setArray({ name: "i", value: identities })
 			}
+			
+			// setto anche il fuoco?
 			if (focus) await store._syncAct(store.setHash, identity)
 		},
 		removeIdentity: (state, identity, store) => {
 			const identities = store.getArray("i")
 			let newIdentities = identities.filter(id => id != identity)
 			store.setArray({ name: "i", value: newIdentities })
+			if (store.getHash() == identity) {
+				store.setHash()
+			}
 		},
 		toggleIdentity: (state, options, store) => {
 			const { identity } = options
@@ -90,27 +119,35 @@ const store = {
 				queryParams.delete(name)
 			}
 			const search = "?" + queryParams.toString()
-			store.composeUrl ( {search })
+			store.composeUrl({ search })
 		},
 
 		setHash: (state, hash, store) => {
-			store.composeUrl( { hash: "#" + hash })
+			store.composeUrl({ hash: hash ? `#${hash}` : "" })
 		},
 
-		composeUrl: (state, { search, hash }, store ) => {
+		composeUrl: (state, { search, hash }, store) => {
 			const urlSearch = search ?? window.location.search
 			const urlHash = hash ?? window.location.hash
-			const url = window.location.origin + window.location.pathname + urlSearch + urlHash
+			const hashChanged = urlHash != window.location.hash
+			const searchChanged = urlSearch != window.location.search
+
+			if (!searchChanged && !hashChanged) return
+
+			const url = urlSearch + urlHash
+			// if( hashChanged && !searchChanged ) {
 			window.history.pushState(null, null, url)
-			store.setUrl ( url )
+			// } else {
+			//	window.history.replaceState(null, null, url)
+			// }
+
+			store.setUrl(url)
 		},
 
 	},
 	mutators: {
 
-		setUrl: (state, url, store) => { 
-			return url 
-		},
+		setUrl: (state, url, store) => ({ url }),
 
 	},
 }

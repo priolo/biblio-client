@@ -19,7 +19,9 @@ export default function HeaderCmp({
 
 	// HANDLERs
 
-	const handleOnClose = _ => {
+	const handleOnClose = event => {
+		event.stopPropagation();
+    	event.preventDefault();
 		removeIdentity ( identity )
 	}
 

@@ -8,6 +8,7 @@ import { MultiStoreProvider } from "@priolo/jon"
 import { useUrl } from "../../store/url"
 import docSetup from "../../store/doc/store"
 import authorDetailSetup from "../../store/authorDetail/store"
+import { ELEMENT_TYPE } from "store/element"
 
 
 export default function PolyLayout({
@@ -19,8 +20,9 @@ export default function PolyLayout({
 	const { state: url, setHash, getHash } = useUrl()
 	const contentRef = useRef(null)
 
+
 	useEffect(() => {
-		if (getHash() != element.identity) return
+		if (element && getHash() != element.identity) return
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
 	}, [url.url])
 
@@ -32,16 +34,28 @@ export default function PolyLayout({
 
 	const builElement = useCallback(() => {
 		switch (element.type) {
-			case "authors":
-				return <AuthorsLayout />
-			case "list":
-				return <MultiStoreProvider setups={{ [element.identity]: { ...authorDetailSetup } }}>
-					<AuthorDetailLayout element={element} />
+			case ELEMENT_TYPE.AUTHORS:
+				return <AuthorsLayout 
+					element={element}
+				/>
+			case ELEMENT_TYPE.AUTHOR_DETAIL: {
+				const setup = { ...authorDetailSetup }
+				setup.state = { ...setup.state, id: element.id }
+				return <MultiStoreProvider setups={{ [element.identity]: setup }}>
+					<AuthorDetailLayout 
+						element={element} 
+					/>
 				</MultiStoreProvider>
-			case "doc":
-				return <MultiStoreProvider setups={{ [element.identity]: { ...docSetup } }}>
-					<DocLayout element={element} />
+			}
+			case ELEMENT_TYPE.DOC: {
+				const setup = { ...docSetup }
+				setup.state = { ...setup.state, id: element.id }
+				return <MultiStoreProvider setups={{ [element.identity]: { ...setup } }}>
+					<DocLayout 
+						element={element} 
+					/>
 				</MultiStoreProvider>
+			}
 			default:
 				return null
 

@@ -2,14 +2,21 @@
 
 
 .container {
+
 	display: flex; flex-direction: row; align-items: center;
 	cursor: pointer;
+	margin-bottom: 5px;
 	
 	.icon {
 		margin-right: 8px;
 	}
 
 	.label {
+
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		
 		&.selected {
 			font-weight: 700;
 		}

@@ -5,31 +5,46 @@ import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
 import AuthorItemCard from "./AuthorItemCard"
 import Actions from "components/app/Actions"
-import { getIdentity } from "store/element"
+import { ELEMENT_TYPE, getIdentity } from "store/element"
 import { useUrl } from "store/url"
 
 
-export default function AuthorsLayout() {
+export default function AuthorsLayout({
+	element
+}) {
 
 	// HOOKs
 
 	const { state: authorStore } = getStoreAuthor()
-	const { haveIdentity, toggleIdentity } = useUrl()
+	const { haveIdentity, addIdentity, toggleIdentity, setHash } = useUrl()
 
 	// HANDLE
 
-	const handleClick = author => {
-		toggleIdentity({
-			identity: getIdentity("list", author.id),
-			rightOf: getIdentity("authors"),
-		})
+	const handleClick = ({ author, go = false }, e) => {
+
+		// [II]: è uguale a AuthorDetailLayout
+
+		const identity = getIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id)
+		if (go) {
+			e.preventDefault()
+			e.stopPropagation()
+			addIdentity({
+				identity,
+				//rightOf: element.identity,
+				focus: element.identity,
+			})
+		} else {
+			toggleIdentity({
+				identity,
+				//rightOf: element.identity,
+			})
+		}
 	}
 
 	// RENDER
 
-	const identity = "authors"
 	const authors = authorStore.all
-	const isSelected = (author) => haveIdentity(getIdentity("list", author.id))
+	const isSelected = (author) => haveIdentity(getIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id))
 
 	return (
 		<div className={styles.container} >
@@ -37,15 +52,17 @@ export default function AuthorsLayout() {
 				title="JON Documentation"
 				subtitle="Priolo22"
 				date="14/08/75"
-				identity={identity}
+				identity={element.identity}
 			/>
-			<FinderCmp />
+			<FinderCmp
+				element={element}
+			/>
 			<Actions
 				className={styles.actions}
 				actions={[
-					{ label: "delete", disabled: true },
-					{ label: "modify", disabled: true },
-					{ label: "view" },
+					{ label: "deselect", disabled: true },
+					{ label: "message", disabled: true },
+					{ label: "close other" },
 				]}
 			/>
 			<div className={styles.list} >

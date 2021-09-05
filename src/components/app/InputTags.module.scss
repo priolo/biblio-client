@@ -1,0 +1,15 @@
+
+.container {
+
+	display: flex; align-items: center;
+	background-color: white;
+	padding: 3px 7px;
+
+	.input {
+		flex: 1 0 0;
+	}
+	
+	.end {
+		flex: 0 0 0;
+	}
+}

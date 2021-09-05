@@ -3,6 +3,7 @@
 //import Cookies from 'js-cookie'
 import { mixStores } from "@priolo/jon"
 import dialogStore from "./dialog"
+import dialogVStore from "./dialogV"
 
 
 
@@ -33,4 +34,4 @@ const layout = {
 	},
 }
 
-export default mixStores(layout, dialogStore)
+export default mixStores(layout, dialogStore, dialogVStore)

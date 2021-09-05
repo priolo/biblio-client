@@ -4,16 +4,20 @@
 // used when dialog closed
 let resolveClose = null;
 
-const optionsDefault = {
-	modal: true,
-	//type: DIALOG_TYPES.INFO,
-}
-
-export const DIALOG_TYPES = {
+const DIALOG_TYPES = {
 	INFO: "info",
 	WARNING: "warning",
 	ERROR: "error",
 	SUCCESS: "success",
+}
+
+const optionsDefault = {
+	title: "", 
+	text: "", 
+	labelOk: "Ok", 
+	labelCancel: null, 
+	modal: true,
+	type: DIALOG_TYPES.INFO,
 }
 
 const store = {
@@ -57,3 +61,6 @@ const store = {
 }
 
 export default store
+export {
+	DIALOG_TYPES
+}

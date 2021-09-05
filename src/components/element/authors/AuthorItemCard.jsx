@@ -14,7 +14,8 @@ export default function AuthorItemCard({
 
 	// HANDLE
 
-	const handleClick = _ => onClick(author)
+	const handleClick = e => onClick({author}, e)
+	const handleClickOptions = e => onClick({author, go:true}, e)
 
 	// RENDER
 
@@ -25,6 +26,7 @@ export default function AuthorItemCard({
 			mediaSrc={`/images/${author.imageSrc}`}
 			selected={selected}
 			onClick={handleClick}
+			onClickOptions={handleClickOptions}
 		/>
 	)
 }

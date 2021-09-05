@@ -7,24 +7,44 @@ import DocItem from "./DocItem"
 import { useStore } from "@priolo/jon"
 import { getIdentity, useElement } from "store/element"
 import { useUrl } from "store/url"
+import { useEffect } from "react"
 
 
 export default function AuthorDetailLayout({
-	element
+	element,
 }) {
 
 	// HOOKs
 
-	const { state: author } = useStore(element.identity)
-	const { haveIdentity, toggleIdentity } = useUrl()
+	const { state: author, fetch } = useStore(element.identity)
+	const { haveIdentity, toggleIdentity, setHash, addIdentity } = useUrl()
+
+	useEffect(() => {
+		fetch()
+	}, [])
 
 	// HANDLE
 
-	const handleClick = doc => {
-		toggleIdentity({
-			identity: getIdentity("doc", doc.id),
-			rightOf: element.identity
-		})
+	const handleClick = ({ doc, go = false }, e) => {
+
+
+		// [II]: è uguale a AuthorsLayout
+
+		const identity = getIdentity("doc", doc.id)
+		if (go) {
+			e.preventDefault()
+			e.stopPropagation()
+			addIdentity({
+				identity,
+				//rightOf: element.identity,
+				focus: true,
+			})
+		} else {
+			toggleIdentity({
+				identity,
+				//rightOf: element.identity,
+			})
+		}
 	}
 
 	// RENDER
@@ -36,17 +56,19 @@ export default function AuthorDetailLayout({
 		<div className={styles.container} >
 			<HeaderCmp
 				title={author.name}
-				subtitle="Priolo22"
+				subtitle="Tutti i contributi dell'utente..."
 				date="14/08/75"
 				identity={element.identity}
 			/>
-			<FinderCmp />
+			<FinderCmp
+				element={element}
+			/>
 			<Actions
 				className={styles.actions}
 				actions={[
-					{ label: "delete", disabled: true },
-					{ label: "modify", disabled: true },
-					{ label: "view" },
+					{ label: "deselect", disabled: true },
+					{ label: "message", disabled: true },
+					{ label: "like" },
 				]}
 			/>
 			<div className={styles.list}>

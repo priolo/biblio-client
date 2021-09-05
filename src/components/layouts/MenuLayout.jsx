@@ -2,7 +2,7 @@ import styles from "./MenuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
 import { useMenu } from "store/menu"
-import { getIdentity } from "store/element"
+import { ELEMENT_TYPE, getIdentity } from "store/element"
 import { useUrl } from "store/url"
 
 
@@ -10,37 +10,52 @@ export default function MenuLayout() {
 
 	// HOOKs
 
-	const { state: menu, getMain, getOpened } = useMenu()
-	const { addIdentity, haveIdentity } = useUrl()
+	const { state: menu, getMain, getOpened, getSecondary } = useMenu()
+	const { addIdentity, setHash } = useUrl()
 
 	// HANDLEs
 
-	const handleClick = (item) => {
-		console.log(item)
+	const handleClickMain = (item) => {
 		switch (item.name) {
 			case "authors":
 				addIdentity({ 
-					identity: getIdentity("authors"), 
+					identity: getIdentity(ELEMENT_TYPE.AUTHORS), 
 					focus: true 
 				})
 				break
 		}
+	}
+	const handleClickOpened = (item) => {
+		setHash(item.element.identity)
+	}
+	const handleClickSecondary = (item) => {
+		
 	}
 
 	// RENDER
 
 	const main = getMain()
 	const openend = getOpened()
+	const secondary = getSecondary()
 
 	return (
 		<div className={styles.container}>
-			<Menu className={styles.menu}
+
+			<Menu className={styles.main}
 				items={main}
-				onClick={handleClick}
+				onClick={handleClickMain}
 			/>
-			<Menu className={styles.menu}
+
+			<Menu className={styles.opened}
 				items={openend}
-				onClick={handleClick}
+				onClick={handleClickOpened}
+			/>
+
+			<div className={styles.gap} />
+
+			<Menu className={styles.secondary}
+				items={secondary}
+				onClick={handleClickSecondary}
 			/>
 
 		</div>
