@@ -1,11 +1,21 @@
 import styles from "./DocLayout.module.scss"
+import { useMemo, useState, useCallback, useEffect } from 'react'
 
 import { useStore } from "@priolo/jon"
 
-import BlockCmp from "./block/BlockCmp"
 import HeaderCmp from "../HeaderCmp"
-import { useEffect } from "react"
 import { useUrl } from "store/url"
+
+
+// Import the Slate components and React plugin.
+import { createEditor } from 'slate'
+import { Slate, withReact } from 'slate-react'
+import BiblioEditable from "components/editor/BiblioEditable"
+
+
+
+
+
 
 
 
@@ -15,10 +25,12 @@ export default function DocLayout({
 
 	// HOOKs
 
-	const { state: doc, fetch } = useStore(element.identity)
+	const { state: doc, fetch, setValue } = useStore(element.identity)
 	const { _update } = useUrl()
 
-	useEffect( () => {
+	const editor = useMemo(() => withReact(createEditor()), [])
+
+	useEffect(() => {
 		fetch()
 		_update()
 	}, [])
@@ -28,6 +40,7 @@ export default function DocLayout({
 
 	// RENDER
 
+	
 	return (
 		<div className={styles.container} >
 
@@ -51,15 +64,22 @@ export default function DocLayout({
 					identity={element.identity}
 				/>
 
-				<div className={styles.body}>
+				<Slate
+					editor={editor}
+					value={doc.value}
+					onChange={newValue => setValue(newValue)}
+				>
+					<BiblioEditable editor={editor}/>
+				</Slate>
+
+				{/* <div className={styles.body}>
 					{doc.blocks.map((block, index) => (
 						<BlockCmp key={index} block={block} />
 					))}
-				</div>
+				</div> */}
 
 			</div>
 
 		</div>
 	)
 }
-

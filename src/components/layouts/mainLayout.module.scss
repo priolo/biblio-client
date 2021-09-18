@@ -48,3 +48,32 @@
 
 
 
+
+// quando appare
+.enter {
+	width: 0px;
+}
+// quando ha finito di apparire
+.enterActive {
+	width: 540px;
+	transition: width 500ms ease-in-out; 
+}
+
+.exit {
+	width: 540px;
+}
+
+.exitActive {
+	width: 0px;
+	transition: width 300ms ease-in-out; 
+}
+
+// // quando appare la PRIMA volta
+// .appear {
+// 	opacity: 0.01;
+// }
+// // quando ha finito di apparire
+// .appearActive {
+// 	opacity: 1;
+// 	transition: opacity 500ms ease-in;
+// }

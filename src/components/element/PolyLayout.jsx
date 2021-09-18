@@ -18,7 +18,8 @@ import { useUrl, ELEMENT_TYPE, getUrlHash } from "store/url"
 
 
 export default function PolyLayout({
-	element
+	element,
+	className
 }) {
 
 	// HOOKs
@@ -73,15 +74,8 @@ export default function PolyLayout({
 		// <ActivateLayout content={element} />,
 	}, [element.identity])
 
-	return <CSSTransition
-		in={true}
-		classNames={styles}
-		unmountOnExit
-		mountOnEnter
-		appear // appare la prima volta in automatico
-		timeout={{ enter: 500, exit: 300 }}
-	>
-		<div
+	return (
+		<div className={styles.container}
 			onClick={handleClickContent}
 			ref={contentRef}
 			tabIndex="0"
@@ -89,6 +83,6 @@ export default function PolyLayout({
 		>
 			{builElement()}
 		</div>
-	</CSSTransition>
+	)
 }
 

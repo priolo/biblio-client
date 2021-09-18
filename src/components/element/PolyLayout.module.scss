@@ -1,28 +1,15 @@
-// quando appare
-.enter {
-	opacity: 0.01;
-}
-// quando ha finito di apparire
-.enterActive {
-	opacity: 1;
-	transition: opacity 500ms ease-in;
+
+@import "style/colors";
+
+
+
+
+.container {
+	//display: flex; 
+	flex: 0 0 auto;
+	//max-width: 200px;
+	overflow: hidden;
+	background-color: $color-bg-paper;
+	margin-right: 5px;
 }
 
-.exit {
-	opacity: 1;
-}
-
-.exitActive {
-	opacity: 0.01;
-	transition: opacity 300ms ease-in;
-}
-
-// quando appare la PRIMA volta
-.appear {
-	opacity: 0.01;
-}
-// quando ha finito di apparire
-.appearActive {
-	opacity: 1;
-	transition: opacity 500ms ease-in;
-}

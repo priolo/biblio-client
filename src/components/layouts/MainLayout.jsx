@@ -1,5 +1,5 @@
 import styles from './MainLayout.module.scss';
-import { useEffect } from 'react'
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 import MenuLayout from './MenuLayout';
 import ElementLayout from "../element/ElementLayout"
@@ -8,13 +8,14 @@ import MsgBox from '../app/MsgBox';
 import DebugButton from '../app/debug/DebugButton';
 
 import { useUrl } from 'store/url';
+import DialogVertical from 'components/app/DialogVertical';
 
 
 /**
  * Gestisce l'intera app 
  * @returns 
  */
- export default function MainLayout() {
+export default function MainLayout() {
 
     // HOOKs
 
@@ -37,11 +38,21 @@ import { useUrl } from 'store/url';
                     {/* spazio vuoto a sinistra del primo doc */}
                     <div className={styles.docLeftSpace} />
 
-                    {elements.map((element) => (
-                        <ElementLayout key={element.identity}>
-                            <PolyLayout element={element} />
-                        </ElementLayout>
-                    ))}
+                    <TransitionGroup component={null}>
+
+                        {elements.map((element) => (
+                            <CSSTransition key={element.identity}
+                                classNames={styles}
+                                //unmountOnExit
+                                //mountOnEnter
+                                //appear // appare la prima volta in automatico
+                                timeout={{ enter: 500, exit: 300 }}
+                            >
+                                <PolyLayout  element={element} />
+                            </CSSTransition>
+                        ))}
+
+                    </TransitionGroup>
 
                     {/* spazio vuoto a destra dell'ultimo doc */}
                     <div className={styles.docLeftSpace} />
@@ -63,8 +74,10 @@ import { useUrl } from 'store/url';
             {/* MESSAGE BOX */}
             <MsgBox />
 
+            <DialogVertical />
+
             {/* DEBUG BUTTON */}
-            <DebugButton/>
+            <DebugButton />
 
         </div>
     )
