@@ -1,18 +1,28 @@
 import styles from './DialogVertical.module.scss'
 
 import CloseIcon from "imeges/close"
-import { useEffect } from 'react'
 
 
 export default function DialogVertical ({
     isOpen,
-    onClose,
-    children,
     position,
+    children,
+    onClose,
 }) {
 
     // HOOKs
 
+    const handleFocus = event => {
+		event.preventDefault()
+        event.stopPropagation()
+		if (event.relatedTarget) {
+			// Revert focus back to previous blurring element
+			event.relatedTarget.focus();
+		} else {
+			// No previous focus target, blur instead
+			event.currentTarget.blur();
+		}
+	}
 
     // RENDER
     const cnContainer = `${styles.container} ${isOpen ? styles.open : ""}`
@@ -20,13 +30,12 @@ export default function DialogVertical ({
     if ( !position ) return null
     
     return (
-        <div 
+        <div tabIndex="-1"
             className={cnContainer} 
             style={{ left: position.right }}
+            onFocus={handleFocus}
         >
-            <div>
                 {children}
-            </div>
         </div>
     )
 }

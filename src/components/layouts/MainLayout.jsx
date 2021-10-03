@@ -8,7 +8,7 @@ import MsgBox from '../app/MsgBox';
 import DebugButton from '../app/debug/DebugButton';
 
 import { useUrl } from 'store/url';
-import DialogVertical from 'components/app/DialogVertical';
+import EditorDialog from '../editor/components/Dialog';
 
 
 /**
@@ -48,7 +48,7 @@ export default function MainLayout() {
                                 //appear // appare la prima volta in automatico
                                 timeout={{ enter: 500, exit: 300 }}
                             >
-                                <PolyLayout  element={element} />
+                                <PolyLayout element={element} />
                             </CSSTransition>
                         ))}
 
@@ -56,6 +56,9 @@ export default function MainLayout() {
 
                     {/* spazio vuoto a destra dell'ultimo doc */}
                     <div className={styles.docLeftSpace} />
+
+                    {/* dialog verticale */}
+                    <EditorDialog/>
 
                 </div>
             </div>
@@ -73,8 +76,6 @@ export default function MainLayout() {
 
             {/* MESSAGE BOX */}
             <MsgBox />
-
-            <DialogVertical />
 
             {/* DEBUG BUTTON */}
             <DebugButton />

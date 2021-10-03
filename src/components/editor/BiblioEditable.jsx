@@ -8,7 +8,9 @@ import BiblioElement from './elements/BiblioElement'
 
 
 export default function BiblioEditable({
-	editor
+	editor,
+	onFocus,
+	onBlur,
 }) {
 
 	// HOOKs
@@ -27,6 +29,9 @@ export default function BiblioEditable({
 			renderElement={BiblioElement}
 			// Pass in the `renderLeaf` function.
 			renderLeaf={renderLeaf}
+			
+			onFocus={onFocus}
+			onBlur={onBlur}
 			onKeyDown={event => {
 				if (!event.ctrlKey) {
 					return

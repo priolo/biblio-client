@@ -7,3 +7,9 @@ export function getStoreDoc() {
 export function useDoc() {
 	return useStore("doc")
 }
+
+export const ELEMENTS_TYPE = {
+	PARAGRAPH: "paragraph",
+	CHAPTER: "chapter",
+	TEXT: "text",
+}

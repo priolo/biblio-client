@@ -1,5 +1,6 @@
 import styles from "./DocLayout.module.scss"
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import { array } from "@priolo/jon-utils"
 
 import { useStore } from "@priolo/jon"
 
@@ -8,14 +9,10 @@ import { useUrl } from "store/url"
 
 
 // Import the Slate components and React plugin.
-import { createEditor } from 'slate'
+import { createEditor, Editor } from 'slate'
 import { Slate, withReact } from 'slate-react'
 import BiblioEditable from "components/editor/BiblioEditable"
-
-
-
-
-
+import { useEditorDialog } from "store/editorDialog"
 
 
 
@@ -26,6 +23,7 @@ export default function DocLayout({
 	// HOOKs
 
 	const { state: doc, fetch, setValue } = useStore(element.identity)
+	const { state: dialog, open: openDialog,  close: closeDialog, setItemsIdSelect } = useEditorDialog()
 	const { _update } = useUrl()
 
 	const editor = useMemo(() => withReact(createEditor()), [])
@@ -35,12 +33,40 @@ export default function DocLayout({
 		_update()
 	}, [])
 
+	useEffect(()=> {
+		console.log( "change selection")
+	},[editor.selection])
+
 
 	// HANDLE
 
+	const handleFocusEditor = e => {
+		//openDialog({ position: e.target?.getBoundingClientRect()})
+		openDialog({ position: { right: e.target.offsetLeft + e.target.offsetWidth } })
+	}
+
+	const handleBlurEditor = e => {
+		closeDialog()
+	}
+
+	const handleChange = newValue => {
+		setValue(newValue)
+		// console.log( editor )
+		// if ( editor.value.selection != newValue.selection ) {
+		// 	console.log( "change" )
+		// }
+		// 	console.log( "altro" )
+		// }
+		//console.log(editor.value.selection)
+		const entries = Editor.nodes ( editor,{ match: n => n.type != null} )
+		const entriesArr = [...entries]
+		const groupsEntries = array.groupBy ( entriesArr, (e1, e2) => e1[0].type == e2[0].type )
+		const groupTypes = groupsEntries.map( groupEntries => groupEntries[0][0].type )
+		setItemsIdSelect(groupTypes)
+	}
+
 	// RENDER
 
-	
 	return (
 		<div className={styles.container} >
 
@@ -67,16 +93,14 @@ export default function DocLayout({
 				<Slate
 					editor={editor}
 					value={doc.value}
-					onChange={newValue => setValue(newValue)}
+					onChange={handleChange}
 				>
-					<BiblioEditable editor={editor}/>
+					<BiblioEditable
+						editor={editor}
+						onFocus={handleFocusEditor}
+						onBlur={handleBlurEditor}
+					/>
 				</Slate>
-
-				{/* <div className={styles.body}>
-					{doc.blocks.map((block, index) => (
-						<BlockCmp key={index} block={block} />
-					))}
-				</div> */}
 
 			</div>
 

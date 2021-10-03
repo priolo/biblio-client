@@ -2,13 +2,13 @@
 
 .container {
 
-    //width: 400px;
     height: 100%;
     
-    position: fixed;
-    z-index: 999;
+    position: absolute;
+    //position: fixed;
+    //z-index: 999;
     top: 0px;
-    //left: 300px;
+
 
     display: flex; 
     flex-direction: column;

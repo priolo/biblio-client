@@ -34,9 +34,12 @@ const store = {
 			return elements
 		},
 
+
+
 	},
 	actions: {
 
+		/** Aggiunge un elemento ala collezione di documenti visualizzati */
 		addIdentity: async (state, { identity, by = "level", rightOf, focus }, store) => {
 			let identities = getIdentities()
 
@@ -64,6 +67,8 @@ const store = {
 			// setto anche il fuoco?
 			if (focus) await store._syncAct(store.setHash, identity)
 		},
+
+		/** Elimina un elemento gia' presente tra i doc visualizzati */
 		removeIdentity: (state, identity, store) => {
 			const identities = getIdentities()
 			let newIdentities = identities.filter(id => id != identity)

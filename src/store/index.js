@@ -5,6 +5,7 @@ import menu from "./menu/store"
 import url from "./url/store"
 import layout from "./layout/store"
 import auth from "./auth/store"
+import editorDialog from "./editorDialog/store"
 
 export default {
 	author,
@@ -14,4 +15,5 @@ export default {
 	url,
 	layout,
 	auth,
+	editorDialog,
 }

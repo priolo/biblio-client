@@ -1,18 +1,17 @@
 import { useFocused, useSelected } from "slate-react"
-import styles from "./Chapter.module.scss"
+import styles from "./Text.module.scss"
 
 
-export default function Chapter({
+export default function Text({
 	attributes, // slate
 	children
 }) {
-
 	const selected = useSelected()
 	const focused = useFocused()
 	 
 	const cnText = `${styles.root} ${selected && focused ? styles.focus : ''}`
 
-	return (
+	return ( 
 		<p className={cnText} {...attributes}>
 			{children}
 		</p>
