@@ -1,6 +1,8 @@
 /* eslint eqeqeq: "off" */
 import { ELEMENTS_TYPE } from "."
 import docs from "./docs.mock"
+import { Slate, withReact } from 'slate-react'
+import { createEditor, Editor } from 'slate'
 
 const store = {
 	state: {
@@ -30,6 +32,10 @@ const store = {
 				children: [{ text: 'descrizione del secondo paragrafo' }],
 			},
 		],
+		editor: null,
+	},
+	init: (store) => {
+		store.setEditor( withReact(createEditor()) )
 	},
 	getters: {
 	},
@@ -42,6 +48,7 @@ const store = {
 	},
 	mutators: {
 		setValue: (state, value) => ({value}),
+		setEditor: (state, editor) => ({editor}),
 	},
 }
 

@@ -1,19 +1,16 @@
 import styles from "./DocLayout.module.scss"
-import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { array } from "@priolo/jon-utils"
 
-import { useStore } from "@priolo/jon"
-
 import HeaderCmp from "../HeaderCmp"
-import { useUrl } from "store/url"
-
-
-// Import the Slate components and React plugin.
-import { createEditor, Editor } from 'slate'
-import { Slate, withReact } from 'slate-react'
 import BiblioEditable from "components/editor/BiblioEditable"
-import { useEditorDialog } from "store/editorDialog"
 
+import { Editor } from 'slate'
+import { Slate } from 'slate-react'
+
+import { useStore } from "@priolo/jon"
+import { useEditorDialog } from "store/editorDialog"
+import { useUrl } from "store/url"
 
 
 export default function DocLayout({
@@ -23,19 +20,17 @@ export default function DocLayout({
 	// HOOKs
 
 	const { state: doc, fetch, setValue } = useStore(element.identity)
-	const { state: dialog, open: openDialog,  close: closeDialog, setItemsIdSelect } = useEditorDialog()
+	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useEditorDialog()
 	const { _update } = useUrl()
-
-	const editor = useMemo(() => withReact(createEditor()), [])
 
 	useEffect(() => {
 		fetch()
 		_update()
 	}, [])
 
-	useEffect(()=> {
-		console.log( "change selection")
-	},[editor.selection])
+	// useEffect(()=> {
+	// 	console.log( "change selection")
+	// },[editor.selection])
 
 
 	// HANDLE
@@ -51,17 +46,10 @@ export default function DocLayout({
 
 	const handleChange = newValue => {
 		setValue(newValue)
-		// console.log( editor )
-		// if ( editor.value.selection != newValue.selection ) {
-		// 	console.log( "change" )
-		// }
-		// 	console.log( "altro" )
-		// }
-		//console.log(editor.value.selection)
-		const entries = Editor.nodes ( editor,{ match: n => n.type != null} )
+		const entries = Editor.nodes(doc.editor, { match: n => n.type != null })
 		const entriesArr = [...entries]
-		const groupsEntries = array.groupBy ( entriesArr, (e1, e2) => e1[0].type == e2[0].type )
-		const groupTypes = groupsEntries.map( groupEntries => groupEntries[0][0].type )
+		const groupsEntries = array.groupBy(entriesArr, (e1, e2) => e1[0].type == e2[0].type)
+		const groupTypes = groupsEntries.map(groupEntries => groupEntries[0][0].type)
 		setItemsIdSelect(groupTypes)
 	}
 
@@ -91,12 +79,12 @@ export default function DocLayout({
 				/>
 
 				<Slate
-					editor={editor}
+					editor={doc.editor}
 					value={doc.value}
 					onChange={handleChange}
 				>
 					<BiblioEditable
-						editor={editor}
+						editor={doc.editor}
 						onFocus={handleFocusEditor}
 						onBlur={handleBlurEditor}
 					/>

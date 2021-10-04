@@ -6,6 +6,7 @@ import Item from './Item'
 import { getUrlHash } from 'store/url'
 import { useStore } from '@priolo/jon'
 import { ELEMENTS_TYPE } from 'store/doc'
+import { Editor, Transforms } from 'slate'
 
 
 export default function Dialog() {
@@ -14,18 +15,20 @@ export default function Dialog() {
 
     const { state: dialog, close, isSelected } = useEditorDialog()
     const docSelect = getUrlHash()
-    const { state: doc, setValue } = useStore(docSelect)
+    const docStore = useStore(docSelect)
+    if ( !docStore ) return null
+    const { state: doc, setValue } = docStore
 
+    
 
     // HANDLE
 
     const handleOnClick = (item, e) => {
-        setValue ( [
-            {
-				type: ELEMENTS_TYPE.PARAGRAPH,
-				children: [{ text: 'evvai!!!!' }],
-			},
-        ])
+        Transforms.setNodes(
+            doc.editor,
+            { type: item.id },
+            { match: n => Editor.isBlock(doc.editor, n) }
+        )
     }
 
     // RENDER

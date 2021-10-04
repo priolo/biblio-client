@@ -10,6 +10,7 @@ export default function Item({
 	// HOOKs
 
 	// HANDLE
+	
 	const handleClick = e => onClick(item, e)
 
 	// RENDER
