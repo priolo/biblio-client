@@ -1,28 +1,9 @@
 @import "style/colors";
 
-.container {
 
-    height: 100%;
-    
-    position: absolute;
-    top: 0px;
 
-    display: flex; 
-    flex-direction: column;
-
-    background-color: yellow; //$color-bg-dialog;
-    box-shadow: 10px 0px 9px rgba(0, 0, 0, 0.25);
-
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 300ms, visibility 600ms, transform 300ms;
-    transition-timing-function: ease-in-out;
-    transform: translate(-10px, 0px);
-    &.open {
-        visibility: visible;
-        opacity: 1;
-        transform: translate(0px, 0px);
-    }
-
+.formatButtons {
+    display: flex;     
 }
+
 

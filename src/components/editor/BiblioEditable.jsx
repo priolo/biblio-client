@@ -3,7 +3,6 @@ import { useMemo, useState, useCallback, useEffect } from 'react'
 // Import the Slate components and React plugin.
 import { Editor, Transforms, Text } from 'slate'
 import { Editable, useFocused } from 'slate-react'
-import BiblioEditor from "./BiblioEditor"
 import BiblioElement from './elements/BiblioElement'
 
 
@@ -40,7 +39,7 @@ export default function BiblioEditable({
 				switch (event.key) {
 					case '1': {
 						event.preventDefault()
-						const [match] = BiblioEditor.nodes(editor, {
+						const [match] = Editor.nodes(editor, {
 							match: n => n.type === 'code',
 						})
 						Transforms.setNodes(

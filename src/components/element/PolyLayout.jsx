@@ -75,10 +75,10 @@ export default function PolyLayout({
 	}, [element.identity])
 
 	return (
-		<div className={styles.container}
+		<div className={styles.root}
 			onClick={handleClickContent}
 			ref={contentRef}
-			//tabIndex="0"
+			tabIndex="0"
 			id={element.identity}
 		>
 			{builElement()}

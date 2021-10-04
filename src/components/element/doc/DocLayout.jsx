@@ -1,12 +1,12 @@
 import styles from "./DocLayout.module.scss"
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { array } from "@priolo/jon-utils"
 
 import HeaderCmp from "../HeaderCmp"
 import BiblioEditable from "components/editor/BiblioEditable"
 
-import { Editor } from 'slate'
-import { Slate } from 'slate-react'
+import { createEditor, Editor } from 'slate'
+import { Slate, withReact } from 'slate-react'
 
 import { useStore } from "@priolo/jon"
 import { useEditorDialog } from "store/editorDialog"
@@ -19,7 +19,7 @@ export default function DocLayout({
 
 	// HOOKs
 
-	const { state: doc, fetch, setValue } = useStore(element.identity)
+	const { state: doc, fetch, setValue, getSelectedTypes } = useStore(element.identity)
 	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useEditorDialog()
 	const { _update } = useUrl()
 
@@ -31,6 +31,8 @@ export default function DocLayout({
 	// useEffect(()=> {
 	// 	console.log( "change selection")
 	// },[editor.selection])
+
+	//const editor = useMemo(() => withReact(createEditor()), [])
 
 
 	// HANDLE
@@ -46,17 +48,14 @@ export default function DocLayout({
 
 	const handleChange = newValue => {
 		setValue(newValue)
-		const entries = Editor.nodes(doc.editor, { match: n => n.type != null })
-		const entriesArr = [...entries]
-		const groupsEntries = array.groupBy(entriesArr, (e1, e2) => e1[0].type == e2[0].type)
-		const groupTypes = groupsEntries.map(groupEntries => groupEntries[0][0].type)
-		setItemsIdSelect(groupTypes)
+		const types = getSelectedTypes()
+		setItemsIdSelect(types)
 	}
 
 	// RENDER
 
 	return (
-		<div className={styles.container} >
+		<div className={styles.root} >
 
 			<div className={styles.left}>
 				<div className={styles.headerSpace} />
@@ -71,26 +70,30 @@ export default function DocLayout({
 
 			<div className={styles.center}>
 
-				<HeaderCmp
+				<HeaderCmp className={styles.header}
 					title={doc.title}
 					subtitle={doc.subtitle}
 					date={doc.date}
 					identity={element.identity}
 				/>
 
-				<Slate
-					editor={doc.editor}
-					value={doc.value}
-					onChange={handleChange}
-				>
-					<BiblioEditable
+				<div className={styles.body}>
+					<Slate
 						editor={doc.editor}
-						onFocus={handleFocusEditor}
-						onBlur={handleBlurEditor}
-					/>
-				</Slate>
+						value={doc.value}
+						onChange={handleChange}
+					>
+						<BiblioEditable
+							editor={doc.editor}
+							onFocus={handleFocusEditor}
+							onBlur={handleBlurEditor}
+						/>
+					</Slate>
+				</div>
 
 			</div>
+
+			<div className={styles.right}></div>
 
 		</div>
 	)

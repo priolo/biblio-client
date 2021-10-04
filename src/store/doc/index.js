@@ -12,4 +12,5 @@ export const ELEMENTS_TYPE = {
 	PARAGRAPH: "paragraph",
 	CHAPTER: "chapter",
 	TEXT: "text",
+	IMAGE: "image",
 }

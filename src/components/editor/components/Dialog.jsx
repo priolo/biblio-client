@@ -6,7 +6,10 @@ import Item from './Item'
 import { getUrlHash } from 'store/url'
 import { useStore } from '@priolo/jon'
 import { ELEMENTS_TYPE } from 'store/doc'
-import { Editor, Transforms } from 'slate'
+import { Editor, Text, Transforms } from 'slate'
+import ButtonIcon from 'components/app/ButtonIcon'
+import BoldIcon from 'imeges/icons/BoldIcon'
+import ItalicIcon from 'imeges/icons/ItalicIcon'
 
 
 export default function Dialog() {
@@ -16,14 +19,13 @@ export default function Dialog() {
     const { state: dialog, close, isSelected } = useEditorDialog()
     const docSelect = getUrlHash()
     const docStore = useStore(docSelect)
-    if ( !docStore ) return null
-    const { state: doc, setValue } = docStore
+    if (!docStore) return null
+    const { state: doc, isBold } = docStore
 
-    
 
     // HANDLE
 
-    const handleOnClick = (item, e) => {
+    const handleClickType = (item, e) => {
         Transforms.setNodes(
             doc.editor,
             { type: item.id },
@@ -31,16 +33,38 @@ export default function Dialog() {
         )
     }
 
+    const handleClickBold = (e) => {
+        Transforms.setNodes(
+            doc.editor,
+            { bold: bold ? null : true },
+            { match: n => Text.isText(n), split: true }
+        )
+    }
+
+    const handleClickItalic = (e) => {
+    }
+
     // RENDER
+
+    const bold = isBold()
 
     return (
         <DialogVertical
             position={dialog.position}
             isOpen={dialog.isOpen}
         >
+            <div className={styles.formatButtons}>
+                <ButtonIcon onClick={handleClickBold} isSelect={bold}>
+                    <BoldIcon />
+                </ButtonIcon>
+                <ButtonIcon onClick={handleClickItalic}>
+                    <ItalicIcon />
+                </ButtonIcon>
+            </div>
+
             {dialog.items.map((item, i) => (
                 <Item key={item.id}
-                    onClick={handleOnClick}
+                    onClick={handleClickType}
                     item={item}
                     isSelect={isSelected(item.id)}
                 />

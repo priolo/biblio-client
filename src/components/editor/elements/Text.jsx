@@ -6,6 +6,7 @@ export default function Text({
 	attributes, // slate
 	children
 }) {
+	
 	const selected = useSelected()
 	const focused = useFocused()
 	 

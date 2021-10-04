@@ -2,6 +2,7 @@ import { ELEMENTS_TYPE } from "store/doc"
 import Chapter from "./Chapter"
 import Paragraph from "./Paragraph"
 import Text from "./Text"
+import Image from "./Image"
 
 
 
@@ -12,6 +13,8 @@ export default function BiblioElement(props) {
 			return <Chapter {...props} />
 		case ELEMENTS_TYPE.PARAGRAPH:
 			return <Paragraph {...props} />
+		case ELEMENTS_TYPE.IMAGE:
+			return <Image {...props} />
 		case ELEMENTS_TYPE.TEXT:	
 		default:
 			return <Text {...props} />

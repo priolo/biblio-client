@@ -6,6 +6,7 @@ export default function Paragraph({
 	attributes, // slate
 	children
 }) {
+
 	const selected = useSelected()
 	const focused = useFocused()
 	 

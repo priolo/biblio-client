@@ -1,0 +1,14 @@
+@import 'style/colors';
+@import 'style/fonts';
+
+.root {
+	
+	.image {
+		width: 100%;
+		height: auto;
+		&.focus {
+			background-color: red;
+		}
+	}
+}
+
