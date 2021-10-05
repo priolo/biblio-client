@@ -1,6 +1,6 @@
 /* eslint eqeqeq: "off" */
 
-import { ELEMENTS_TYPE } from "store/doc"
+import { BLOCK_TYPE } from "store/doc"
 
 const store = {
 	state: {
@@ -10,9 +10,9 @@ const store = {
 		 * `{ id:string, label:string, desc: string }`
 		 */
 		items: [
-			{ id: ELEMENTS_TYPE.CHAPTER, label: "Chapter", desc: "Inserisce un capitolo" },
-			{ id: ELEMENTS_TYPE.PARAGRAPH, label: "Paragraph", desc: "Inserisce un paragrafo" },
-			{ id: ELEMENTS_TYPE.TEXT, label: "Testo", desc: "Il normale blocco di testo" },
+			{ id: BLOCK_TYPE.CHAPTER, label: "Chapter", desc: "Inserisce un capitolo" },
+			{ id: BLOCK_TYPE.PARAGRAPH, label: "Paragraph", desc: "Inserisce un paragrafo" },
+			{ id: BLOCK_TYPE.TEXT, label: "Testo", desc: "Il normale blocco di testo" },
 		],
 		itemsIdSelect: [],
 	},

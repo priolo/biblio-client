@@ -8,9 +8,17 @@ export function useDoc() {
 	return useStore("doc")
 }
 
-export const ELEMENTS_TYPE = {
+export const BLOCK_TYPE = {
 	PARAGRAPH: "paragraph",
 	CHAPTER: "chapter",
 	TEXT: "text",
 	IMAGE: "image",
+}
+
+export const FORMATS = {
+	BOLD: "paragraph",
+	ITALIC: "chapter",
+	STRIKETHROUGH: "strikethrough",
+	CODE: "code",
+	LINK: "link",
 }

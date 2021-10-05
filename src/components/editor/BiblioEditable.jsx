@@ -66,7 +66,7 @@ export default function BiblioEditable({
 	)
 }
 
-
+// [II] mettere fuori
 const Leaf = props => {
 	return (
 		<span

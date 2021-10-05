@@ -3,9 +3,9 @@ import styles from './Dialog.module.scss'
 import { useEditorDialog } from 'store/editorDialog'
 import DialogVertical from 'components/app/DialogVertical'
 import Item from './Item'
-import { getUrlHash } from 'store/url'
+import { ELEMENT_TYPE, getUrlHash } from 'store/url'
 import { useStore } from '@priolo/jon'
-import { ELEMENTS_TYPE } from 'store/doc'
+import { BLOCK_TYPE } from 'store/doc'
 import { Editor, Text, Transforms } from 'slate'
 import ButtonIcon from 'components/app/ButtonIcon'
 import BoldIcon from 'imeges/icons/BoldIcon'
@@ -19,18 +19,14 @@ export default function Dialog() {
     const { state: dialog, close, isSelected } = useEditorDialog()
     const docSelect = getUrlHash()
     const docStore = useStore(docSelect)
-    if (!docStore) return null
-    const { state: doc, isBold } = docStore
+    if (!docStore || docStore.state.type != ELEMENT_TYPE.DOC) return null
+    const { state: doc, isBold, changeType } = docStore
 
 
     // HANDLE
 
     const handleClickType = (item, e) => {
-        Transforms.setNodes(
-            doc.editor,
-            { type: item.id },
-            { match: n => Editor.isBlock(doc.editor, n) }
-        )
+        changeType(item.id)
     }
 
     const handleClickBold = (e) => {
