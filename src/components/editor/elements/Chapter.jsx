@@ -1,5 +1,6 @@
-import { useFocused, useSelected } from "slate-react"
 import styles from "./Chapter.module.scss"
+
+import { useFocused, useSelected } from "slate-react"
 
 
 export default function Chapter({

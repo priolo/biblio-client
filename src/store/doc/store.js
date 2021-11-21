@@ -3,7 +3,7 @@ import { BLOCK_TYPE } from "."
 import docs from "./docs.mock"
 import { withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { createEditor, Editor, Transforms } from 'slate'
+import { createEditor, Editor, Path, Transforms, Element, Node } from 'slate'
 import { array, time } from "@priolo/jon-utils"
 import { withImages } from "./withImages"
 import { composeIdentity, ELEMENT_TYPE } from "store/url"
@@ -16,14 +16,68 @@ const store = {
 		title: "Questo testo è statico",
 		subtitle: "Mbeh se è per questo anche questo lo è!",
 		date: "14/08/1975",
-		value: [],
+		value: [
+			{ "type": "chapter", "children": [{ "text": "Il mio ", "bold": true }, { "text": "intento" }] },
+			{ "type": "paragraph", "children": [{ "text": "Primo capitolo della storia della mia vita:" }] },
+			{ "type": "text", "children": [{ "text": "Nasco a foggia una ridente città in provincia di Foggia" }] },
+			{ "type": "text", "children": [{ "text": "Gia' dagli inizi mi interesso di merda in tutte le sue forme." }] },
+			{ "type": "text", "children": [{ "text": "In tenera età mangio la merda e la utilizzo per decorare monili che vendo poi con successo al mercato rionale di FoggiaUna vitja " }, { "text": "dedicata ", "bold": true }, { "text": "ahlla merda" }] },
+			{ "type": "code", "children": [
+				{ "text": "function pippo () {" },
+				{ "text": "  consol.log('ciao')" },
+				{ "text": "}" },
+			] },
+//			{ "type": "code", "children": [{ "text": "  consol.log('ciao')" }] },
+//			{ "type": "code", "children": [{ "text": "}" }] },
+		],
 		editor: null,
 	},
 	init: (store) => {
 		// creo l'editor
 		const editor = withImages(withHistory(withReact(createEditor())))
+		const { normalizeNode, isInline, isVoid } = editor
+		// da mettere in un withCode
+		/*
+		editor.normalizeNode = entry => {
+
+			// node: tutte le info del BLOCK
+			// path: dove è posizionato
+			const [node, path] = entry
+
+			// se il NODE è di tipo CODE voglio accorparlo con eventuali "vicini"
+			if (Element.isElement(node) && node.type == BLOCK_TYPE.CODE) {
+
+				// il prossimo PATH rispetto alla ENTRY
+				const pathNext = Path.next(path)
+				// controlla che il prossimo PATH esista
+				if (Node.has(editor, pathNext) == false) return
+				// preleva il NODE del prossimo PATH
+				const nodeNext = Node.get(editor, pathNext)
+
+				// preleva tutti i nodes secondo un qualche critetio
+				//const nodes = [...Editor.nodes(editor, { at: [path, nextPath] })]
+				// preleva un nodo in base ad una path
+				//const node1 = Editor.node(editor, path) 
+
+				// quindi se il NODE è anc'esso di tipo CODE fa il "merge"
+				if (nodeNext.type == BLOCK_TYPE.CODE) {
+					Transforms.mergeNodes(editor, { at: pathNext, voids: true, hanging: true })
+					// esco perche' questa stessa funzione sara' richiamata nuovamente dopo il "Transform"
+					return
+				}
+			}
+
+			normalizeNode(entry)
+		}
+		*/
+		// editor.isInline = element => {
+		// 	return element.type == BLOCK_TYPE.CODE ? true : isInline(element)
+		// }
+		// editor.isVoid = element => {
+		// 	return element.type == BLOCK_TYPE.CODE ? true : isVoid(element)
+		// }
 		store.setEditor(editor)
-		store.load()
+		//store.load()
 	},
 	getters: {
 		/** Restituisce tutti i ELEMENT_TYPE attualmente selezionati */
@@ -106,7 +160,7 @@ const store = {
 			}
 
 
-			if ( !value ) {
+			if (!value) {
 				value = [
 					{
 						type: BLOCK_TYPE.CHAPTER,
@@ -129,7 +183,7 @@ const store = {
 						children: [{ text: 'descrizione del secondo paragrafo' }],
 					},
 				]
-			}	
+			}
 
 			// il doc è gia' presente sul server allora lo carico
 			store.setValue(value)

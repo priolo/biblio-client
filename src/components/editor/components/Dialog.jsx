@@ -11,7 +11,10 @@ import ButtonIcon from 'components/app/ButtonIcon'
 import BoldIcon from 'imeges/icons/BoldIcon'
 import ItalicIcon from 'imeges/icons/ItalicIcon'
 
-
+/**
+ * E' la dialog che permette di scegliere lo stile del BLOCK
+ * @returns 
+ */
 export default function Dialog() {
 
     // HOOKs

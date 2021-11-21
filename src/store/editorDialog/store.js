@@ -12,7 +12,8 @@ const store = {
 		items: [
 			{ id: BLOCK_TYPE.CHAPTER, label: "Chapter", desc: "Inserisce un capitolo" },
 			{ id: BLOCK_TYPE.PARAGRAPH, label: "Paragraph", desc: "Inserisce un paragrafo" },
-			{ id: BLOCK_TYPE.TEXT, label: "Testo", desc: "Il normale blocco di testo" },
+			{ id: BLOCK_TYPE.TEXT, label: "Text", desc: "Il normale blocco di testo" },
+			{ id: BLOCK_TYPE.CODE, label: "Code", desc: "Codice" },
 		],
 		itemsIdSelect: [],
 	},

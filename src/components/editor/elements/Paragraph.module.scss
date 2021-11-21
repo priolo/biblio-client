@@ -1,14 +1,15 @@
+@import "text";
 @import 'style/colors';
 @import 'style/fonts';
 
 .root {
-	color: $color-primary;
-	font-family: $font-regular;
-	font-weight: 500;
-	font-size: 24px;
+	@include base;
 
-	&.focus {
-		background-color: red;
-	}
+	padding-top: 15px;
+	padding-bottom: 7px;
+
+	font-family: $font-regular;
+	font-weight: 700;
+	font-size: 24px;
 }
 

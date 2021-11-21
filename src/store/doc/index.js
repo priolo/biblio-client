@@ -12,6 +12,7 @@ export const BLOCK_TYPE = {
 	PARAGRAPH: "paragraph",
 	CHAPTER: "chapter",
 	TEXT: "text",
+	CODE: "code",
 	IMAGE: "image",
 }
 

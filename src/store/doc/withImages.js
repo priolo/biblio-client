@@ -1,4 +1,5 @@
 import { Transforms } from "slate"
+import { BLOCK_TYPE } from "."
 
 /**
  * Extend "withReact" di Slate
@@ -10,7 +11,7 @@ export const withImages = editor => {
 	const { insertData, isVoid } = editor
 
 	editor.isVoid = element => {
-		return element.type === 'image' ? true : isVoid(element)
+		return element.type === BLOCK_TYPE.IMAGE ? true : isVoid(element)
 	}
 
 	editor.insertData = data => {
@@ -43,7 +44,7 @@ export const withImages = editor => {
 
 const insertImage = (editor, url) => {
 	const text = { text: '' }
-	const image = { type: 'image', url, children: [text] }
+	const image = { type: BLOCK_TYPE.IMAGE, url, children: [text] }
 	Transforms.insertNodes(editor, image)
 }
 

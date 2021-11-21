@@ -4,9 +4,15 @@
 
 .root {
 	@include base;
-
+	
 	font-family: $font-text;
 	font-weight: 200;
 	font-size: 14px;
+
+	//background-color: black;
+
+	// & [data-slate-string="true"] {
+	// 	display: block;
+	// }
 }
 

@@ -1,9 +1,7 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
-
-// Import the Slate components and React plugin.
 import { Editor, Transforms, Text } from 'slate'
-import { Editable, useFocused } from 'slate-react'
+import { Editable } from 'slate-react'
 import BiblioElement from './elements/BiblioElement'
+import BiblioLeaf from './leafs/BiblioLeaf'
 
 
 export default function BiblioEditable({
@@ -13,30 +11,25 @@ export default function BiblioEditable({
 }) {
 
 	// HOOKs
-	
+
 	// HANDLE
 
 	// RENDER
-
-	// Define a leaf rendering function that is memoized with `useCallback`.
-	const renderLeaf = useCallback(props => {
-		return <Leaf {...props} />
-	}, [])
-
 	return (
 		<Editable
 			renderElement={BiblioElement}
-			// Pass in the `renderLeaf` function.
-			renderLeaf={renderLeaf}
-			
+			renderLeaf={BiblioLeaf}
+
 			onFocus={onFocus}
 			onBlur={onBlur}
 			onKeyDown={event => {
+
 				if (!event.ctrlKey) {
 					return
 				}
 
 				switch (event.key) {
+
 					case '1': {
 						event.preventDefault()
 						const [match] = Editor.nodes(editor, {
@@ -59,21 +52,20 @@ export default function BiblioEditable({
 						)
 						break
 					}
+
+					// case 'c': {
+					// 	event.preventDefault()
+					// 	Transforms.setNodes(
+					// 		editor,
+					// 		{ code: true },
+					// 		{ match: n => Text.isText(n), split: true }
+					// 	)
+					// 	break
+					// }
+
 				}
 			}}
 		/>
 
-	)
-}
-
-// [II] mettere fuori
-const Leaf = props => {
-	return (
-		<span
-			{...props.attributes}
-			style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' }}
-		>
-			{props.children}
-		</span>
 	)
 }
