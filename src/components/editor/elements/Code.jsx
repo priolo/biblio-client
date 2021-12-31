@@ -1,37 +1,26 @@
 import styles from "./Code.module.scss"
-
 import { useEffect, useMemo, useState } from "react";
-import * as monaco from 'monaco-editor';
 
-//import { useFocused, useSelected } from "slate-react"
+import { useFocused, useSelected } from "slate-react"
 import { Node } from "slate"
+import { useMonaco } from "@monaco-editor/react";
+
+import ButtonIcon from "components/app/ButtonIcon";
+import BoldIcon from "imeges/icons/BoldIcon";
+import { useEditorDialog } from "store/editorDialog";
+import { useDocSelect } from "store/doc";
 
 
-
-// 	attributes: {
-// 		data-slate-node: "element"
-// 		ref: { current: p.Text_root__3YA7I }
-// 	},
-// 	children: [...],
-// 	element: {
-// 		children: [
-// 			{ text: 'descrizione del secondo paragrafo' }
-// 		],
-// 		type: "code"
-// 	}
 export default function Code(props) {
 	const { attributes, children, element } = props
-	//const selected = useSelected()
-	//const focused = useFocused()
 
 
-
-	// if (focused) {
-	// 	return <p className={styles.root} {...attributes}>
-	// 		{children}
-	// 	</p>
-	// }
-
+	// HOOKs
+	const { getEntryByElement, getIdentity } = useDocSelect()
+	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = useEditorDialog()
+	const monaco = useMonaco()
+	const selected = useSelected()
+	const focused = useFocused()
 	const [html, setHtml] = useState("")
 
 	const text = useMemo(() => {
@@ -39,19 +28,41 @@ export default function Code(props) {
 	}, [element])
 
 	useEffect(async () => {
+		if (!monaco) return
 		const res = await monaco.editor.colorize(text, "javascript")
-		setHtml(res)
-	}, [text])
+		setHtml(res ?? "")
+	}, [monaco, text])
 
-	return <div
-		{...attributes}
-		className={styles.root}
-		contentEditable={false}
+
+	// HANDLERs
+	const handleClickEdit = e => {
+		const entry = getEntryByElement(element)
+		if (!entry) return
+		setDocId(getIdentity())
+		setEntryInEdit(entry)
+		setCodeInEdit(text)
+		setIsEditorCodeOpen(true)
+	}
+
+
+	// RENDER
+	const haveFocus = selected && focused
+	const cnRoot = `${styles.root} ${haveFocus ? styles.focus : ''}`
+
+	return <p className={cnRoot} {...attributes}
+	//contentEditable={false}
 	>
 		<div className={styles.container}>
+			{/* questo blocco serve a Slate per non generare un errore */}
+			<div style={{ display: "none" }}>{children}</div>
 			
+			<ButtonIcon onClick={handleClickEdit}>
+				<BoldIcon />
+			</ButtonIcon>
+
 			<div dangerouslySetInnerHTML={{ __html: html }} />
+			
 		</div>
-	</div>
+	</p>
 
 }

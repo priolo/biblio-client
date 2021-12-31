@@ -1,12 +1,10 @@
 import styles from "./DocLayout.module.scss"
-import { useEffect, useMemo } from 'react'
-import { array } from "@priolo/jon-utils"
+import { useEffect, useRef } from 'react'
 
 import HeaderCmp from "../HeaderCmp"
 import BiblioEditable from "components/editor/BiblioEditable"
 
-import { createEditor, Editor } from 'slate'
-import { Slate, withReact } from 'slate-react'
+import { ReactEditor, Slate } from 'slate-react'
 
 import { useStore } from "@priolo/jon"
 import { useEditorDialog } from "store/editorDialog"
@@ -19,7 +17,8 @@ export default function DocLayout({
 
 	// HOOKs
 
-	const { state: doc, fetch, setValue, getSelectedTypes } = useStore(element.identity)
+	const docStore = useStore(element.identity)
+	const { state: doc, fetch, setValue, getSelectedTypes } = docStore
 	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useEditorDialog()
 	const { _update } = useUrl()
 
@@ -28,25 +27,30 @@ export default function DocLayout({
 		_update()
 	}, [])
 
-	// useEffect(()=> {
-	// 	console.log( "change selection")
-	// },[editor.selection])
+	const slateRef = useRef(null)
 
-	//const editor = useMemo(() => withReact(createEditor()), [])
+	useEffect(()=>{
+		//if ( dialog.isEditorCodeOpen || !slateRef.current ) return
+		if ( dialog.isEditorCodeOpen ) return
+		ReactEditor.focus(doc.editor)
+	},[dialog.isEditorCodeOpen])
 
 
 	// HANDLE
 
 	const handleFocusEditor = e => {
+		console.log("focus")
 		//openDialog({ position: e.target?.getBoundingClientRect()})
 		openDialog({ position: { right: e.target.offsetLeft + e.target.offsetWidth } })
 	}
 
 	const handleBlurEditor = e => {
+		console.log("blur")
 		closeDialog()
 	}
 
 	const handleChange = newValue => {
+		console.log("change")
 		setValue(newValue)
 		const types = getSelectedTypes()
 		setItemsIdSelect(types)
@@ -79,12 +83,13 @@ export default function DocLayout({
 
 				<div className={styles.body}>
 					<Slate
+						ref={slateRef}
 						editor={doc.editor}
 						value={doc.value}
 						onChange={handleChange}
 					>
 						<BiblioEditable
-							editor={doc.editor}
+							store={docStore}
 							onFocus={handleFocusEditor}
 							onBlur={handleBlurEditor}
 						/>

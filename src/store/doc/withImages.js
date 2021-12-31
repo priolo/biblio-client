@@ -10,9 +10,9 @@ import { BLOCK_TYPE } from "."
 export const withImages = editor => {
 	const { insertData, isVoid } = editor
 
-	editor.isVoid = element => {
-		return element.type === BLOCK_TYPE.IMAGE ? true : isVoid(element)
-	}
+	// editor.isVoid = element => {
+	// 	return element.type === BLOCK_TYPE.IMAGE ? true : isVoid(element)
+	// }
 
 	editor.insertData = data => {
 		const text = data.getData('text/plain')

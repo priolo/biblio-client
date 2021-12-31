@@ -3,6 +3,7 @@
 /build
 /node_modules
 .vscode/
+/resources
 
 # misc
 .env.local

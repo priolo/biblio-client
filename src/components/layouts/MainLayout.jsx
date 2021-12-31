@@ -8,7 +8,8 @@ import MsgBox from '../app/MsgBox';
 import DebugButton from '../app/debug/DebugButton';
 
 import { useUrl } from 'store/url';
-import EditorDialog from '../editor/components/Dialog';
+import EditorDialog from '../editor/components/DocVerticalDialog';
+import EditCodeDialog from 'components/editor/components/EditCodeDialog';
 
 
 /**
@@ -18,18 +19,14 @@ import EditorDialog from '../editor/components/Dialog';
 export default function MainLayout() {
 
     // HOOKs
-
     const { state: url, getElements } = useUrl()
-
-    // HANDLE
 
 
     // RENDER
-
     const elements = getElements()
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} >
 
             {/* DOCUMENTI APERTI */}
             <div className={styles.contAbs}>
@@ -58,7 +55,8 @@ export default function MainLayout() {
                     <div className={styles.docLeftSpace} />
 
                     {/* dialog verticale */}
-                    <EditorDialog/>
+                    <EditorDialog />
+                    <EditCodeDialog />
 
                 </div>
             </div>

@@ -1,59 +1,49 @@
-import styles from './Dialog.module.scss'
+import styles from './DocVerticalDialog.module.scss'
 
 import { useEditorDialog } from 'store/editorDialog'
 import DialogVertical from 'components/app/DialogVertical'
 import Item from './Item'
-import { ELEMENT_TYPE, getUrlHash } from 'store/url'
-import { useStore } from '@priolo/jon'
-import { BLOCK_TYPE } from 'store/doc'
-import { Editor, Text, Transforms } from 'slate'
+import { useDocSelect } from 'store/doc'
 import ButtonIcon from 'components/app/ButtonIcon'
 import BoldIcon from 'imeges/icons/BoldIcon'
 import ItalicIcon from 'imeges/icons/ItalicIcon'
+import { ELEMENT_TYPE } from 'store/url'
+
 
 /**
  * E' la dialog che permette di scegliere lo stile del BLOCK
- * @returns 
  */
-export default function Dialog() {
+export default function DocVerticalDialog() {
 
     // HOOKs
-
     const { state: dialog, close, isSelected } = useEditorDialog()
-    const docSelect = getUrlHash()
-    const docStore = useStore(docSelect)
-    if (!docStore || docStore.state.type != ELEMENT_TYPE.DOC) return null
-    const { state: doc, isBold, changeType } = docStore
+    const docStore = useDocSelect()
+    if (docStore?.state?.type != ELEMENT_TYPE.DOC) return null
+    const { state: doc, changeSelectTypeAndMerge, changeSelectText, findInSelectText } = docStore
+    const isBold = findInSelectText(n => n.bold)
 
 
     // HANDLE
-
     const handleClickType = (item, e) => {
-        changeType(item.id)
+        changeSelectTypeAndMerge(item.id)
     }
 
     const handleClickBold = (e) => {
-        Transforms.setNodes(
-            doc.editor,
-            { bold: bold ? null : true },
-            { match: n => Text.isText(n), split: true }
-        )
+        changeSelectText({ bold: !isBold })
     }
 
     const handleClickItalic = (e) => {
     }
 
+
     // RENDER
-
-    const bold = isBold()
-
     return (
         <DialogVertical
             position={dialog.position}
             isOpen={dialog.isOpen}
         >
             <div className={styles.formatButtons}>
-                <ButtonIcon onClick={handleClickBold} isSelect={bold}>
+                <ButtonIcon onClick={handleClickBold} isSelect={isBold}>
                     <BoldIcon />
                 </ButtonIcon>
                 <ButtonIcon onClick={handleClickItalic}>
