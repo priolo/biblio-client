@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import styles from './Input.module.scss';
 
 
@@ -5,6 +6,7 @@ export default function Input({
 	value,
 	renderEnd,
 	onChange,
+	refInput,
 	...props
 }) {
 
@@ -17,6 +19,7 @@ export default function Input({
 				type="text"
 				onChange={handleChange}
 				value={value}
+				ref={refInput}
 				{...props}
 			/>
 			{renderEnd && <div className={styles.end}>

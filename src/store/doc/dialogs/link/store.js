@@ -16,22 +16,22 @@ const store = {
 	},
 
 	actions: {
-		
+
 		/** Apre la DIALOG setandone la posizione */
 		open: (state, { id, leaf, position }, store) => {
-			const { setTabIndex } = getStoreTypeDialog()
-			const [node,path] = leaf
+			//const { setTabIndex } = getStoreTypeDialog()
+			const [node, path] = leaf
 			store.setPosition(position)
 			store.setIdOpen(id)
 			store.setPath(path)
-			setTabIndex(1)
+			//setTabIndex(1)
 		},
 
 		/** Chiude la DIALOG  */
 		close: (state, _, store) => {
-			const { setTabIndex } = getStoreTypeDialog()
+			//const { setTabIndex } = getStoreTypeDialog()
 			store.setIdOpen(null)
-			setTabIndex(0)
+			//setTabIndex(0)
 		},
 
 	},

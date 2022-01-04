@@ -38,7 +38,8 @@ const store = {
 			const { setItemsIdSelect } = getStoreTypeDialog()
 			//const { open } = getStoreLinkPopUp()
 
-			onChange()
+			//onChange()
+			store.setValue(editor.children)
 
 			const types = getSelectedTypes()
 			setItemsIdSelect(types)

@@ -5,7 +5,7 @@ import { useLinkPopUp } from 'store/doc/dialogs/link'
 import Input from 'components/app/Input'
 import { Editor, Transforms } from 'slate'
 import { useStore } from '@priolo/jon'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 
 /**
@@ -17,47 +17,49 @@ export default function LinkPopUp({
 
 
     // HOOKs
-    const refInput = useRef(null)
     const { state: docNs } = useStore(element.identity)
     const { state: linkNs } = useLinkPopUp()
-    if (!linkNs.path) return null
+    if (!linkNs.path || (linkNs.idOpen && element.identity != linkNs.idOpen)) return null
 
     const path = linkNs.path
-    const [node] = Editor.leaf(docNs.editor, path )
+    const [node] = Editor.leaf(docNs.editor, path)
     const isOpen = element.identity == linkNs.idOpen
-    
+
+    const [ value, setValue ] = useState(node.url)
+
+    const refInput = useCallback((nodeDom) => {
+        if (!nodeDom || !isOpen) return
+        setTimeout(()=>nodeDom.select(), 200)
+    }, [isOpen])
+
 
     // HANDLE
     const handleChange = (e) => {
         const url = e.target.value
+        //setValue(url)
         const nodeUpdate = { url }
         Transforms.setNodes(docNs.editor,
             nodeUpdate,
             {
                 at: path,
-                mode: 'all'
+                //mode: 'all'
             }
         )
     }
 
-    const handleFocus = e => {
-        refInput.current?.focus()
-    }
-
-
+//console.log(node.url)
     // RENDER
     return (
         <PopUp
             position={linkNs.position}
             isOpen={isOpen}
-            onFocus={handleFocus}
         >
-            <Input 
-                tabIndex={0} 
-                className={styles.input} 
-                value={node.url ?? ""} 
+            <Input
+                tabIndex={0}
+                className={styles.input}
+                value={value}
                 onChange={handleChange}
-                ref={refInput}
+                refInput={refInput}
             />
         </PopUp>
     )

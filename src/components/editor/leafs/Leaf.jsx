@@ -17,17 +17,6 @@ export default function Leaf ({
 	element,
 }) {
 
-	// const selected = useSelected()
-	// const focused = useFocused()
-	// const html = hljs.highlightAuto('<h1>Hello World!</h1>').value
-	// if ( !focused && props.leaf.code == true ) return <span 
-	// 	{...props.attributes}
-	// 	dangerouslySetInnerHTML={{ __html: html }} />
-
-	// const isUrl = useMemo (()=> {
-
-	// },[leaf.text])
-
 
 	// HANDLER
 	const handleClick = leaf.link ? (e) => {

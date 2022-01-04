@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useLinkPopUp } from 'store/doc/dialogs/link'
 import styles from './PopUp.module.scss'
 
@@ -14,25 +14,20 @@ export default function PopUp({
 
     // HOOKs
     const { close } = useLinkPopUp()
-    const ref = useRef(null)
-    useEffect(() => {
-        if (!ref.current) return
+
+    const ref = useCallback((node) => {
+        if ( !node || !isOpen ) return
         const eventFn = (e) => {
-            if (ref.current.contains(e.target)) return
+            if (node.contains(e.target)) return
             close()
             document.removeEventListener("mousedown", eventFn)
         }
-        if (isOpen) {
-            document.addEventListener("mousedown", eventFn)
-            setTimeout(() => ref.current.focus(), 200)
-        }
-    }, [isOpen, ref.current])
+        document.addEventListener("mousedown", eventFn)
+    },[isOpen])
+
 
     // HANDLER
     const handleBlur = (e) => {
-        // if ( !ref.current.contains( e.target) ) {
-        //     close()
-        // }
     }
     const handleFocus = (e) => {
     }
