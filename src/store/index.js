@@ -5,7 +5,9 @@ import menu from "./menu/store"
 import url from "./url/store"
 import layout from "./layout/store"
 import auth from "./auth/store"
-import editorDialog from "./editorDialog/store"
+import docTypeDialog from "./doc/dialogs/type/store"
+import docCodeDialog from "./doc/dialogs/code/store"
+import docLinkPopUp from "./doc/dialogs/link/store"
 
 export default {
 	author,
@@ -15,5 +17,7 @@ export default {
 	url,
 	layout,
 	auth,
-	editorDialog,
+	docTypeDialog,
+	docCodeDialog,
+	docLinkPopUp,
 }

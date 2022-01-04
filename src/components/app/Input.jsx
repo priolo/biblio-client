@@ -4,8 +4,8 @@ import styles from './Input.module.scss';
 export default function Input({
 	value,
 	renderEnd,
-
-	onChange
+	onChange,
+	...props
 }) {
 
 	const handleChange = e => onChange?.(e)
@@ -17,6 +17,7 @@ export default function Input({
 				type="text"
 				onChange={handleChange}
 				value={value}
+				{...props}
 			/>
 			{renderEnd && <div className={styles.end}>
 				{renderEnd}

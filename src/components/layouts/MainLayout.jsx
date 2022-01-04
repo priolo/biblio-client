@@ -8,9 +8,10 @@ import MsgBox from '../app/MsgBox';
 import DebugButton from '../app/debug/DebugButton';
 
 import { useUrl } from 'store/url';
-import EditorDialog from '../editor/components/DocVerticalDialog';
-import EditCodeDialog from 'components/editor/components/EditCodeDialog';
 
+//import EditTypeDialog from '../editor/components/EditTypeDialog';
+import EditCodeDialog from '../editor/components/EditCodeDialog';
+//import EditLinkPopUp from '../editor/components/LinkPopUp';
 
 /**
  * Gestisce l'intera app 
@@ -30,7 +31,7 @@ export default function MainLayout() {
 
             {/* DOCUMENTI APERTI */}
             <div className={styles.contAbs}>
-                <div className={styles.contHorizDoc}>
+                <div className={styles.contHorizDoc} id="horizScrollElem">
 
                     {/* spazio vuoto a sinistra del primo doc */}
                     <div className={styles.docLeftSpace} />
@@ -54,8 +55,9 @@ export default function MainLayout() {
                     {/* spazio vuoto a destra dell'ultimo doc */}
                     <div className={styles.docLeftSpace} />
 
-                    {/* dialog verticale */}
-                    <EditorDialog />
+                    {/* dialogs utili per l'editazione */}
+                    {/* <EditTypeDialog /> */}
+                    {/* <EditLinkPopUp /> */}
                     <EditCodeDialog />
 
                 </div>

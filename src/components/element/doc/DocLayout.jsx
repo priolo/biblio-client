@@ -7,19 +7,22 @@ import BiblioEditable from "components/editor/BiblioEditable"
 import { ReactEditor, Slate } from 'slate-react'
 
 import { useStore } from "@priolo/jon"
-import { useEditorDialog } from "store/editorDialog"
+
 import { useUrl } from "store/url"
+import { useTypeDialog } from "store/doc/dialogs/type"
+
+import EditLinkPopUp from 'components/editor/components/LinkPopUp';
+import EditTypeDialog from 'components/editor/components/EditTypeDialog';
 
 
 export default function DocLayout({
 	element,
 }) {
 
-	// HOOKs
 
-	const docStore = useStore(element.identity)
-	const { state: doc, fetch, setValue, getSelectedTypes } = docStore
-	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useEditorDialog()
+	// HOOKs
+	const { state: doc, fetch, setValue, getSelectedTypes, isSelect } = useStore(element.identity)
+	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useTypeDialog()
 	const { _update } = useUrl()
 
 	useEffect(() => {
@@ -29,35 +32,39 @@ export default function DocLayout({
 
 	const slateRef = useRef(null)
 
-	useEffect(()=>{
-		//if ( dialog.isEditorCodeOpen || !slateRef.current ) return
-		if ( dialog.isEditorCodeOpen ) return
+	useEffect(() => {
+		if (dialog.isEditorCodeOpen) return
 		ReactEditor.focus(doc.editor)
-	},[dialog.isEditorCodeOpen])
+	}, [dialog.isEditorCodeOpen])
+
+	const dosIsSelect = isSelect()
+	useEffect(() => {
+		if ( dosIsSelect ) {
+			openDialog(element.identity)
+		} else {
+			closeDialog()
+		}
+	}, [dosIsSelect])
+
 
 
 	// HANDLE
-
 	const handleFocusEditor = e => {
-		console.log("focus")
-		//openDialog({ position: e.target?.getBoundingClientRect()})
-		openDialog({ position: { right: e.target.offsetLeft + e.target.offsetWidth } })
+		// console.log("focus")
+		// openDialog(element.identity)
 	}
 
 	const handleBlurEditor = e => {
-		console.log("blur")
-		closeDialog()
+		// console.log("blur")
+		// closeDialog()
 	}
 
 	const handleChange = newValue => {
-		console.log("change")
 		setValue(newValue)
-		const types = getSelectedTypes()
-		setItemsIdSelect(types)
 	}
 
-	// RENDER
 
+	// RENDER
 	return (
 		<div className={styles.root} >
 
@@ -82,6 +89,8 @@ export default function DocLayout({
 				/>
 
 				<div className={styles.body}>
+
+
 					<Slate
 						ref={slateRef}
 						editor={doc.editor}
@@ -89,16 +98,26 @@ export default function DocLayout({
 						onChange={handleChange}
 					>
 						<BiblioEditable
-							store={docStore}
+							element={element}
 							onFocus={handleFocusEditor}
 							onBlur={handleBlurEditor}
 						/>
 					</Slate>
+
+					<EditLinkPopUp element={element} />
+
+
+
+
 				</div>
+
+
 
 			</div>
 
 			<div className={styles.right}></div>
+
+			<EditTypeDialog element={element} />
 
 		</div>
 	)

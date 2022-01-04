@@ -3,7 +3,7 @@ import styles from './DialogVertical.module.scss'
 import CloseIcon from "imeges/close"
 
 
-export default function DialogVertical ({
+export default function DialogVertical({
     isOpen,
     position,
     children,
@@ -13,29 +13,29 @@ export default function DialogVertical ({
     // HOOKs
 
     const handleFocus = event => {
-		event.preventDefault()
+        event.preventDefault()
         event.stopPropagation()
-		if (event.relatedTarget) {
-			// Revert focus back to previous blurring element
-			event.relatedTarget.focus();
-		} else {
-			// No previous focus target, blur instead
-			event.currentTarget.blur();
-		}
-	}
+        if (event.relatedTarget) {
+            // Revert focus back to previous blurring element
+            event.relatedTarget.focus();
+        } else {
+            // No previous focus target, blur instead
+            event.currentTarget.blur();
+        }
+    }
 
     // RENDER
     const cnContainer = `${styles.container} ${isOpen ? styles.open : ""}`
 
-    if ( !position ) return null
-    
+    if (!position) return null
+
     return (
         <div tabIndex="-1"
-            className={cnContainer} 
-            style={{ left: position.right }}
+            className={cnContainer}
+            style={{ left: position.left }}
             onFocus={handleFocus}
         >
-                {children}
+            {children}
         </div>
     )
 }

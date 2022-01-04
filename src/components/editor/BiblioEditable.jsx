@@ -1,3 +1,4 @@
+import { useStore } from '@priolo/jon'
 import { Editor, Transforms, Text, Path } from 'slate'
 import { Editable } from 'slate-react'
 import { BLOCK_TYPE } from 'store/doc'
@@ -10,13 +11,14 @@ import BiblioLeaf from './leafs/BiblioLeaf'
  * @returns 
  */
 export default function BiblioEditable({
-	store,
+	element,
 	onFocus,
 	onBlur,
 }) {
 
 	// HOOKs
-	const { state: doc, changeSelectText, findInSelectText, getFirstSelectEntry, addNode } = store
+
+	const { state: doc, changeSelectText, entryTextSelect, getFirstSelectEntry, addNode } = useStore(element.identity)
 
 	// HANDLE
 	const handleKeyDown = event => {
@@ -44,7 +46,8 @@ export default function BiblioEditable({
 
 			case 'b': {
 				event.preventDefault()
-				changeSelectText({ bold: !findInSelectText(n => n.bold) })
+				const [leaf] = entryTextSelect()
+				changeSelectText({ bold: !leaf.bold })
 				break
 			}
 		}
@@ -54,10 +57,11 @@ export default function BiblioEditable({
 	return (
 		<Editable
 			renderElement={BiblioElement}
-			renderLeaf={BiblioLeaf}
+			renderLeaf={props => <BiblioLeaf {...props} element={element} />}
 			onFocus={onFocus}
 			onBlur={onBlur}
 			onKeyDown={handleKeyDown}
+			
 		/>
 	)
 }

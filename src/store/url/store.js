@@ -1,5 +1,8 @@
 /* eslint eqeqeq: "off"*/
 
+import { getStore } from "@priolo/jon"
+import { getStoreCodeDialog } from "store/doc/dialogs/code"
+import { getStoreTypeDialog } from "store/doc/dialogs/type"
 import { decomposeIdentity, getIdentities, getUrlHash, haveIdentity, indexIdentity } from "store/url"
 
 const DIV_PROP = "-"
@@ -70,6 +73,13 @@ const store = {
 
 		/** Elimina un elemento gia' presente tra i doc visualizzati */
 		removeIdentity: (state, identity, store) => {
+			// avverto lo store che sto chiudendo l'ELEMENT
+			const { onClose } = getStore(identity)
+			onClose?.()
+			const { close } = getStoreTypeDialog()
+			close()
+
+			// resetto le identity nell'URL togliendo quella eliminata
 			const identities = getIdentities()
 			let newIdentities = identities.filter(id => id != identity)
 			store.setArray({ name: "i", value: newIdentities })

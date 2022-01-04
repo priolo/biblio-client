@@ -7,7 +7,7 @@ import { useMonaco } from "@monaco-editor/react";
 
 import ButtonIcon from "components/app/ButtonIcon";
 import BoldIcon from "imeges/icons/BoldIcon";
-import { useEditorDialog } from "store/editorDialog";
+import { useCodeDialog } from "store/doc/dialogs/code";
 import { useDocSelect } from "store/doc";
 
 
@@ -16,12 +16,15 @@ export default function Code(props) {
 
 
 	// HOOKs
-	const { getEntryByElement, getIdentity } = useDocSelect()
-	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = useEditorDialog()
+	const { state: docNs, getEntryByElement, getIdentity } = useDocSelect()
+	if (!docNs) return null
+	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = useCodeDialog()
 	const monaco = useMonaco()
 	const selected = useSelected()
 	const focused = useFocused()
 	const [html, setHtml] = useState("")
+
+
 
 	const text = useMemo(() => {
 		return [...Node.texts(element)].map(t => t[0].text).join("\n")
@@ -55,13 +58,13 @@ export default function Code(props) {
 		<div className={styles.container}>
 			{/* questo blocco serve a Slate per non generare un errore */}
 			<div style={{ display: "none" }}>{children}</div>
-			
+
 			<ButtonIcon onClick={handleClickEdit}>
 				<BoldIcon />
 			</ButtonIcon>
 
 			<div dangerouslySetInnerHTML={{ __html: html }} />
-			
+
 		</div>
 	</p>
 

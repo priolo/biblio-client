@@ -1,0 +1,26 @@
+@import "style/colors";
+
+.root {
+    position: absolute;
+    display: flex; 
+    flex-direction: column;
+    background-color: yellow; //$color-bg-dialog;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+
+    left: 600px;
+    top: 50px;
+
+
+    transition: opacity 300ms, visibility 600ms, transform 300ms;
+    transition-timing-function: ease-in-out;
+    transform: translate(-10px, 0px);
+    &.open {
+        visibility: visible;
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
+
+}
+

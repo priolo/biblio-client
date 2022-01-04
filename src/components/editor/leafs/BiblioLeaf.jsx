@@ -5,6 +5,8 @@
 // import Image from "./Image"
 // import Code from "./Code"
 
+import Leaf from "./Leaf";
+
 
 
 export default function BiblioLeaf(props) {
@@ -25,27 +27,3 @@ export default function BiblioLeaf(props) {
 }
 
 
-
-// [II] mettere fuori
-// 	attributes: { data-slate-leaf: true }
-// 	children: {...}
-// 	leaf: { text: 'descrizionefmo paragrafo' }
-// 	text: { text: 'descrizionefmo paragrafo' }
-const Leaf = props => {
-
-	// const selected = useSelected()
-	// const focused = useFocused()
-	// const html = hljs.highlightAuto('<h1>Hello World!</h1>').value
-	// if ( !focused && props.leaf.code == true ) return <span 
-	// 	{...props.attributes}
-	// 	dangerouslySetInnerHTML={{ __html: html }} />
-
-	return (
-		<span
-			{...props.attributes}
-			style={{ fontWeight: props.leaf.bold ? 'bold' : 'normal' } }
-		>
-			{props.children}
-		</span>
-	)
-}

@@ -1,0 +1,15 @@
+@import "style/colors";
+
+.root {
+    font-weight: 200;
+
+    &.bold {
+        font-weight: 700;
+    }
+
+    &.link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+

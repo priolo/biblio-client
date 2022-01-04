@@ -5,3 +5,9 @@
 - possibilità di "bloccare" un documento
 - possibilità di spostare un foglio a destra/sinistra del successivo/precedente
 - posso chiudere un "doc" dal menu (cliccando su un icona che appare a destra)
+- salvataggio automatico sul BE
+- link
+
+## IDEE
+- le lettere appena scritte risultano piu' "scure"
+- 

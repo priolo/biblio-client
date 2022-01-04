@@ -9,20 +9,20 @@ export function useDoc() {
 	return useStore("doc")
 }
 
-export function getStoreDocSelect () {
+export function getStoreDocSelect() {
 	// prelevo il DOC selezionato dall'URL
 	const docIdSelect = getUrlHash()
 	// di questo ricavo lo STORE-DOC
 	const docStore = getStore(docIdSelect)
-	return docStore
+	return docStore ?? {}
 }
 
-export function useDocSelect () {
+export function useDocSelect() {
 	// prelevo il DOC selezionato dall'URL
 	const docIdSelect = getUrlHash()
 	// di questo ricavo lo STORE-DOC
 	const docStore = useStore(docIdSelect)
-	return docStore
+	return docStore ?? {}
 }
 
 export const BLOCK_TYPE = {

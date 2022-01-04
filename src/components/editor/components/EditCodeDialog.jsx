@@ -2,7 +2,7 @@ import styles from './EditCodeDialog.module.scss'
 
 import Button from 'components/app/Button';
 import Dialog from 'components/app/Dialog';
-import { useEditorDialog } from 'store/editorDialog';
+import { useCodeDialog } from 'store/doc/dialogs/code';
 import Editor from "@monaco-editor/react";
 
 
@@ -13,7 +13,7 @@ export default function EditCodeDialog({
 }) {
 
 	// HOOKs
-	const { state: dialogNs, setIsEditorCodeOpen, setCodeInEdit, updateCode, resetFocus } = useEditorDialog()
+	const { state: dialogNs, setIsEditorCodeOpen, setCodeInEdit, updateCode, resetFocus } = useCodeDialog()
 	
 
 	// HANDLEs
