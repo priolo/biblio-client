@@ -8,28 +8,29 @@ import { useMonaco } from "@monaco-editor/react";
 import ButtonIcon from "components/app/ButtonIcon";
 import BoldIcon from "imeges/icons/BoldIcon";
 import { useCodeDialog } from "store/doc/dialogs/code";
-import { useDocSelect } from "store/doc";
+import { useStore } from "@priolo/jon";
+import { getTextFromElement } from "store/doc";
 
 
-export default function Code(props) {
-	const { attributes, children, element } = props
-
+export default function Code({ 
+	attributes, 
+	element,
+	doc,
+	children, 
+}) {
 
 	// HOOKs
-	const { state: docNs, getEntryByElement, getIdentity } = useDocSelect()
-	if (!docNs) return null
+	const [html, setHtml] = useState("")
+	const { state: docNs, getEntryFromElement, getIdentity } = useStore(doc.identity)
 	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = useCodeDialog()
 	const monaco = useMonaco()
 	const selected = useSelected()
 	const focused = useFocused()
-	const [html, setHtml] = useState("")
+	
+	// recupero tutto il "text" presente nell' "element"
+	const text = useMemo(() => getTextFromElement(element), [element])
 
-
-
-	const text = useMemo(() => {
-		return [...Node.texts(element)].map(t => t[0].text).join("\n")
-	}, [element])
-
+	// ricavo l'html dal testo in base al linguaggio usato
 	useEffect(async () => {
 		if (!monaco) return
 		const res = await monaco.editor.colorize(text, "javascript")
@@ -39,7 +40,7 @@ export default function Code(props) {
 
 	// HANDLERs
 	const handleClickEdit = e => {
-		const entry = getEntryByElement(element)
+		const entry = getEntryFromElement(element)
 		if (!entry) return
 		setDocId(getIdentity())
 		setEntryInEdit(entry)
@@ -49,13 +50,13 @@ export default function Code(props) {
 
 
 	// RENDER
+	if (!docNs) return null	
 	const haveFocus = selected && focused
 	const cnRoot = `${styles.root} ${haveFocus ? styles.focus : ''}`
 
-	return <p className={cnRoot} {...attributes}
-	//contentEditable={false}
-	>
+	return <div className={cnRoot} {...attributes}>
 		<div className={styles.container}>
+
 			{/* questo blocco serve a Slate per non generare un errore */}
 			<div style={{ display: "none" }}>{children}</div>
 
@@ -66,6 +67,5 @@ export default function Code(props) {
 			<div dangerouslySetInnerHTML={{ __html: html }} />
 
 		</div>
-	</p>
-
+	</div>
 }

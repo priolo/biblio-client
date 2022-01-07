@@ -2,7 +2,8 @@ import styles from "./HeaderCmp.module.scss"
 
 import ButtonIcon from "components/app/ButtonIcon"
 import CancelIcon from "imeges/icons/CancelIcon"
-import { useUrl } from "store/url"
+import { getUrlByIdentity, useUrl } from "store/url"
+import { clipboard } from "@priolo/jon-utils"
 
 
 
@@ -10,22 +11,27 @@ export default function HeaderCmp({
 	title,
 	subtitle,
 	date,
-	identity,
+	element,
 }) {
 
 	// HOOKs
-
 	const { removeIdentity } = useUrl()
 
-	// HANDLERs
 
-	const handleOnClose = event => {
+	// HANDLERs
+	const handleClose = event => {
 		event.stopPropagation();
-    	event.preventDefault();
-		removeIdentity ( identity )
+		event.preventDefault();
+		removeIdentity(element.identity)
+	}
+	const handleCopyLink = event => {
+		const url = getUrlByIdentity(element.identity)
+		clipboard.set(url)
 	}
 
+
 	// RENDER
+	const linkVisible = !!element?.identity
 
 	return (
 		<div className={styles.container}>
@@ -34,9 +40,12 @@ export default function HeaderCmp({
 					{title}
 				</div>
 				<div className={styles.icons}>
-					<ButtonIcon onClick={handleOnClose}>
+					<ButtonIcon onClick={handleClose}>
 						<CancelIcon />
 					</ButtonIcon>
+					{linkVisible && <ButtonIcon onClick={handleCopyLink}>
+						L
+					</ButtonIcon>}
 				</div>
 			</div>
 			<div className={styles.down}>

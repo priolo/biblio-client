@@ -1,26 +1,25 @@
 import styles from "./Image.module.scss"
 import { useRef } from 'react';
 import { ReactEditor, useFocused, useSelected } from "slate-react"
-import { useDocSelect } from "store/doc";
 import { Transforms } from "slate";
 import ButtonIcon from "components/app/ButtonIcon";
 import BoldIcon from "imeges/icons/BoldIcon";
 import { urlDataFromFile, urlDataResize } from "store/doc/withImages";
+import { useStore } from "@priolo/jon";
 
 
 export default function ImageCmp({
-	attributes,
+	attributes, 
 	element,
-	children
+	doc,
+	children, 
 }) {
 
 	// HOOKs
-	const { state: docNs, modifyNode } = useDocSelect()
-	if ( !docNs ) return null
-
+	const { state: docNs, getPathFromElement, modifyNode } = useStore(doc.identity)
 	const selected = useSelected()
 	const focused = useFocused()
-	const inputRef = useRef(null)
+	const inputRef = useRef(null) // input file
 
 
 	// HANDLERs
@@ -28,7 +27,7 @@ export default function ImageCmp({
 		inputRef.current.click()
 	}
 	const handleClickImg = e => {
-		const path = ReactEditor.findPath(docNs.editor, element);
+		const path = getPathFromElement(element)
 		Transforms.select(docNs.editor, path)
 	}
 	const handleRemoveImg = e => {
@@ -39,10 +38,12 @@ export default function ImageCmp({
 		inputRef.current.value = ""
 		let urlData = await urlDataFromFile(file)
 		urlData = await urlDataResize(urlData)
-		modifyNode(element, { url: urlData })
+		modifyNode({ element, props: { url: urlData } })
 	}
 
+
 	// RENDER
+	if (!docNs) return null
 	const cnImage = `${styles.image} ${selected && focused ? styles.focus : ''}`
 	const cnRoot = `${styles.root} ${selected && focused ? styles.focus : ''}`
 	const haveUrl = element.url && element.url.length > 0

@@ -1,5 +1,8 @@
 import { Transforms } from "slate"
 import { BLOCK_TYPE } from "."
+import utils from "@priolo/jon-utils"
+
+
 
 /**
  * Extend "withReact" di Slate
@@ -7,7 +10,7 @@ import { BLOCK_TYPE } from "."
  * @param {*} editor 
  * @returns 
  */
-export const withImages = editor => {
+export function withImages (editor) {
 	const { insertData, isVoid } = editor
 
 	// editor.isVoid = element => {
@@ -22,30 +25,32 @@ export const withImages = editor => {
 			for (const file of files) {
 				const urlData = await urlDataFromFile(file)
 				insertImage(editor, urlData)
+				return null
 			}
-		} else if (isImageUrl(text)) {
+		} else if (utils.isUrlImage(text)) {
 			insertImage(editor, text)
-		} else {
-			insertData(data)
+			return null
 		}
+		return insertData
 	}
 
 	return editor
 }
 
-const insertImage = (editor, url) => {
+/**
+ * Inserisce un "url-data" nell'editor (dove è attualmente selezionato)
+ */
+function insertImage (editor, url) {
 	const text = { text: '' }
 	const image = { type: BLOCK_TYPE.IMAGE, url, children: [text] }
 	Transforms.insertNodes(editor, image)
 }
 
-const isImageUrl = url => {
-	if (!url) return false
-	if (!isUrl(url)) return false
-	const ext = new URL(url).pathname.split('.').pop()
-	return imageExtensions.includes(ext)
-}
-
+/**
+ * Restituisco un "url-data" a fronte di un "file"
+ * @param {File} file 
+ * @returns {Promise<string>}
+ */
 export async function urlDataFromFile( file ) {
 	const [mime] = file.type.split('/')
 	if (mime != 'image') return null
@@ -58,6 +63,11 @@ export async function urlDataFromFile( file ) {
 	})
 }
 
+/**
+ * Ridimensiona un immagine "url-data"
+ * @param {string} urlData
+ * @returns {string}
+ */
 export async function urlDataResize( urlData ) {
 	//const url = reader.result
 	return new Promise ( (res,rej) => {

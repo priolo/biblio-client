@@ -2,7 +2,6 @@ import styles from './EditTypeDialog.module.scss'
 
 import DialogVertical from 'components/app/DialogVertical'
 import Item from './Item'
-import { useDocSelect } from 'store/doc'
 import ButtonIcon from 'components/app/ButtonIcon'
 import BoldIcon from 'imeges/icons/BoldIcon'
 import ItalicIcon from 'imeges/icons/ItalicIcon'
@@ -22,10 +21,7 @@ export default function EditTypeDialog({
 
     // HOOKs
     const { state: dialog, close, isSelected } = useTypeDialog()
-    const { state: docNs, changeSelectTypeAndMerge, changeSelectText, entryTextSelect } = useStore(element.identity)
-    if (!docNs || docNs.type != ELEMENT_TYPE.DOC) return null
-
-    const [leaf] = entryTextSelect()
+    const { state: docNs, changeSelectTypeAndMerge, changeSelectText, getEntryTextSelect, isSelect } = useStore(element.identity)
 
 
     // HANDLE
@@ -46,7 +42,9 @@ export default function EditTypeDialog({
 
 
     // RENDER
-    const isOpen = element.identity == dialog.idOpen
+    if (!docNs || docNs.type != ELEMENT_TYPE.DOC) return null
+    const [leaf] = getEntryTextSelect()
+    const isOpen = isSelect()//element.identity == dialog.idOpen
 
     const test = [
         { label: "primo" },

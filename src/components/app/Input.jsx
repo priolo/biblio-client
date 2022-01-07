@@ -5,21 +5,22 @@ import styles from './Input.module.scss';
 export default function Input({
 	value,
 	renderEnd,
-	onChange,
+	//onChange,
 	refInput,
 	...props
 }) {
 
-	const handleChange = e => onChange?.(e)
+	//const handleChange = e => onChange?.(e)
 
     return (
 		<div className={styles.container}>
 			<input 
 				className={styles.input}
 				type="text"
-				onChange={handleChange}
+				//onChange={handleChange}
 				value={value}
 				ref={refInput}
+				
 				{...props}
 			/>
 			{renderEnd && <div className={styles.end}>

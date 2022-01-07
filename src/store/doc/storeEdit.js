@@ -13,7 +13,7 @@ const store = {
 
 		/** 
 		 * Restituisce tutti i ELEMENT_TYPE attualmente selezionati 
-		 * @returns Array<ELEMENT_TYPE>
+		 * @returns {Array<ELEMENT_TYPE>}
 		 **/
 		getSelectedTypes: (state, _, store) => {
 			// ricavo le ENTRY selezionate
@@ -26,8 +26,8 @@ const store = {
 		},
 
 		/**
-		 * Restituisce il primo ENTRY attualmente selezionato
-		 * @returns NodeEntry
+		 * Restituisce il primo NODE-ENTRY attualmente selezionato
+		 * @returns {NodeEntry}
 		 */
 		getFirstSelectEntry: (state, _, store) => {
 			const entry = Editor.node(state.editor,
@@ -38,21 +38,29 @@ const store = {
 		},
 
 		/**
-		 * restituisce il LEAF selezionato in questo momento
-		 * @returns EntryNode
+		 * il LEAF SELECTED 
+		 * @returns {NodeEntry<Text>}
 		 */
-		 entryTextSelect: (state, _, store) => {
-			const [entry] = Editor.nodes(state.editor, {
-				match: n => Text.isText(n),
-				mode: "lowest",
-			})
+		// getEntryTextSelect: (state, _, store) => {
+		// 	const [entry] = Editor.nodes(state.editor, {
+		// 		match: n => Text.isText(n),
+		// 		mode: "lowest",
+		// 	})
+		// 	return entry ?? [{}]
+		// },
+		getEntryTextSelect: (state, _, store) => {
+			if ( !state.editor.selection ) return [{}]
+			const entry = Editor.leaf(state.editor, Range.start(state.editor.selection))
 			return entry ?? [{}]
 		},
 
+
 		/**
-		 * cerco la ENTRY di questo componente nello STORE-DOC
+		 * cerco e restituisco la NODE-ENTRY in base ad un ELEMENT
+		 * @param {Element} element
+		 * @return {NodeEntry}
 		 **/
-		getEntryByElement: (state, element, store) => {
+		getEntryFromElement: (state, element, store) => {
 			const [match] = Editor.nodes(state.editor, {
 				match: n => n === element,
 				at: [],
@@ -61,12 +69,26 @@ const store = {
 			return match
 		},
 
+		/**
+		 * restituisco la PATH dell'ELEMENT
+		 * che indica la sua posizione nel editor
+		 * @param {Element} element 
+		 * @returns {Path}
+		 */
+		getPathFromElement: (state, element, store) => {
+			// ATTENZIONE non funziona con i TEXT
+			const path = ReactEditor.findPath(state.editor, element)
+			return path
+		},
+
+
+
 
 	},
 	actions: {
 
 		/**
-		 * Aggiorna il testo selezionato con le proprietà passate come parametro
+		 * Aggiorna il testo SELECTED con le proprietà passate come parametro
 		 * usato nella "dialog vertical" per esempio per impostare il BOLD
 		 */
 		changeSelectText: (state, nodePartial, store) => {
@@ -76,6 +98,48 @@ const store = {
 				{ match: n => Text.isText(n), split: true }
 			)
 		},
+
+		setFocus: (state, _, store) => {
+			Transforms.select(state.editor, state.editor.selection)
+			//ReactEditor.focus(state.editor)
+		},
+
+		/**
+		 * Inserisco un NODE nel PATH indicato e lo seleziono
+		 */
+		addNode: (state, { path, node, options }, store) => {
+			// prendo il prossimo PATH [number]
+			const pathNext = Path.next(path)
+			// inserisco un NODE nel prossimo PATH
+			Transforms.insertNodes(state.editor, node, { at: pathNext })
+			// lo seleziono
+			if (options?.select) Transforms.select(state.editor, pathNext)
+		},
+
+		modifyNode: (state, { element, props }, store) => {
+			const { editor } = state
+			// ATTENZIONE funziona solo per 
+			const path = store.getPathFromElement(element)
+			Transforms.setNodes(
+				editor,
+				props,
+				{
+					at: path,
+					mode: 'highest',
+					voids: true,
+				}
+			)
+		},
+
+
+
+
+
+
+
+
+
+
 
 		/**
 		 * Elimino i BLOCKs selezionati, li unisco in un unico TYPE e li reinserisco
@@ -93,11 +157,8 @@ const store = {
 					elementUpdate,
 					{ match: n => Editor.isBlock(editor, n) }
 				)
-				console.log("single")
 				return
 			}
-
-
 
 			const span = [[Math.min(selectA, selectB)], [Math.max(selectA, selectB)]]
 			// prendo tutti i TEXT presenti nello SPAN
@@ -149,42 +210,6 @@ const store = {
 		// },
 
 		// da verificare
-		setFocus: (state, _, store) => {
-			//console.log("set focus")
-			//Transforms.select(state.editor, [0])
-		},
-
-
-		/**
-		 * Inserisco un NODE nel PATH indicato e lo seleziono
-		 */
-		addNode: (state, { path, node, options }, store) => {
-			// prendo il prossimo PATH [number]
-			const pathNext = Path.next(path)
-			// inserisco un NODE nel prossimo PATH
-			Transforms.insertNodes(state.editor, node, { at: pathNext })
-			// lo seleziono
-			if (options?.select) Transforms.select(state.editor, pathNext)
-		},
-
-		modifyNode: (state, { element, props }, store) => {
-			const { editor } = state
-			// ATTENZIONE funziona solo per 
-			const path = ReactEditor.findPath(editor, element)
-			Transforms.setNodes(
-				editor,
-				props,
-				{
-					at: path,
-					mode: 'highest',
-					voids: true,
-				}
-			)
-		},
-
-
-
-
 	},
 	mutators: {
 	},

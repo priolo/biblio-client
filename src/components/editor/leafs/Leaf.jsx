@@ -14,20 +14,20 @@ export default function Leaf ({
 	attributes,
 	leaf,
 	children,
-	element,
+	doc,
 }) {
 
 
 	// HANDLER
 	const handleClick = leaf.link ? (e) => {
 		const { open } = getStoreLinkPopUp()
-		const { state:docNs } = getStore(element.identity)
+		const { state:docNs, getEntryTextSelect } = getStore(doc.identity)
 		
 		const left = e.target.offsetLeft// + e.target.offsetWidth
 		const top = e.target.offsetTop + e.target.offsetHeight
-		const entry = Editor.leaf(docNs.editor, Range.start(docNs.editor.selection))
+		const entry = getEntryTextSelect()
 		open({ 
-			id: element.identity,
+			id: doc.identity,
 			position: { 
 				left,
 				top,

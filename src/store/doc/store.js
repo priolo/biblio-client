@@ -12,7 +12,32 @@ import { withCode } from "./withCode"
 import { docImg } from "./docs.mock"
 import { getStoreTypeDialog } from "./dialogs/type"
 import { getStoreLinkPopUp } from "./dialogs/link"
+import utils from "@priolo/jon-utils"
 
+
+function withLink(editor) {
+	const { insertData } = editor
+
+	editor.insertData = (data) => {
+		const fnOrigin = insertData(data)
+		if (!fnOrigin) return null
+
+		const text = data.getData('text/plain')
+		if (utils.isUrl(text)) {
+			Editor.insertNode(editor, {
+				type: BLOCK_TYPE.TEXT, 
+				children: [{ 
+					link: true,
+					text: text, 
+					url: text,
+				}]
+			})
+			return null
+		}
+		return fnOrigin
+	}
+	return editor
+}
 
 const store = {
 
@@ -24,7 +49,7 @@ const store = {
 		subtitle: "Mbeh se è per questo anche questo lo è!",
 		date: "14/08/1975",
 		value: [
-			{ "type": "text", "children": [{ text: "" }] },
+			{ "type": BLOCK_TYPE.TEXT, "children": [{ text: "" }] },
 		],
 		editor: null,
 	},
@@ -32,8 +57,8 @@ const store = {
 	init: (store) => {
 		// creo l'editor
 		const { getSelectedTypes } = store
-		const editor = withImages(withCode(withHistory(withReact(createEditor()))))
-		const { onChange } = editor
+		const editor = withLink(withImages(withCode(withHistory(withReact(createEditor())))))
+		const { onChange, insertData } = editor
 		editor.onChange = () => {
 			const { setItemsIdSelect } = getStoreTypeDialog()
 			//const { open } = getStoreLinkPopUp()
@@ -56,6 +81,12 @@ const store = {
 			// 	})
 			// }
 		}
+		editor.insertData = async (data) => {
+			const fnOrigin = await insertData(data)
+			if ( !fnOrigin ) return null
+			await fnOrigin(data)
+		}
+
 
 		store.setEditor(editor)
 		store.load()
@@ -65,9 +96,11 @@ const store = {
 
 		/** indica che (true) il documento non è stato ancora salvato sul server  */
 		isNew: (state, _, store) => true,
+
 		/** Restituisce l'IDENTITY dell'ELEMENT che contiene questo DOC*/
 		getIdentity: (state, _, store) => composeIdentity(state.type, state.id),
 
+		/** [bool] se questo DOCUMENT è attualmente selezionato */
 		isSelect: (state, _, store) => {
 			// prelevo il DOC selezionato dall'URL
 			const docIdSelect = getUrlHash()

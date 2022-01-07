@@ -37,8 +37,6 @@ const store = {
 			return elements
 		},
 
-
-
 	},
 	actions: {
 

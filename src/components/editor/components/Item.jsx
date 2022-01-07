@@ -9,12 +9,12 @@ export default function Item({
 
 	// HOOKs
 
-	// HANDLE
 	
+	// HANDLE
 	const handleClick = e => onClick(item, e)
 
-	// RENDER
 
+	// RENDER
 	const cnRoot = `${styles.root} ${isSelect ? styles.select : ""}`
 
 	return (

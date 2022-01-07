@@ -18,7 +18,7 @@ export default function BiblioEditable({
 
 	// HOOKs
 
-	const { state: doc, changeSelectText, entryTextSelect, getFirstSelectEntry, addNode } = useStore(element.identity)
+	const { state: doc, changeSelectText, getEntryTextSelect, getFirstSelectEntry, addNode } = useStore(element.identity)
 
 	// HANDLE
 	const handleKeyDown = event => {
@@ -46,7 +46,7 @@ export default function BiblioEditable({
 
 			case 'b': {
 				event.preventDefault()
-				const [leaf] = entryTextSelect()
+				const [leaf] = getEntryTextSelect()
 				changeSelectText({ bold: !leaf.bold })
 				break
 			}
@@ -56,8 +56,8 @@ export default function BiblioEditable({
 	// RENDER
 	return (
 		<Editable
-			renderElement={BiblioElement}
-			renderLeaf={props => <BiblioLeaf {...props} element={element} />}
+			renderElement={props => <BiblioElement {...props} doc={element}/>}
+			renderLeaf={props => <BiblioLeaf {...props} doc={element} />}
 			onFocus={onFocus}
 			onBlur={onBlur}
 			onKeyDown={handleKeyDown}

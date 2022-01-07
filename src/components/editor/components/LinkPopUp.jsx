@@ -3,7 +3,7 @@ import styles from './LinkPopUp.module.scss'
 import PopUp from 'components/app/popup/PopUp'
 import { useLinkPopUp } from 'store/doc/dialogs/link'
 import Input from 'components/app/Input'
-import { Editor, Transforms } from 'slate'
+import { Editor, Node, Transforms } from 'slate'
 import { useStore } from '@priolo/jon'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
@@ -15,28 +15,26 @@ export default function LinkPopUp({
     element
 }) {
 
-
     // HOOKs
-    const { state: docNs } = useStore(element.identity)
-    const { state: linkNs } = useLinkPopUp()
-    if (!linkNs.path || (linkNs.idOpen && element.identity != linkNs.idOpen)) return null
+    const { state: docNs, setFocus } = useStore(element.identity)
+    const { state: linkNs, close } = useLinkPopUp()
+    const [ value, setValue ] = useState("")
 
-    const path = linkNs.path
-    const [node] = Editor.leaf(docNs.editor, path)
     const isOpen = element.identity == linkNs.idOpen
-
-    const [ value, setValue ] = useState(node.url)
-
     const refInput = useCallback((nodeDom) => {
-        if (!nodeDom || !isOpen) return
+        if (!nodeDom || !isOpen || !path) return
+        if ( !Node.has(docNs.editor, path) ) return
+        const [node] = Editor.leaf(docNs.editor, path)
+    
+        setValue(node.url)
         setTimeout(()=>nodeDom.select(), 200)
     }, [isOpen])
-
+    
 
     // HANDLE
     const handleChange = (e) => {
         const url = e.target.value
-        //setValue(url)
+        setValue(url)
         const nodeUpdate = { url }
         Transforms.setNodes(docNs.editor,
             nodeUpdate,
@@ -47,8 +45,19 @@ export default function LinkPopUp({
         )
     }
 
-//console.log(node.url)
+    const handleKeyDown = (e) => {
+        if (e.key == "Enter" || e.key == "Escape") {
+            e.preventDefault()
+            close()
+            setFocus()
+        }
+    }
+
+
     // RENDER
+    if (!linkNs.path || (linkNs.idOpen && element.identity != linkNs.idOpen)) return null
+    const path = linkNs?.path
+
     return (
         <PopUp
             position={linkNs.position}
@@ -57,8 +66,9 @@ export default function LinkPopUp({
             <Input
                 tabIndex={0}
                 className={styles.input}
-                value={value}
+                value={value ?? ""}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
                 refInput={refInput}
             />
         </PopUp>

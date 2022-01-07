@@ -10,7 +10,7 @@ const store = {
 
 		// dialog edit BLOCK_TYPE
 		//isOpen: false,
-		idOpen: null, 
+		//idOpen: null, 
 
 		/** lista di elementi da visualizzare nella dialog  
 		 * `{ id:string, label:string, desc: string }`
@@ -33,24 +33,21 @@ const store = {
 	},
 	actions: {
 		
-		/** Apre la DIALOG setandone la posizione */
-		open: (state, identity, store) => {
-			//store.setPosition(position)
-		//	store.setIsOpen(true)
-			store.setIdOpen(identity)
-		},
+		// /** Apre la DIALOG setandone la posizione */
+		// open: (state, identity, store) => {
+		// 	store.setIdOpen(identity)
+		// },
 
-		/** Chiude la DIALOG  */
-		close: (state, _, store) => {
-		//	store.setIsOpen(false)
-			store.setIdOpen(null)
-		},
+		// /** Chiude la DIALOG  */
+		// close: (state, _, store) => {
+		// 	store.setIdOpen(null)
+		// },
 
 	},
 	mutators: {
 		//setIsOpen: (state, isOpen) => ({ isOpen }),
 		//setPosition: (state, position) => ({ position }),
-		setIdOpen: (state, idOpen) => ({ idOpen }),
+		//setIdOpen: (state, idOpen) => ({ idOpen }),
 
 		setItems: (state, items) => ({ items }),
 		setItemsIdSelect: (state, itemsIdSelect) => ({ itemsIdSelect }),

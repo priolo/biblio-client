@@ -19,7 +19,6 @@ export default function DocLayout({
 	element,
 }) {
 
-
 	// HOOKs
 	const { state: doc, fetch, setValue, getSelectedTypes, isSelect } = useStore(element.identity)
 	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useTypeDialog()
@@ -30,21 +29,16 @@ export default function DocLayout({
 		_update()
 	}, [])
 
-	const slateRef = useRef(null)
-
 	useEffect(() => {
 		if (dialog.isEditorCodeOpen) return
 		ReactEditor.focus(doc.editor)
 	}, [dialog.isEditorCodeOpen])
 
-	const dosIsSelect = isSelect()
-	useEffect(() => {
-		if ( dosIsSelect ) {
-			openDialog(element.identity)
-		} else {
-			closeDialog()
-		}
-	}, [dosIsSelect])
+	// const dosIsSelect = isSelect()
+	// useEffect(() => {
+	// 	if ( !dosIsSelect ) return
+	// 	openDialog(element.identity)
+	// }, [dosIsSelect])
 
 
 
@@ -60,7 +54,7 @@ export default function DocLayout({
 	}
 
 	const handleChange = newValue => {
-		setValue(newValue)
+		//setValue(newValue)
 	}
 
 
@@ -85,14 +79,13 @@ export default function DocLayout({
 					title={doc.title}
 					subtitle={doc.subtitle}
 					date={doc.date}
-					identity={element.identity}
+					element={element}
 				/>
 
 				<div className={styles.body}>
 
 
 					<Slate
-						ref={slateRef}
 						editor={doc.editor}
 						value={doc.value}
 						onChange={handleChange}
@@ -105,9 +98,6 @@ export default function DocLayout({
 					</Slate>
 
 					<EditLinkPopUp element={element} />
-
-
-
 
 				</div>
 

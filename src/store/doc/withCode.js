@@ -2,7 +2,7 @@ import { BLOCK_TYPE } from "."
 
 /**
  * Extend "withReact" di Slate
- * per gestire il drag delle immagini
+ * per gestire il BLOCK "code"
  * @param {*} editor 
  * @returns 
  */

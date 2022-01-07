@@ -34,20 +34,41 @@ export const ElementTypeLevel = {
 
 
 
-
+/**
+ * compone un IDENTITY
+ * @param {ELEMENT_TYPE} type 
+ * @param {string} id 
+ * @returns string
+ */
 export function composeIdentity(type, id) {
 	const identity = `${type}${id ? `_${id}` : ""}`
 	return identity
 }
+
+/**
+ * decompone un identity
+ * @param {string} identity 
+ * @returns object
+ */
 export function decomposeIdentity(identity) {
 	const [type, id] = identity.split("_")
 	const level = ElementTypeLevel[type]
 	return { type, id, level, identity }
 }
 
+/**
+ * Restituisce l'url di un ELEMENT tramite la sua "identity"
+ */
+ export function getUrlByIdentity ( identity ) {
+	return `${window.location.origin}/app?i=${identity}`
+}
 
-
-
+/**
+ * Restituisce il valore di una proprietà
+ * inserita nella "query" dell'url
+ * @param {string} name 
+ * @returns string
+ */
 export function getUrlValue(name) {
 	const searchParams = new URLSearchParams(window.location.search)
 	return searchParams.get(name)
@@ -82,3 +103,5 @@ export function indexIdentity(identity) {
 	const identities = getIdentities()
 	return identities.indexOf(identity)
 }
+
+
