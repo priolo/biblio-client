@@ -1,7 +1,6 @@
 import styles from './Leaf.module.scss'
 import { getStoreLinkPopUp } from 'store/doc/dialogs/link'
 import { getStore } from '@priolo/jon'
-import { Editor, Range } from 'slate'
 
 
 // [II] mettere fuori
@@ -16,7 +15,6 @@ export default function Leaf ({
 	children,
 	doc,
 }) {
-
 
 	// HANDLER
 	const handleClick = leaf.link ? (e) => {
@@ -39,7 +37,6 @@ export default function Leaf ({
 
 	// RENDER
 	const cnRoot = `${styles.root} ${leaf.bold ? styles.bold : ""} ${leaf.link ? styles.link : ""}`
-
 	return (
 		<span
 			{...attributes}

@@ -26,7 +26,7 @@ const store = {
 		},
 
 		/**
-		 * Restituisce il primo NODE-ENTRY attualmente selezionato
+		 * Restituisce il primo NODE-ENTRY attualmente SELECTED
 		 * @returns {NodeEntry}
 		 */
 		getFirstSelectEntry: (state, _, store) => {
@@ -38,7 +38,7 @@ const store = {
 		},
 
 		/**
-		 * il LEAF SELECTED 
+		 * il LEAF attualmente SELECTED 
 		 * @returns {NodeEntry<Text>}
 		 */
 		// getEntryTextSelect: (state, _, store) => {
@@ -49,7 +49,7 @@ const store = {
 		// 	return entry ?? [{}]
 		// },
 		getEntryTextSelect: (state, _, store) => {
-			if ( !state.editor.selection ) return [{}]
+			if (!state.editor.selection) return [{}]
 			const entry = Editor.leaf(state.editor, Range.start(state.editor.selection))
 			return entry ?? [{}]
 		},
@@ -100,8 +100,10 @@ const store = {
 		},
 
 		setFocus: (state, _, store) => {
-			Transforms.select(state.editor, state.editor.selection)
-			//ReactEditor.focus(state.editor)
+			const selection = state.editor.selection
+			Transforms.deselect(state.editor)
+			ReactEditor.focus(state.editor)
+			Transforms.select(state.editor, selection)
 		},
 
 		/**
