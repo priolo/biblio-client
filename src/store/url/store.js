@@ -40,7 +40,10 @@ const store = {
 	},
 	actions: {
 
-		/** Aggiunge un elemento ala collezione di documenti visualizzati */
+		/** 
+		 * Aggiunge un elemento ala collezione di documenti visualizzati 
+		 * 
+		 * */
 		addIdentity: async (state, { identity, by = "level", rightOf, focus }, store) => {
 			let identities = getIdentities()
 

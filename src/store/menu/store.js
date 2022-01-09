@@ -1,6 +1,7 @@
 /* eslint eqeqeq: "off" */
 import { ELEMENT_TYPE, composeIdentity, getStoreUrl, haveIdentity, getUrlHash } from "store/url"
 import { getStore } from "@priolo/jon"
+import { MAIN_MENU_ITEMS } from "."
 
 
 const store = {
@@ -26,7 +27,7 @@ const store = {
 			},
 			{
 				label: "Authors",
-				name: "authors",
+				name: MAIN_MENU_ITEMS.AUTHORS,
 				selected: false,
 				disabled: false,
 			},
@@ -35,13 +36,13 @@ const store = {
 		secondary: [
 			{
 				label: "Login",
-				name: "login",
+				name: MAIN_MENU_ITEMS.LOGIN,
 				selected: false,
 				disabled: false,
 			},
 			{
 				label: "Register",
-				name: "register",
+				name: MAIN_MENU_ITEMS.REGISTER,
 				selected: false,
 				disabled: false,
 			},

@@ -1,9 +1,8 @@
 import styles from "./MenuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
-import { useMenu } from "store/menu"
-import { ELEMENT_TYPE, composeIdentity } from "store/url"
-import { useUrl } from "store/url"
+import { MAIN_MENU_ITEMS, useMenu } from "store/menu"
+import { useUrl, ELEMENT_TYPE, composeIdentity } from "store/url"
 
 
 export default function MenuLayout() {
@@ -17,7 +16,7 @@ export default function MenuLayout() {
 
 	const handleClickMain = (item) => {
 		switch (item.name) {
-			case "authors":
+			case MAIN_MENU_ITEMS.AUTHORS:
 				addIdentity({ 
 					identity: composeIdentity(ELEMENT_TYPE.AUTHORS), 
 					focus: true 
@@ -29,7 +28,14 @@ export default function MenuLayout() {
 		setHash(item.element.identity)
 	}
 	const handleClickSecondary = (item) => {
-		
+		switch (item.name) {
+			case MAIN_MENU_ITEMS.LOGIN:
+				addIdentity({ 
+					identity: composeIdentity(ELEMENT_TYPE.LOGIN), 
+					focus: true 
+				})
+				break
+		}
 	}
 
 	// RENDER

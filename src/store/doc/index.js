@@ -2,6 +2,10 @@ import { getStore, useStore } from '@priolo/jon'
 import { Node } from 'slate'
 //import { getUrlHash } from 'store/url'
 
+
+
+
+
 export function getStoreDoc() {
 	return getStore("doc")
 }
@@ -66,3 +70,4 @@ export function getTextFromElement(element) {
 	const text = [...Node.texts(element)].map(t => t[0].text).join("\n")
 	return text
 }
+

@@ -61,7 +61,6 @@ export default function BiblioEditable({
 			onFocus={onFocus}
 			onBlur={onBlur}
 			onKeyDown={handleKeyDown}
-			
 		/>
 	)
 }

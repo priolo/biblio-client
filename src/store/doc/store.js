@@ -1,43 +1,19 @@
 /* eslint eqeqeq: "off" */
-import { BLOCK_TYPE } from "."
-import { ReactEditor, withReact } from 'slate-react'
+import { BLOCK_TYPE, fetchDocument } from "."
+import { withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { createEditor, Editor, Range } from 'slate'
+import { createEditor, Editor, Transforms } from 'slate'
 import { time } from "@priolo/jon-utils"
 import { mixStores } from "@priolo/jon"
 import { withImages } from "./withImages"
 import { composeIdentity, ELEMENT_TYPE, getUrlHash } from "store/url"
 import storeEdit from "./storeEdit"
 import { withCode } from "./withCode"
-import { docImg } from "./docs.mock"
+
 import { getStoreTypeDialog } from "./dialogs/type"
-import { getStoreLinkPopUp } from "./dialogs/link"
-import utils from "@priolo/jon-utils"
+import { withLink } from "./withLink"
+import { docImg } from "./docs.mock"
 
-
-function withLink(editor) {
-	const { insertData } = editor
-
-	editor.insertData = (data) => {
-		const fnOrigin = insertData(data)
-		if (!fnOrigin) return null
-
-		const text = data.getData('text/plain')
-		if (utils.isUrl(text)) {
-			Editor.insertNode(editor, {
-				type: BLOCK_TYPE.TEXT, 
-				children: [{ 
-					link: true,
-					text: text, 
-					url: text,
-				}]
-			})
-			return null
-		}
-		return fnOrigin
-	}
-	return editor
-}
 
 const store = {
 
@@ -48,54 +24,34 @@ const store = {
 		title: "Questo testo è statico",
 		subtitle: "Mbeh se è per questo anche questo lo è!",
 		date: "14/08/1975",
-		value: [
-			{ "type": BLOCK_TYPE.TEXT, "children": [{ text: "" }] },
-		],
 		editor: null,
 	},
 
-	init: (store) => {
+	init: async (store) => {
 		// creo l'editor
 		const { getSelectedTypes } = store
+		const identity = store.getIdentity()
 		const editor = withLink(withImages(withCode(withHistory(withReact(createEditor())))))
-		const { onChange, insertData } = editor
+
+		const { insertData } = editor
+
 		editor.onChange = () => {
 			const { setItemsIdSelect } = getStoreTypeDialog()
-			//const { open } = getStoreLinkPopUp()
-
-			//onChange()
-			store.setValue(editor.children)
-
+			time.debounce(identity, () => store.save(), 2000)
 			const types = getSelectedTypes()
 			setItemsIdSelect(types)
-
-			// const leaf = Editor.leaf(editor, Range.start(editor.selection))
-			// if (leaf && leaf[0].link) {
-			// 	const domNode = ReactEditor.toDOMNode(editor, leaf[0])
-			// 	const left = domNode.offsetLeft// + mboh.offsetWidth
-			// 	const top = domNode.offsetTop + domNode.offsetHeight
-			// 	open({
-			// 		id: store.getIdentity(),
-			// 		position: { left, top },
-			// 		leaf,
-			// 	})
-			// }
 		}
+
 		editor.insertData = async (data) => {
 			const fnOrigin = await insertData(data)
-			if ( !fnOrigin ) return null
+			if (!fnOrigin) return null
 			await fnOrigin(data)
 		}
 
-
 		store.setEditor(editor)
-		store.load()
 	},
 
 	getters: {
-
-		/** indica che (true) il documento non è stato ancora salvato sul server  */
-		isNew: (state, _, store) => true,
 
 		/** Restituisce l'IDENTITY dell'ELEMENT che contiene questo DOC*/
 		getIdentity: (state, _, store) => composeIdentity(state.type, state.id),
@@ -110,45 +66,37 @@ const store = {
 
 	actions: {
 
+		/**
+		 * Recupera il JSON di un documento tramite il suo id
+		 */
 		fetch: (state, _, store) => {
-			// const doc = docs.find(doc => doc.id == state.id)
-			// const newState = { ...state, ...doc }
-			// store._update(newState)
+			const identity = store.getIdentity()
+
+			const storage = window.localStorage
+			let value = storage.getItem(identity)
+			if (value) {
+				try {
+					value = JSON.parse(value)
+				} catch ( _ ) {
+					value = null
+				}
+			}
+			if (!value) {
+				value = docImg
+			}
+			Transforms.insertNodes(state.editor, value)
 		},
 
 		/** memorizza lo stato di questo documento */
 		save: (state, _, store) => {
 
-			// se il doc non è stato ancora creato sul server allora lo memorizzo in locale
-			if (store.isNew()) {
-				const storage = window.localStorage
-				const value = JSON.stringify(state.value)
-				storage.setItem(store.getIdentity(), value)
-				return
-			}
+			// lo memorizzo temporaneamente in locale
+			const storage = window.localStorage
+			const value = JSON.stringify(state.value)
+			storage.setItem(store.getIdentity(), value)
 
 			// va salvato sul server
 			// ...
-		},
-
-		load: (state, _, store) => {
-			let value
-
-			// se è nuovo cerco il documento nel localStorage
-			if (store.isNew()) {
-				const storage = window.localStorage
-				value = storage.getItem(store.getIdentity())
-				if (value) value = JSON.parse(value)
-			}
-
-			if (!value) {
-				value = docImg
-			}
-
-			// il doc è gia' presente sul server allora lo carico
-			// TODO: caricare il doc dal server
-
-			store.setValue(value)
 		},
 
 		onClose: (state, _, store) => {
@@ -156,11 +104,6 @@ const store = {
 		},
 	},
 	mutators: {
-		setValue: (state, value, store) => {
-			const identity = store.getIdentity()
-			time.debounce(identity, () => store.save(), 2000)
-			return { value }
-		},
 		setEditor: (state, editor) => ({ editor }),
 	},
 }

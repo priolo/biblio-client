@@ -20,7 +20,7 @@ export default function EditTypeDialog({
 }) {
 
     // HOOKs
-    const { state: dialog, close, isSelected } = useTypeDialog()
+    const { state: dialog, isSelected } = useTypeDialog()
     const { state: docNs, changeSelectTypeAndMerge, changeSelectText, getEntryTextSelect, isSelect } = useStore(element.identity)
 
 

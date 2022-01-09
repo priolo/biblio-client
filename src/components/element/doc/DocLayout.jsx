@@ -8,7 +8,6 @@ import { ReactEditor, Slate } from 'slate-react'
 
 import { useStore } from "@priolo/jon"
 
-import { useUrl } from "store/url"
 import { useTypeDialog } from "store/doc/dialogs/type"
 
 import EditLinkPopUp from 'components/editor/components/LinkPopUp';
@@ -20,13 +19,11 @@ export default function DocLayout({
 }) {
 
 	// HOOKs
-	const { state: doc, fetch, setValue, getSelectedTypes, isSelect } = useStore(element.identity)
-	const { state: dialog, open: openDialog, close: closeDialog, setItemsIdSelect } = useTypeDialog()
-	const { _update } = useUrl()
+	const { state: doc, fetch, } = useStore(element.identity)
+	const { state: dialog, } = useTypeDialog()
 
 	useEffect(() => {
 		fetch()
-		_update()
 	}, [])
 
 	useEffect(() => {
@@ -34,27 +31,12 @@ export default function DocLayout({
 		ReactEditor.focus(doc.editor)
 	}, [dialog.isEditorCodeOpen])
 
-	// const dosIsSelect = isSelect()
-	// useEffect(() => {
-	// 	if ( !dosIsSelect ) return
-	// 	openDialog(element.identity)
-	// }, [dosIsSelect])
-
-
 
 	// HANDLE
 	const handleFocusEditor = e => {
-		// console.log("focus")
-		// openDialog(element.identity)
 	}
 
 	const handleBlurEditor = e => {
-		// console.log("blur")
-		// closeDialog()
-	}
-
-	const handleChange = newValue => {
-		//setValue(newValue)
 	}
 
 
@@ -84,11 +66,9 @@ export default function DocLayout({
 
 				<div className={styles.body}>
 
-
 					<Slate
 						editor={doc.editor}
-						value={doc.value}
-						onChange={handleChange}
+						value={doc.editor.children}
 					>
 						<BiblioEditable
 							element={element}
@@ -100,8 +80,6 @@ export default function DocLayout({
 					<EditLinkPopUp element={element} />
 
 				</div>
-
-
 
 			</div>
 

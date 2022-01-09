@@ -99,6 +99,9 @@ const store = {
 			)
 		},
 
+		/**
+		 * Semplicemente setto il fuoco a quato editor
+		 */
 		setFocus: (state, _, store) => {
 			const selection = state.editor.selection
 			Transforms.deselect(state.editor)
