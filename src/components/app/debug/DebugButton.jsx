@@ -5,26 +5,31 @@ import ajax from "../../../plugins/AjaxService";
 
 
 const shots = [
-	"login",
+	"prova",
 	"login2",
 	"login3",
 	"login4",
 ]
 
 const options = {
-	exclude: [
-		"layout",
-		"doc.all.id",
-		"doc.all.date",
-		"menu.all.id",
-		"url",
-		"auth.token",
-		"auth.activationToken",
-		"auth.user.id",
-		"auth.user.iat",
-		"auth.user.exp",
-		"node"
-	],
+	// exclude: [
+	// 	"layout",
+	// 	"doc.all.id",
+	// 	"doc.all.date",
+	// 	"menu.all.id",
+	// 	"url",
+	// 	"auth.token",
+	// 	"auth.activationToken",
+	// 	"auth.user.id",
+	// 	"auth.user.iat",b
+	// 	"auth.user.exp",
+	// 	"node"
+	// ],
+	include: [
+		"athDtl_2",
+		"athDtl_1",
+		"doc_2",
+	]
 }
 
 function DebugButton({
@@ -64,7 +69,7 @@ function DebugButton({
 		if ( shot == "" ) return
 		const module = await import(`./shots/${shot}.json`)
 		// reset server
-		await ajax.post("debug/reset")
+		//await ajax.post("debug/reset")
 		const log = await player.all(module.default)
 		console.log(log)
 	}

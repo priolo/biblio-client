@@ -39,9 +39,9 @@ const store = {
 		// },
 
 		// /** Chiude la DIALOG  */
-		// close: (state, _, store) => {
-		// 	store.setIdOpen(null)
-		// },
+		close: (state, _, store) => {
+		 	store.setItemsIdSelect([])
+		},
 
 	},
 	mutators: {

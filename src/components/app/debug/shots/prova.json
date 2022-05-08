@@ -1,0 +1,294 @@
+[
+	{
+		"type": 0,
+		"payload": {
+			"include": [
+				"athDtl_2",
+				"athDtl_1",
+				"doc_2"
+			],
+			"exclude": [],
+			"initState": true
+		}
+	},
+	{
+		"type": 1,
+		"payload": {
+			"author": {
+				"all": [
+					{
+						"id": 1,
+						"name": "Priolo22",
+						"rate": 4,
+						"imageSrc": "avatar1.png"
+					},
+					{
+						"id": 2,
+						"name": "Marinettola",
+						"rate": 3,
+						"imageSrc": "avatar2.png"
+					},
+					{
+						"id": 3,
+						"name": "Mattiettolo",
+						"rate": 2,
+						"imageSrc": "avatar3.png"
+					},
+					{
+						"id": 4,
+						"name": "Luchettolo",
+						"rate": 1,
+						"imageSrc": "avatar4.png"
+					},
+					{
+						"id": 5,
+						"name": "Manfredignolo",
+						"rate": 4,
+						"imageSrc": "avatar1.png"
+					},
+					{
+						"id": 6,
+						"name": "Ivanottolo",
+						"rate": 3,
+						"imageSrc": "avatar2.png"
+					},
+					{
+						"id": 7,
+						"name": "Eduardello",
+						"rate": 4,
+						"imageSrc": "avatar3.png"
+					},
+					{
+						"id": 8,
+						"name": "Alfredignolo",
+						"rate": 2,
+						"imageSrc": "avatar4.png"
+					}
+				]
+			},
+			"authorDetail": {
+				"id": null,
+				"title": null,
+				"name": null,
+				"date": null,
+				"docs": []
+			},
+			"element": {},
+			"menu": {
+				"main": [
+					{
+						"label": "Search",
+						"name": "search",
+						"selected": false,
+						"disabled": false
+					},
+					{
+						"label": "Liked",
+						"name": "heart",
+						"selected": false,
+						"disabled": false
+					},
+					{
+						"label": "News",
+						"name": "news",
+						"selected": false,
+						"disabled": false
+					},
+					{
+						"label": "Authors",
+						"name": "authors",
+						"selected": false,
+						"disabled": false
+					}
+				],
+				"opened": [],
+				"secondary": [
+					{
+						"label": "Login",
+						"name": "login",
+						"selected": false,
+						"disabled": false
+					},
+					{
+						"label": "Register",
+						"name": "register",
+						"selected": false,
+						"disabled": false
+					}
+				]
+			},
+			"url": {
+				"url": ""
+			},
+			"layout": {
+				"busy": false,
+				"title": "",
+				"focus": "",
+				"dialogIsOpen": false,
+				"dialogOptions": {
+					"title": "",
+					"text": "",
+					"labelOk": "Ok",
+					"labelCancel": null,
+					"modal": true,
+					"type": "info"
+				},
+				"isDialogVOpen": false
+			},
+			"auth": {
+				"user": null,
+				"token": "((admin2))",
+				"email": "",
+				"password": "",
+				"activationToken": ""
+			},
+			"docTypeDialog": {
+				"items": [
+					{
+						"id": "chapter",
+						"label": "Chapter",
+						"desc": "Inserisce un capitolo"
+					},
+					{
+						"id": "paragraph",
+						"label": "Paragraph",
+						"desc": "Inserisce un paragrafo"
+					},
+					{
+						"id": "text",
+						"label": "Text",
+						"desc": "Il normale blocco di testo"
+					},
+					{
+						"id": "code",
+						"label": "Code",
+						"desc": "Codice"
+					},
+					{
+						"id": "image",
+						"label": "Image",
+						"desc": "Image"
+					}
+				],
+				"itemsIdSelect": [],
+				"tabIndex": 0
+			},
+			"docCodeDialog": {
+				"isEditorCodeOpen": false,
+				"codeInEdit": null,
+				"docId": null,
+				"entryInEdit": null
+			},
+			"docLinkPopUp": {
+				"position": {},
+				"idOpen": null,
+				"path": null
+			}
+		}
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "addIdentity",
+		"payload": {
+			"identity": "aths",
+			"focus": true
+		}
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "toggleIdentity",
+		"payload": {
+			"identity": "athDtl_1"
+		}
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "toggleIdentity",
+		"payload": {
+			"identity": "athDtl_2"
+		}
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "toggleIdentity",
+		"payload": {
+			"identity": "doc_5"
+		}
+	},
+	{
+		"type": 4,
+		"storeName": "docTypeDialog",
+		"propName": "setItemsIdSelect",
+		"payload": [
+			"image"
+		]
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "toggleIdentity",
+		"payload": {
+			"identity": "doc_1"
+		}
+	},
+	{
+		"type": 4,
+		"storeName": "docTypeDialog",
+		"propName": "setItemsIdSelect",
+		"payload": [
+			"image"
+		]
+	},
+	{
+		"type": 4,
+		"storeName": "docTypeDialog",
+		"propName": "setItemsIdSelect",
+		"payload": [
+			"text"
+		]
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "setHash",
+		"payload": "doc_1"
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "removeIdentity",
+		"payload": "doc_1"
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "removeIdentity",
+		"payload": "doc_5"
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "removeIdentity",
+		"payload": "athDtl_1"
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "removeIdentity",
+		"payload": "athDtl_2"
+	},
+	{
+		"type": 2,
+		"storeName": "url",
+		"propName": "removeIdentity",
+		"payload": "aths"
+	},
+	{
+		"type": 6,
+		"payload": 0
+	}
+]

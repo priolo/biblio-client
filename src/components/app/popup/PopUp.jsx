@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef } from 'react'
-import { useLinkPopUp } from 'store/doc/dialogs/link'
+import { useCallback } from 'react'
+import linkStore from 'store/doc/dialogs/link'
+
 import styles from './PopUp.module.scss'
 
 
@@ -13,7 +14,7 @@ export default function PopUp({
 }) {
 
     // HOOKs
-    const { close } = useLinkPopUp()
+    const { close } = linkStore
 
     const ref = useCallback((node) => {
         if ( !node || !isOpen ) return

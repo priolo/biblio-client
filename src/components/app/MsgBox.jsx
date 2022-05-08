@@ -1,4 +1,5 @@
-import { useLayout } from '../../store/layout';
+import { useStore } from '@priolo/jon';
+import layoutStore from '../../store/layout';
 import Button from './Button'
 import Dialog from './Dialog'
 import Snackbar from './Snackbar';
@@ -8,7 +9,8 @@ export default function MsgBox({
 }) {
 
 	// HOOKs
-	const { state: layout, dialogClose } = useLayout()
+	const layout = useStore(layoutStore)
+	const { dialogClose } = layoutStore
 	//const cnDialog = () => `ii_dlg ${isOpen ? "visible-dlg" : ""}`;
 	//const cnDialogPage = () => `ii_dlg_page ${isOpen ? "visible-dlg" : ""}`;
 

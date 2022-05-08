@@ -27,7 +27,6 @@ export default function AuthorDetailLayout({
 
 	const handleClick = ({ doc, go = false }, e) => {
 
-
 		// [II]: è uguale a AuthorsLayout
 
 		const identity = composeIdentity("doc", doc.id)
@@ -58,7 +57,7 @@ export default function AuthorDetailLayout({
 				title={author.name}
 				subtitle="Tutti i contributi dell'utente..."
 				date="14/08/75"
-				identity={element.identity}
+				element={element}
 			/>
 			<FinderCmp
 				element={element}

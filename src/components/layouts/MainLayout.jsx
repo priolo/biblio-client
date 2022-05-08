@@ -11,20 +11,20 @@ import { useUrl } from 'store/url';
 
 //import EditTypeDialog from '../editor/components/EditTypeDialog';
 import EditCodeDialog from '../editor/components/EditCodeDialog';
+import { useMemo } from 'react';
 //import EditLinkPopUp from '../editor/components/LinkPopUp';
 
 /**
  * Gestisce l'intera app 
- * @returns 
- */
+  */
 export default function MainLayout() {
 
     // HOOKs
-    const { state: url, getElements } = useUrl()
+    const { state: urlNs, getElements } = useUrl()
 
 
     // RENDER
-    const elements = getElements()
+    const elements = useMemo(()=>getElements(),[urlNs.url])
 
     return (
         <div className={styles.container} >

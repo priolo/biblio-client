@@ -18,7 +18,6 @@ import { docImg } from "./docs.mock"
 const store = {
 
 	state: {
-		// id = identificativo del documento
 		type: ELEMENT_TYPE.DOC,
 		author: "Priolo22",
 		title: "Questo testo è statico",
@@ -28,8 +27,7 @@ const store = {
 	},
 
 	init: async (store) => {
-		// creo l'editor
-		const { getSelectedTypes } = store
+		// creo l'editor SLATE
 		const identity = store.getIdentity()
 		const editor = withLink(withImages(withCode(withHistory(withReact(createEditor())))))
 
@@ -38,7 +36,7 @@ const store = {
 		editor.onChange = () => {
 			const { setItemsIdSelect } = getStoreTypeDialog()
 			time.debounce(identity, () => store.save(), 2000)
-			const types = getSelectedTypes()
+			const types = store.getSelectedTypes()
 			setItemsIdSelect(types)
 		}
 
@@ -52,11 +50,7 @@ const store = {
 	},
 
 	getters: {
-
-		/** Restituisce l'IDENTITY dell'ELEMENT che contiene questo DOC*/
 		getIdentity: (state, _, store) => composeIdentity(state.type, state.id),
-
-		/** [bool] se questo DOCUMENT è attualmente selezionato */
 		isSelect: (state, _, store) => {
 			// prelevo il DOC selezionato dall'URL
 			const docIdSelect = getUrlHash()
@@ -65,10 +59,6 @@ const store = {
 	},
 
 	actions: {
-
-		/**
-		 * Recupera il JSON di un documento tramite il suo id
-		 */
 		fetch: (state, _, store) => {
 			const identity = store.getIdentity()
 
@@ -86,8 +76,6 @@ const store = {
 			}
 			Transforms.insertNodes(state.editor, value)
 		},
-
-		/** memorizza lo stato di questo documento */
 		save: (state, _, store) => {
 
 			// lo memorizzo temporaneamente in locale
@@ -98,7 +86,6 @@ const store = {
 			// va salvato sul server
 			// ...
 		},
-
 		onClose: (state, _, store) => {
 			console.log("on close")
 		},

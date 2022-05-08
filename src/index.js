@@ -4,7 +4,6 @@ import 'style/index.scss'
 import App from './App';
 //import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter as Router } from "react-router-dom";
 import { MultiStoreProvider } from '@priolo/jon'
 import setups from 'store'
 import './plugins/i18n';
@@ -13,9 +12,7 @@ import './plugins/i18n';
 function Base() {
 	return (
 		<MultiStoreProvider setups={setups}>
-			<Router>
 				<App />
-			</Router>
 		</MultiStoreProvider>
 	)
 }

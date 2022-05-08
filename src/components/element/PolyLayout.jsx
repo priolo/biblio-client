@@ -11,22 +11,27 @@ import { MultiStoreProvider } from "@priolo/jon"
 import docSetup from "../../store/doc/store"
 import authorDetailSetup from "../../store/authorDetail/store"
 import { useUrl, ELEMENT_TYPE, getUrlHash } from "store/url"
+import LoginLayout from "./account/LoginLayout"
 
 
+/**
+ * @typedef {object} Param
+ * @property {import("store/url").Identity} element l'ELEMENT che deve essere visualizzato
+ */
 
-
-
-
+/**
+ * Il un ELEMENT che permette di visualizzare qualsiasi altro tipo di ELEMENT
+ * E' un contenitore che visualizza qualsiasi documento nell'area orizzontale
+ * @param {Param} param0 
+ */
 export default function PolyLayout({
 	element,
 	className
 }) {
 
 	// HOOKs
-
 	const { state: url, setHash } = useUrl()
 	const contentRef = useRef(null)
-
 
 	useEffect(() => {
 		if (element && getUrlHash() != element.identity) return
@@ -34,12 +39,14 @@ export default function PolyLayout({
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
 	}, [url.url])
 
-	// HANDLEs
 
+	// HANDLEs
 	const handleClickContent = e => { setHash(element.identity) }
 
-	// RENDER
 
+	// RENDER
+	// costruisce il componente per l'ELEMENT
+	// notare che è dentro un useCallback quindi la costruzione viene chiamata solo quando l'"identity" cambia
 	const builElement = useCallback(() => {
 		switch (element.type) {
 			case ELEMENT_TYPE.AUTHORS:
@@ -63,6 +70,9 @@ export default function PolyLayout({
 						element={element}
 					/>
 				</MultiStoreProvider>
+			}
+			case ELEMENT_TYPE.LOGIN: {
+				return <LoginLayout element={element} />
 			}
 			default:
 				return null

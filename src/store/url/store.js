@@ -1,12 +1,9 @@
 /* eslint eqeqeq: "off"*/
 
 import { getStore } from "@priolo/jon"
-import { getStoreCodeDialog } from "store/doc/dialogs/code"
 import { getStoreTypeDialog } from "store/doc/dialogs/type"
-import { decomposeIdentity, getIdentities, getUrlHash, haveIdentity, indexIdentity } from "store/url"
+import { decomposeIdentity, getUrlIdentities, getUrlHash, haveIdentity, indexIdentity, ELEMENT_TYPE, DIV_PROP } from "store/url"
 
-const DIV_PROP = "-"
-const DIV_SUB = "."
 
 const store = {
 	state: {
@@ -17,13 +14,13 @@ const store = {
 			store.setUrl(window.location.href)
 		})
 		document.addEventListener("keydown", (e) => {
-			const identities = getIdentities()
+			const identities = getUrlIdentities()
 			switch (e.code) {
 				case "Tab":
 					let index = indexIdentity(getUrlHash())
 					index += e.shiftKey ? -1 : +1
-					if ( index >= identities.length ) index = 0 
-					if ( index < 0 ) index = identities.length -1
+					if (index >= identities.length) index = 0
+					if (index < 0) index = identities.length - 1
 					store.setHash(identities[index])
 					break
 			}
@@ -32,7 +29,7 @@ const store = {
 	getters: {
 
 		getElements: (state, _, store) => {
-			const identities = getIdentities()
+			const identities = getUrlIdentities()
 			const elements = identities.map(identity => decomposeIdentity(identity))
 			return elements
 		},
@@ -40,15 +37,18 @@ const store = {
 	},
 	actions: {
 
-		/** 
-		 * Aggiunge un elemento ala collezione di documenti visualizzati 
-		 * 
-		 * */
+		/**
+		 * Aggiunge un ELEMENT alla collezione di documenti visualizzati
+		 * @param {*}
+		 * @param {import("store/url").pAddIdentity} param1 
+		 */
 		addIdentity: async (state, { identity, by = "level", rightOf, focus }, store) => {
-			let identities = getIdentities()
+			let identities = getUrlIdentities()
 
-			// dove lo metto?
+			// indice dove mettere questo nuovo doc
 			let index = 0
+
+			// se è per "level"...
 			if (by == "level") {
 				const element = decomposeIdentity(identity)
 				index = identities.findIndex(idn => {
@@ -57,12 +57,13 @@ const store = {
 				})
 				if (index == -1) index = identities.length
 
+			// se non è per "level" allora controllo "righOf"
 			} else {
 				index = rightOf ? indexIdentity(rightOf) + 1 : -1
 				if (index == -1) index = 0 // identities.length	
 			}
 
-			// lo metto
+			// ok! se non c'e' gia' lo metto!
 			if (!haveIdentity(identity)) {
 				identities.splice(index, 0, identity)
 				store.setArray({ name: "i", value: identities })
@@ -74,20 +75,29 @@ const store = {
 
 		/** Elimina un elemento gia' presente tra i doc visualizzati */
 		removeIdentity: (state, identity, store) => {
-			// avverto lo store che sto chiudendo l'ELEMENT
-			const { onClose } = getStore(identity)
-			onClose?.()
-			const { close } = getStoreTypeDialog()
-			close()
+			const { type } = decomposeIdentity(identity)
+			switch (type) {
+				case ELEMENT_TYPE.DOC:
+					// avverto lo store che sto chiudendo l'ELEMENT
+					const { onClose } = getStore(identity)
+					onClose?.()
+					const { close } = getStoreTypeDialog()
+					close()
+				break
+			}
 
 			// resetto le identity nell'URL togliendo quella eliminata
-			const identities = getIdentities()
+			const identities = getUrlIdentities()
 			let newIdentities = identities.filter(id => id != identity)
 			store.setArray({ name: "i", value: newIdentities })
 			if (getUrlHash() == identity) {
 				store.setHash()
 			}
 		},
+		/**
+		 * Molto semplice: se c'e' gia' un ELEMENT lo cancello altrimenti lo creo
+		 * @param {import("store/url").pAddIdentity} options 
+		 */
 		toggleIdentity: (state, options, store) => {
 			const { identity } = options
 			if (haveIdentity(identity)) {
@@ -96,10 +106,6 @@ const store = {
 				store.addIdentity(options)
 			}
 		},
-
-
-
-
 
 		setArray: (state, { name, value }, store) => {
 			const valueStr = Array.isArray(value) && value.length > 0 ? value.join(DIV_PROP) : null

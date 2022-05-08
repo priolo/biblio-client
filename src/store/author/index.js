@@ -1,9 +1,18 @@
-import { getStore, useStore } from '@priolo/jon'
+import { createStore } from "@priolo/jon"
+import authors from "./author.mock"
 
-export function getStoreAuthor() {
-	return getStore("author")
-}
 
-export function useAuthor() {
-	return useStore("author")
-}
+const store = createStore({
+	state: {
+		all: authors,
+	},
+	getters: {
+	},
+	actions: {
+	},
+	mutators: {
+	},
+})
+
+export default store
+

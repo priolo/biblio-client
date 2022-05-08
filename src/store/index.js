@@ -6,7 +6,7 @@ import url from "./url/store"
 import layout from "./layout/store"
 import auth from "./auth/store"
 import docTypeDialog from "./doc/dialogs/type/store"
-import docCodeDialog from "./doc/dialogs/code/store"
+import docCodeDialog from "./doc/dialogs/code"
 import docLinkPopUp from "./doc/dialogs/link/store"
 
 export default {

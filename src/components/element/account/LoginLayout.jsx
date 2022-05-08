@@ -6,10 +6,13 @@ import Button from "components/app/Button"
 import Input from "components/app/Input"
 
 import { useAuth } from "store/auth"
+import HeaderCmp from "../HeaderCmp"
 
 
 
-function LoginLayout() {
+function LoginLayout({
+	element,
+}) {
 
 	// HOOKs
 	const { state: auth, setPassword, setEmail, login } = useAuth()
@@ -20,43 +23,33 @@ function LoginLayout() {
 	const handleChangePassword = e => setPassword(e.target.value)
 	const handleChangeEmail = e => setEmail(e.target.value)
 
-	
+
 	return (
 		<div className={styles.container}>
 
-			<div className={styles.left}>
-			</div>
+			<HeaderCmp
+				title="LOGIN"
+				subtitle=""
+				date=""
+				element={element}
+			/>
 
-			<div className={styles.center}>
-
-				<div className={styles.header}>
-					<div className={styles.title}>LOGIN</div>
-				</div>
-
-				<div className={styles.body}>
-					<Control label="Email">
-						<Input
-							value={auth.email}
-							onChange={handleChangeEmail}
-						/>
-					</Control>
-					<Control label="Password">
-						<Input
-							value={auth.password}
-							onChange={handleChangePassword}
-						/>
-					</Control>
-					<Button onClick={handleClickEnter}>
-						Enter
-					</Button>
-				</div>
-
-			</div>
-
-			<div className={styles.rigth}>
-				<div className={styles.icons}>
-					<Button icon={<CloseIcon />} />
-				</div>
+			<div className={styles.body}>
+				<Control label="Email">
+					<Input
+						value={auth.email}
+						onChange={handleChangeEmail}
+					/>
+				</Control>
+				<Control label="Password">
+					<Input
+						value={auth.password}
+						onChange={handleChangePassword}
+					/>
+				</Control>
+				<Button onClick={handleClickEnter}>
+					Enter
+				</Button>
 			</div>
 
 		</div>

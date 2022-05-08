@@ -52,7 +52,7 @@ export default function AuthorsLayout({
 				title="JON Documentation"
 				subtitle="Priolo22"
 				date="14/08/75"
-				identity={element.identity}
+				element={element}
 			/>
 			<FinderCmp
 				element={element}

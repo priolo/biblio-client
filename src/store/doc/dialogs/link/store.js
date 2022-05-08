@@ -1,10 +1,7 @@
-/* eslint eqeqeq: "off" */
-
-import { getStore } from "@priolo/jon"
-import { getStoreTypeDialog } from "../type"
+import { createStore } from "@priolo/jon"
 
 
-const store = {
+const store = createStore({
 
 	state: {
 		position: {},
@@ -41,6 +38,6 @@ const store = {
 		setPath: (state, path) => ({ path }),
 
 	},
-}
+})
 
 export default store

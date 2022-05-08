@@ -1,9 +1,27 @@
-import { getStore, useStore } from '@priolo/jon'
+import { createStore } from "@priolo/jon"
+import details from "./detail.mock"
 
-export function getStoreAuthorDetail() {
-	return getStore("authorDetail")
-}
 
-export function useAuthorDetail() {
-	return useStore("authorDetail")
-}
+const store = createStore({
+	state: {
+		id: null,
+		title: null,
+		name: null,
+		date: null,
+		docs: [],
+	},
+	getters: {
+	},
+	actions: {
+		fetch: (state, _, store) => {
+			const detail = details.find(detail => detail.id == state.id)
+			store._update(detail)
+		}
+	},
+	mutators: {
+
+	},
+})
+
+export default store
+
