@@ -1,5 +1,5 @@
 /* eslint eqeqeq: "off" */
-import { BLOCK_TYPE } from "."
+import { BLOCK_TYPE } from "./utils"
 import { Editor, Path, Transforms, Element, Node, Range, Text } from 'slate'
 import { array } from "@priolo/jon-utils"
 import { ReactEditor } from "slate-react"
@@ -15,7 +15,7 @@ const store = {
 		 * Restituisce tutti i ELEMENT_TYPE attualmente selezionati 
 		 * @returns {Array<ELEMENT_TYPE>}
 		 **/
-		getSelectedTypes: (state, _, store) => {
+		getSelectedTypes: (_, {state}) => {
 			// ricavo le ENTRY selezionate
 			const entries = Editor.nodes(state.editor, { match: n => n.type != null })
 			const entriesArr = [...entries]
@@ -29,7 +29,7 @@ const store = {
 		 * Restituisce il primo NODE-ENTRY attualmente SELECTED
 		 * @returns {NodeEntry}
 		 */
-		getFirstSelectEntry: (state, _, store) => {
+		getFirstSelectEntry: (_, {state}) => {
 			const entry = Editor.node(state.editor,
 				state.editor.selection,
 				{ depth: 1 }
@@ -48,7 +48,7 @@ const store = {
 		// 	})
 		// 	return entry ?? [{}]
 		// },
-		getEntryTextSelect: (state, _, store) => {
+		getEntryTextSelect: (_, {state}) => {
 			if (!state.editor.selection) return [{}]
 			const entry = Editor.leaf(state.editor, Range.start(state.editor.selection))
 			return entry ?? [{}]
@@ -60,7 +60,7 @@ const store = {
 		 * @param {Element} element
 		 * @return {NodeEntry}
 		 **/
-		getEntryFromElement: (state, element, store) => {
+		getEntryFromElement: ( element, {state}) => {
 			const [match] = Editor.nodes(state.editor, {
 				match: n => n === element,
 				at: [],
@@ -75,7 +75,7 @@ const store = {
 		 * @param {Element} element 
 		 * @returns {Path}
 		 */
-		getPathFromElement: (state, element, store) => {
+		getPathFromElement: (element, {state}) => {
 			// ATTENZIONE non funziona con i TEXT
 			const path = ReactEditor.findPath(state.editor, element)
 			return path
@@ -91,7 +91,7 @@ const store = {
 		 * Aggiorna il testo SELECTED con le proprietà passate come parametro
 		 * usato nella "dialog vertical" per esempio per impostare il BOLD
 		 */
-		changeSelectText: (state, nodePartial, store) => {
+		changeSelectText: (nodePartial, {state}) => {
 			Transforms.setNodes(
 				state.editor,
 				nodePartial,
@@ -102,7 +102,7 @@ const store = {
 		/**
 		 * Semplicemente setto il fuoco a quato editor
 		 */
-		setFocus: (state, _, store) => {
+		setFocus: (_, {state}) => {
 			const selection = state.editor.selection
 			Transforms.deselect(state.editor)
 			ReactEditor.focus(state.editor)
@@ -112,7 +112,7 @@ const store = {
 		/**
 		 * Inserisco un NODE nel PATH indicato e lo seleziono
 		 */
-		addNode: (state, { path, node, options }, store) => {
+		addNode: ({ path, node, options }, {state}) => {
 			// prendo il prossimo PATH [number]
 			const pathNext = Path.next(path)
 			// inserisco un NODE nel prossimo PATH
@@ -121,7 +121,7 @@ const store = {
 			if (options?.select) Transforms.select(state.editor, pathNext)
 		},
 
-		modifyNode: (state, { element, props }, store) => {
+		modifyNode: ({ element, props }, {state, ...store}) => {
 			const { editor } = state
 			// ATTENZIONE funziona solo per 
 			const path = store.getPathFromElement(element)
@@ -149,7 +149,7 @@ const store = {
 		/**
 		 * Elimino i BLOCKs selezionati, li unisco in un unico TYPE e li reinserisco
 		 */
-		changeSelectTypeAndMerge: (state, type, store) => {
+		changeSelectTypeAndMerge: (type, {state}) => {
 			const { editor } = state
 			const selectA = editor.selection.anchor.path[0]
 			const selectB = editor.selection.focus.path[0]

@@ -1,11 +1,18 @@
-import { getStore, useStore } from '@priolo/jon'
+/* eslint eqeqeq: "off" */
+import {createStore} from "@priolo/jon"
 
-export function getStoreElement() {
-	return getStore("element")
-}
+/**
+ * Sono tutti gli elementi presenti
+ */
+const store = createStore({
+	state: {
+	},
+	getters: {
+	},
+	actions: {
+	},
+	mutators: {
+	},
+})
 
-export function useElement() {
-	return useStore("element")
-}
-
-
+export default store

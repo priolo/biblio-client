@@ -1,8 +1,9 @@
 import { createStore } from "@priolo/jon"
+import {addElementStore} from "store/doc"
 import details from "./detail.mock"
 
 
-const store = createStore({
+const setup = {
 	state: {
 		id: null,
 		title: null,
@@ -13,15 +14,27 @@ const store = createStore({
 	getters: {
 	},
 	actions: {
-		fetch: (state, _, store) => {
+		fetch: (_, {state, ...store}) => {
 			const detail = details.find(detail => detail.id == state.id)
-			store._update(detail)
+			store.state = detail
+			store._update()
 		}
 	},
 	mutators: {
 
 	},
-})
+}
 
-export default store
+export default setup
 
+
+function createAuthorDetailStore( id ) {
+	const newSetup = { ...setup }
+	newSetup.state = { ...newSetup.state, id }
+	const store = createStore(newSetup)
+	addElementStore ( id, store )
+}
+
+export {
+	createAuthorDetailStore
+}

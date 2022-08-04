@@ -1,8 +1,8 @@
 /* eslint eqeqeq: "off" */
-import { getStoreLayout } from "../store/layout"
-import i18n from "i18next"
-import { getStoreAuth } from "../store/auth"
+import storeLayout from "../store/layout"
+import storeAuth from "../store/auth"
 import { DIALOG_TYPES } from "../store/layout/dialog"
+import i18n from "i18next"
 
 
 const optionsDefault = {
@@ -44,8 +44,8 @@ export class AjaxService {
 	 * @param {boolean} options.noBusy (true) no show busy indictor
 	 */
 	async send(url, method, data, options = {}) {
-		const { setBusy, dialogOpen, setFocus } = getStoreLayout()
-		const { state: auth } = getStoreAuth()
+		const { setBusy, dialogOpen, setFocus } = storeLayout
+		const { state: auth } = storeAuth
 		options = { ...optionsDefaultSend, ...options }
 
 		if (!options.noBusy) setBusy(true)
@@ -70,6 +70,7 @@ export class AjaxService {
 
 		// error
 		if (status >= 400) {
+			const error = body && body.errors && body.errors[0] ? body.errors[0] : { code: "default", field: "" }
 			if (!options.noDialog) {
 				const i18nMsg = {
 					type: DIALOG_TYPES.ERROR,

@@ -5,8 +5,9 @@ import Control from "components/app/Control"
 import Button from "components/app/Button"
 import Input from "components/app/Input"
 
-import { useAuth } from "store/auth"
+import storeAuth from "store/auth"
 import HeaderCmp from "../HeaderCmp"
+import {useStore} from "@priolo/jon"
 
 
 
@@ -15,7 +16,8 @@ function LoginLayout({
 }) {
 
 	// HOOKs
-	const { state: auth, setPassword, setEmail, login } = useAuth()
+	const auth = useStore(storeAuth)
+	const { setPassword, setEmail, login } = storeAuth
 
 
 	// HANDLEs

@@ -7,9 +7,9 @@ import { useMonaco } from "@monaco-editor/react";
 
 import ButtonIcon from "components/app/ButtonIcon";
 import BoldIcon from "imeges/icons/BoldIcon";
-import { useCodeDialog } from "store/doc/dialogs/code";
-import { useStore } from "@priolo/jon";
-import { getTextFromElement } from "store/doc";
+import codeDialogStore from "store/doc/dialogs/code";
+import { getTextFromElement } from "store/doc/utils";
+import { getElementStore } from "store/doc";
 
 
 export default function Code({ 
@@ -21,8 +21,8 @@ export default function Code({
 
 	// HOOKs
 	const [html, setHtml] = useState("")
-	const { state: docNs, getEntryFromElement, getIdentity } = useStore(doc.identity)
-	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = useCodeDialog()
+	const { state: docNs, getEntryFromElement, getIdentity } = getElementStore(doc.identity)
+	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = codeDialogStore
 	const monaco = useMonaco()
 	const selected = useSelected()
 	const focused = useFocused()

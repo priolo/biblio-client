@@ -1,11 +1,12 @@
 import styles from './LinkPopUp.module.scss'
 
 import PopUp from 'components/app/popup/PopUp'
-import { useLinkPopUp } from 'store/doc/dialogs/link'
+import linkPopUpStore from 'store/doc/dialogs/link'
 import Input from 'components/app/Input'
 import { Editor, Node, Transforms } from 'slate'
 import { useStore } from '@priolo/jon'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {getElementStore} from 'store/doc'
 
 
 /**
@@ -16,8 +17,9 @@ export default function LinkPopUp({
 }) {
 
     // HOOKs
-    const { state: docNs, setFocus } = useStore(element.identity)
-    const { state: linkNs, close } = useLinkPopUp()
+    const { state: docNs, setFocus } = getElementStore(element.identity)
+	const linkNs = useStore( linkPopUpStore)
+    const { close } = linkPopUpStore
     const [ value, setValue ] = useState("")
 
     const isOpen = element.identity == linkNs.idOpen

@@ -1,8 +1,9 @@
 /* eslint eqeqeq: "off" */
 
-import { createStore, getStore } from "@priolo/jon"
+import { createStore } from "@priolo/jon"
 import { Transforms } from "slate"
-import { ELEMENT_TYPE } from "store/url"
+import {getElementStore} from "store/doc"
+import { ELEMENT_TYPE } from "store/url/utils"
 
 const store = createStore({
 	state: {
@@ -29,8 +30,8 @@ const store = createStore({
 		// },
 
 		/** Applica le modifiche della DIALOG sull'ELEMENT del DOC di partenza */
-		updateCode: (state, _, store) => {
-			const docStore = getStore(state.docId)
+		updateCode: (_, {state}) => {
+			const docStore = getElementStore(state.docId)
 			if (!docStore || docStore.state.type != ELEMENT_TYPE.DOC) return null
 			const { state: doc } = docStore
 		
@@ -40,18 +41,18 @@ const store = createStore({
 			})
 		},
 
-		resetFocus: (state, _, store) => {
-			const docStore = getStore(state.docId)
+		resetFocus: ( _, {state}) => {
+			const docStore = getElementStore(state.docId)
 			if (!docStore || docStore.state.type != ELEMENT_TYPE.DOC) return null
 			const { setFocus } = docStore
 			setFocus()
 		},
 	},
 	mutators: {
-		setIsEditorCodeOpen: (state, isEditorCodeOpen) => ({ isEditorCodeOpen }),
-		setCodeInEdit: (state, codeInEdit) => ({ codeInEdit }),
-		setDocId: (state, docId) => ({ docId }),
-		setEntryInEdit: (state, entryInEdit) => ({ entryInEdit }),
+		setIsEditorCodeOpen: isEditorCodeOpen => ({ isEditorCodeOpen }),
+		setCodeInEdit: codeInEdit => ({ codeInEdit }),
+		setDocId: docId => ({ docId }),
+		setEntryInEdit: entryInEdit => ({ entryInEdit }),
 
 	},
 })

@@ -1,7 +1,8 @@
 import { useStore } from '@priolo/jon'
 import { Editor, Transforms, Text, Path } from 'slate'
 import { Editable } from 'slate-react'
-import { BLOCK_TYPE } from 'store/doc'
+import {getElementStore} from 'store/doc'
+import { BLOCK_TYPE } from 'store/doc/utils'
 import BiblioElement from './elements/BiblioElement'
 import BiblioLeaf from './leafs/BiblioLeaf'
 
@@ -17,8 +18,7 @@ export default function BiblioEditable({
 }) {
 
 	// HOOKs
-
-	const { state: doc, changeSelectText, getEntryTextSelect, getFirstSelectEntry, addNode } = useStore(element.identity)
+	const { state: doc, changeSelectText, getEntryTextSelect, getFirstSelectEntry, addNode } = getElementStore(element.identity)
 
 	// HANDLE
 	const handleKeyDown = event => {

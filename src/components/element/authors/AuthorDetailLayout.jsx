@@ -5,9 +5,10 @@ import FinderCmp from "../FinderCmp"
 import Actions from "components/app/Actions"
 import DocItem from "./DocItem"
 import { useStore } from "@priolo/jon"
-import { composeIdentity, haveIdentity } from "store/url"
-import { useUrl } from "store/url"
+import { composeIdentity, haveIdentity } from "store/url/utils"
+import urlStore from "store/url"
 import { useEffect } from "react"
+import {getElementStore} from "store/doc"
 
 
 export default function AuthorDetailLayout({
@@ -16,8 +17,8 @@ export default function AuthorDetailLayout({
 
 	// HOOKs
 
-	const { state: author, fetch } = useStore(element.identity)
-	const { toggleIdentity, addIdentity } = useUrl()
+	const { state: author, fetch } = getElementStore(element.identity)
+	const { toggleIdentity, addIdentity } = urlStore
 
 	useEffect(() => {
 		fetch()

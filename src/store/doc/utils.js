@@ -1,6 +1,6 @@
 import { getStore, useStore } from '@priolo/jon'
 import { Node } from 'slate'
-import { ELEMENT_TYPE } from 'store/url'
+import { ELEMENT_TYPE } from 'store/url/utils'
 
 
 /**
@@ -43,16 +43,16 @@ import { ELEMENT_TYPE } from 'store/url'
 /**
  * @returns {StoreDoc}
  */
-export function getStoreDoc() {
-	return getStore("doc")
-}
+// export function getStoreDoc() {
+// 	return getStore("doc")
+// }
 
 /**
  * @returns {StoreDoc}
  */
-export function useDoc() {
-	return useStore("doc")
-}
+// export function useDoc() {
+// 	return useStore("doc")
+// }
 
 /**
  * In base all'url, 

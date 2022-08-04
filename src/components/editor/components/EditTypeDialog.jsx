@@ -5,8 +5,8 @@ import Item from './Item'
 import ButtonIcon from 'components/app/ButtonIcon'
 import BoldIcon from 'imeges/icons/BoldIcon'
 import ItalicIcon from 'imeges/icons/ItalicIcon'
-import { ELEMENT_TYPE } from 'store/url'
-import { useTypeDialog } from 'store/doc/dialogs/type'
+import { ELEMENT_TYPE } from 'store/url/utils'
+import typeDialogStore from 'store/doc/dialogs/type'
 import { Text } from 'slate'
 import { useStore } from '@priolo/jon'
 import Swap from 'components/app/swap/Swap'
@@ -20,7 +20,8 @@ export default function EditTypeDialog({
 }) {
 
     // HOOKs
-    const { state: dialog, isSelected } = useTypeDialog()
+	const dialog = useStore(typeDialogStore)
+    const { isSelected } = typeDialogStore
     const { state: docNs, changeSelectTypeAndMerge, changeSelectText, getEntryTextSelect, isSelect } = useStore(element.identity)
 
 

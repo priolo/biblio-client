@@ -6,12 +6,12 @@ import BiblioEditable from "components/editor/BiblioEditable"
 
 import { ReactEditor, Slate } from 'slate-react'
 
-import { useStore } from "@priolo/jon"
-
-import { useTypeDialog } from "store/doc/dialogs/type"
+import typeDialogStore from "store/doc/dialogs/type"
 
 import EditLinkPopUp from 'components/editor/components/LinkPopUp';
 import EditTypeDialog from 'components/editor/components/EditTypeDialog';
+import {getElementStore} from "store/doc"
+import {useStore} from "@priolo/jon"
 
 
 export default function DocLayout({
@@ -19,8 +19,8 @@ export default function DocLayout({
 }) {
 
 	// HOOKs
-	const { state: doc, fetch, } = useStore(element.identity)
-	const { state: dialog, } = useTypeDialog()
+	const { state: doc, fetch, } = getElementStore(element.id)
+	const dialog = useStore(typeDialogStore)
 
 	useEffect(() => {
 		fetch()

@@ -1,14 +1,14 @@
 /* eslint eqeqeq: "off" */
 
-const store = {
+const setup = {
 	state: {
 		isDialogVOpen: false, 
 	},
 	actions: {
 	},
 	mutators: {
-		setDialogVOpen: (state, isDialogVOpen) => ({isDialogVOpen}),
+		setDialogVOpen: isDialogVOpen => ({isDialogVOpen}),
 	},
 }
 
-export default store
+export default setup

@@ -2,7 +2,8 @@ import styles from "./HeaderCmp.module.scss"
 
 import ButtonIcon from "components/app/ButtonIcon"
 import CancelIcon from "imeges/icons/CancelIcon"
-import { getUrlByIdentity, useUrl } from "store/url"
+import { getUrlByIdentity } from "store/url/utils"
+import urlStore from "store/url"
 import { clipboard } from "@priolo/jon-utils"
 
 
@@ -15,7 +16,7 @@ export default function HeaderCmp({
 }) {
 
 	// HOOKs
-	const { removeIdentity } = useUrl()
+	const { removeIdentity } = urlStore
 
 
 	// HANDLERs

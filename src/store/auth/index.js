@@ -2,7 +2,7 @@
 import ajax from "../../plugins/AjaxService";
 import Cookies from 'js-cookie'
 import i18n from "i18next";
-import { getStoreLayout } from "../layout";
+import layoutStore from "../layout";
 import { DIALOG_TYPES } from "../layout/dialog";
 import { createStore } from "@priolo/jon";
 
@@ -24,7 +24,7 @@ const store = createStore({
 	},
 	actions: {
 
-		register: async (state, _, store) => {
+		register: async ( _, store) => {
 			// const { dialogOpen } = getStoreLayout()
 
 			// const data = {
@@ -36,7 +36,7 @@ const store = createStore({
 			// open({ type: ELEMENT_TYPE.ACTIVATE, options: { singletone: true } })
 		},
 
-		activate: async (state, _, store) => {
+		activate: async ( _, store) => {
 			// const { dialogOpen } = getStoreLayout()
 
 			// const data = {
@@ -55,8 +55,8 @@ const store = createStore({
 			// open({ type: ELEMENT_TYPE.LOGIN })
 		},
 
-		login: async (state, _, store) => {
-			const { dialogOpen } = getStoreLayout()
+		login: async ( _, {state, ...store}) => {
+			const { dialogOpen } = layoutStore
 			const data = {
 				email: state.email,
 				password: state.password,
@@ -136,8 +136,8 @@ const store = createStore({
 		// 	idPolling = null
 		// },
 
-		logout: (state, { flash } = { flash: false }, store) => {
-			const { dialogOpen } = getStoreLayout()
+		logout: ({ flash } = { flash: false }, store) => {
+			const { dialogOpen } = layoutStore
 			//store.stopPollingRefreshToken()
 			//store.setToken(null)
 			store.setUser(null)
@@ -146,9 +146,9 @@ const store = createStore({
 	},
 	mutators: {
 		// [II] deve essere il layout che pesca lo user e adatta la lista non il contrario
-		setUser: (state, user, store) => ({ user: ""}),
+		setUser: ( user, store) => ({ user: ""}),
 
-		setToken: (state, token, store) => {
+		setToken: ( token, store) => {
 			if (token == null) {
 				Cookies.remove('token');
 			} else {
@@ -157,9 +157,9 @@ const store = createStore({
 			return { token }
 		},
 
-		setEmail: (state, email) => ({ email }),
-		setPassword: (state, password) => ({ password }),
-		setActivationToken: (state, activationToken) => ({ activationToken }),
+		setEmail: ( email) => ({ email }),
+		setPassword: ( password) => ({ password }),
+		setActivationToken: ( activationToken) => ({ activationToken }),
 	},
 })
 

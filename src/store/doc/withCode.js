@@ -1,4 +1,4 @@
-import { BLOCK_TYPE } from "."
+import { BLOCK_TYPE } from "./utils"
 
 /**
  * Extend "withReact" di Slate

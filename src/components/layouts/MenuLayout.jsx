@@ -1,22 +1,26 @@
-import styles from "./MenuLayout.module.scss"
+import styles from "./menuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
-import { MAIN_MENU_ITEMS, useMenu } from "store/menu"
-import { useUrl, ELEMENT_TYPE, composeIdentity } from "store/url"
+import storeMenu, { MAIN_MENU_ITEMS } from "store/menu"
+import { ELEMENT_TYPE, composeIdentity } from "store/url/utils"
+import storeUrl  from "store/url"
 
 
 export default function MenuLayout() {
 
 	// HOOKs
 
-	const { state: menu, getMain, getOpened, getSecondary } = useMenu()
-	const { addIdentity, setHash } = useUrl()
+	//const menu = useStore(storeMenu)
+	const { getMain, getOpened, getSecondary} = storeMenu
+	const { addIdentity, setHash } = storeUrl
 
 	// HANDLEs
 
 	const handleClickMain = (item) => {
 		switch (item.name) {
 			case MAIN_MENU_ITEMS.AUTHORS:
+				console.log(ELEMENT_TYPE.AUTHORS)
+				console.log( composeIdentity(ELEMENT_TYPE.AUTHORS))
 				addIdentity({ 
 					identity: composeIdentity(ELEMENT_TYPE.AUTHORS), 
 					focus: true 

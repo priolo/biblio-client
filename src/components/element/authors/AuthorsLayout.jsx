@@ -1,12 +1,13 @@
 import styles from "./AuthorsLayout.module.scss"
 
-import { getStoreAuthor } from "store/author"
+import storeAuthor from "store/author"
 import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
 import AuthorItemCard from "./AuthorItemCard"
 import Actions from "components/app/Actions"
-import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "store/url"
-import { useUrl } from "store/url"
+import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "store/url/utils"
+import urlStore from "store/url"
+import {useStore} from "@priolo/jon"
 
 
 export default function AuthorsLayout({
@@ -15,8 +16,8 @@ export default function AuthorsLayout({
 
 	// HOOKs
 
-	const { state: authorStore } = getStoreAuthor()
-	const { addIdentity, toggleIdentity } = useUrl()
+	const authorStore = useStore(storeAuthor)
+	const { addIdentity, toggleIdentity } = urlStore
 
 	// HANDLE
 

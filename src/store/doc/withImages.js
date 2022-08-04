@@ -1,5 +1,5 @@
 import { Transforms } from "slate"
-import { BLOCK_TYPE } from "."
+import { BLOCK_TYPE } from "./utils"
 import utils from "@priolo/jon-utils"
 
 

@@ -1,10 +1,42 @@
-import { getStore, useStore } from '@priolo/jon'
+import { createStore } from "@priolo/jon"
 
 
-export function getStoreLinkPopUp() {
-	return getStore("docLinkPopUp")
-}
+const store = createStore({
 
-export function useLinkPopUp() {
-	return useStore("docLinkPopUp")
-}
+	state: {
+		position: {},
+		idOpen: null,
+		path: null,
+	},
+
+	getters: {
+	},
+
+	actions: {
+
+		/** Apre la DIALOG setandone la posizione */
+		open: ({ id, leaf, position }, store) => {
+			//const { setTabIndex } = getStoreTypeDialog()
+			const [node, path] = leaf
+			store.setPosition(position)
+			store.setIdOpen(id)
+			store.setPath(path)
+			//setTabIndex(1)
+		},
+
+		/** Chiude la DIALOG  */
+		close: (_, store) => {
+			//const { setTabIndex } = getStoreTypeDialog()
+			store.setIdOpen(null)
+			//setTabIndex(0)
+		},
+
+	},
+	mutators: {
+		setIdOpen: idOpen => ({ idOpen }),
+		setPosition: position => ({ position }),
+		setPath: path => ({ path }),
+	},
+})
+
+export default store

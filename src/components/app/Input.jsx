@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import styles from './Input.module.scss';
+import styles from './input.module.scss';
 
 
 export default function Input({

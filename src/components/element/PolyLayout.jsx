@@ -1,22 +1,24 @@
 import styles from "./PolyLayout.module.scss"
 import { CSSTransition } from "react-transition-group"
 
-import { useCallback, useEffect, useRef } from "react"
+import { createElement, useCallback, useEffect, useRef } from "react"
 
 import DocLayout from "./doc/DocLayout"
 import AuthorsLayout from "./authors/AuthorsLayout"
 import AuthorDetailLayout from "./authors/AuthorDetailLayout"
 
-import { MultiStoreProvider } from "@priolo/jon"
-import docSetup from "../../store/doc/store"
-import authorDetailSetup from "../../store/authorDetail/store"
-import { useUrl, ELEMENT_TYPE, getUrlHash } from "store/url"
+import {createDocStore} from "../../store/doc"
+import { ELEMENT_TYPE, getUrlHash } from "store/url/utils"
+import urlStore from "store/url"
 import LoginLayout from "./account/LoginLayout"
+import {useStore} from "@priolo/jon"
+import {createAuthorDetailStore} from "store/authorDetail"
+
 
 
 /**
  * @typedef {object} Param
- * @property {import("store/url").Identity} element l'ELEMENT che deve essere visualizzato
+ * @property {import("store/url/utils").Identity} element l'ELEMENT che deve essere visualizzato
  */
 
 /**
@@ -30,7 +32,8 @@ export default function PolyLayout({
 }) {
 
 	// HOOKs
-	const { state: url, setHash } = useUrl()
+	const url = useStore(urlStore)
+	const { setHash } = urlStore
 	const contentRef = useRef(null)
 
 	useEffect(() => {
@@ -50,26 +53,15 @@ export default function PolyLayout({
 	const builElement = useCallback(() => {
 		switch (element.type) {
 			case ELEMENT_TYPE.AUTHORS:
-				return <AuthorsLayout
-					element={element}
-				/>
+				return <AuthorsLayout element={element} />
+
 			case ELEMENT_TYPE.AUTHOR_DETAIL: {
-				const setup = { ...authorDetailSetup }
-				setup.state = { ...setup.state, id: element.id }
-				return <MultiStoreProvider setups={{ [element.identity]: setup }}>
-					<AuthorDetailLayout
-						element={element}
-					/>
-				</MultiStoreProvider>
+				createAuthorDetailStore( element.identity )
+				return <AuthorDetailLayout element={element} />
 			}
 			case ELEMENT_TYPE.DOC: {
-				const setup = { ...docSetup }
-				setup.state = { ...setup.state, id: element.id }
-				return <MultiStoreProvider setups={{ [element.identity]: { ...setup } }}>
-					<DocLayout
-						element={element}
-					/>
-				</MultiStoreProvider>
+				createDocStore( element.identity )
+				return <DocLayout element={element} />
 			}
 			case ELEMENT_TYPE.LOGIN: {
 				return <LoginLayout element={element} />

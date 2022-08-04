@@ -1,4 +1,4 @@
-import { BLOCK_TYPE } from "."
+import { BLOCK_TYPE } from "./utils"
 import { Editor } from 'slate'
 import utils from "@priolo/jon-utils"
 

@@ -20,19 +20,19 @@ const optionsDefault = {
 	type: DIALOG_TYPES.INFO,
 }
 
-const store = {
+const setup = {
 	state: {
 		dialogIsOpen: false,
 		dialogOptions: optionsDefault,
 	},
 	actions: {
-		dialogOpen: (state, options, store) => {
+		dialogOpen: ( options, {store}) => {
 			store.setDialogOpen(options)
 			return new Promise((resolve, reject) => {
 				resolveClose = resolve
 			})
 		},
-		dialogClose: (state, response, store) => {
+		dialogClose: (response, {store}) => {
 			store.setDialogClose()
 			if (resolveClose) resolveClose(response)
 			resolveClose = null
@@ -40,7 +40,7 @@ const store = {
 		}
 	},
 	mutators: {
-		setDialogOpen: (state, options) => {
+		setDialogOpen: options => {
 			options = { ...optionsDefault, ...options }
 			//if (options.type && options.modal) {
 				//const path = `dialog.${options.type}.default`
@@ -56,11 +56,11 @@ const store = {
 				dialogIsOpen: true
 			}
 		},
-		setDialogClose: (state, _) => ({ dialogIsOpen: false }),
+		setDialogClose: () => ({ dialogIsOpen: false }),
 	},
 }
 
-export default store
+export default setup
 export {
 	DIALOG_TYPES
 }

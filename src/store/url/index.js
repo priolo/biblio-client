@@ -1,192 +1,158 @@
-import { getStore, useStore } from "@priolo/jon"
+/* eslint eqeqeq: "off"*/
 
-/**
-* Gestisce l'URL del BROWSER in relazione alle IDENTITY presenti nell'APP
-* @typedef {Object} StoreUrl
-* @property {StateUrl} state
-
-* GETTERS
-* @property {()=>Identity[]} getElements 
-* Restituisce tutte le IDENTITY degli ELEMENT presenti nell'URL
-
-* ACTIONS
-* @property {( options:pAddIdentity ) => void} addIdentity
-* Aggiunge un ELEMENT alla collezione di documenti visualizzati
-* @property {( identity:string ) => void} removeIdentity
-* Elimina un elemento gia' presente tra i doc visualizzati
-* @property {( options:pAddIdentity ) => void} toggleIdentity
-* Molto semplice: se c'e' gia' un ELEMENT lo cancello altrimenti lo creo
-* @property {( options:{name:string, value:string} ) => void} setParam
-* Setta un parametro nell'URL
-* @property {( options:{name:string, value:string[]} ) => void} setArray
-* Setta un parametro nell'URL di tipo ARRAY
-* @property {( hash:string ) => void} setHash
-* imposta un valore nell'HASH dell'URL
-* @property {( options:{ search:string, hash:string } ) => void} composeUrl
-* imposta nell'URL la parte SEARCH e la parte HASH (con interazione REACT)
-
-* MUTATORS
-* @property {( url:string ) => void} setUrl
-* setta l'url (intero)
-
-* STATE DEF
-* @typedef {Object} StateUrl
-* @property {string} url - la stringa presente nel browser
-
-* PARAMS
-* @typedef {{identity:string, by:string, rigthOf:string, focus:boolean}} pAddIdentity
-* indica l'aggiunta di un IDENTITY. il nome, la posizione, la posizione della destra e se bisogna settare il focus
-*/
-
-/**
- * Indica l'IDENTITY di un ELEMENT
- * @typedef { object } Identity
- * @property {ELEMENT_TYPE} type	il TYPE di questo element
- * @property {string} id
- * @property {ElementTypeLevel} level
- * @property {string} identity	una stringa rappresentativa dell'IDENTITY
- */
-
-/**
- * @constant {string} DIV_PROP per un PARAM di tipo ARRAY è il carattere divisorio tra gli items
- */
-export const DIV_PROP = "-"
-const DIV_SUB = "."
-
-/**
- * Indica di che tipo è la visualizzazione contenuta nell'ELEMENT
- * @readonly @enum {string}
- */
-export const ELEMENT_TYPE = {
-	AUTHORS: "aths",
-	AUTHOR_DETAIL: "athDtl",
-	DOC: "doc",
-
-	LOGIN: "login",
-	REGISTER: "register",
-	ACTIVATE: "activate",
-	MENU: "menu",
-}
-/**
- * Indica il LEVEL dell'ELEMENT.
- * Mi serve per dare un ordine gerarchico
- * @readonly @enum {number}
- */
-export const ElementTypeLevel = {
-	[ELEMENT_TYPE.AUTHORS]: 1,
-	[ELEMENT_TYPE.AUTHOR_DETAIL]: 2,
-	[ELEMENT_TYPE.DOC]: 3,
-}
+import {createStore} from "@priolo/jon"
+import {getElementStore} from "store/doc"
+import storeTypeDialog from "store/doc/dialogs/type"
+import { decomposeIdentity, getUrlIdentities, getUrlHash, haveIdentity, indexIdentity, ELEMENT_TYPE, DIV_PROP } from "store/url/utils"
 
 
+const setup = {
+	state: {
+		url: "",
+	},
+	getters: {
 
-/**
- * @returns {StoreUrl}
- */
- export function getStoreUrl() {
-	return getStore("url")
-}
+		getElements: () => {
+			const identities = getUrlIdentities()
+			const elements = identities.map(identity => decomposeIdentity(identity))
+			return elements
+		},
 
-/**
- * @returns {StoreUrl}
- */
-export function useUrl() {
-	return useStore("url")
-}
+	},
+	actions: {
 
-/**
- * compone un IDENTITY-STRING
- * @param {ELEMENT_TYPE} type tipo di ELEMENT
- * @param {string} id identificativo dell'ELEMENT
- * @returns {string}
- */
-export function composeIdentity(type, id) {
-	const identity = `${type}${id ? `_${id}` : ""}`
-	return identity
-}
+		/**
+		 * Aggiunge un ELEMENT alla collezione di documenti visualizzati
+		 * @param {*}
+		 * @param {import("store/url/utils").pAddIdentity} param1 
+		 */
+		addIdentity: async ({ identity, by = "level", rightOf, focus }, store) => {
+			let identities = getUrlIdentities()
 
-/**
- * decompone un IDENTITY-STRING
- * @param {string} identity 
- * @returns {Identity}
- */
-export function decomposeIdentity(identity) {
-	const [type, id] = identity.split("_")
-	const level = ElementTypeLevel[type]
-	return { type, id, level, identity }
-}
+			// indice dove mettere questo nuovo doc
+			let index = 0
 
-/**
- * Restituisce l'url di un ELEMENT tramite la sua IDENTITY-STRING
- * @param {string} identity 
- * @returns {string}
- */
- export function getUrlByIdentity ( identity ) {
-	return `${window.location.origin}/app?i=${identity}`
-}
+			// se è per "level"...
+			if (by == "level") {
+				const element = decomposeIdentity(identity)
+				index = identities.findIndex(idn => {
+					const elm = decomposeIdentity(idn)
+					return elm.level >= element.level
+				})
+				if (index == -1) index = identities.length
 
-/**
- * Restituisce il valore di una prop nell URL
- * inserita nella "query" dell'url
- * @param {string} name 
- * @returns {string}
- */
-export function getUrlValue(name) {
-	const searchParams = new URLSearchParams(window.location.search)
-	return searchParams.get(name)
-}
-// TODO
-export function setUrlValue(name, value) {
+			// se non è per "level" allora controllo "righOf"
+			} else {
+				index = rightOf ? indexIdentity(rightOf) + 1 : -1
+				if (index == -1) index = 0 // identities.length	
+			}
+
+			// ok! se non c'e' gia' lo metto!
+			if (!haveIdentity(identity)) {
+				identities.splice(index, 0, identity)
+				store.setArray({ name: "i", value: identities })
+			}
+
+			// setto anche il fuoco?
+			if (focus) await store._syncAct(store.setHash, identity)
+		},
+
+		/** Elimina un elemento gia' presente tra i doc visualizzati */
+		removeIdentity: (identity, store) => {
+			const { type } = decomposeIdentity(identity)
+			switch (type) {
+				case ELEMENT_TYPE.DOC:
+					// avverto lo store che sto chiudendo l'ELEMENT
+					const { onClose } = getElementStore(identity)
+					onClose?.()
+					const { close } = storeTypeDialog
+					close()
+				break
+			}
+
+			// resetto le identity nell'URL togliendo quella eliminata
+			const identities = getUrlIdentities()
+			let newIdentities = identities.filter(id => id != identity)
+			store.setArray({ name: "i", value: newIdentities })
+			if (getUrlHash() == identity) {
+				store.setHash()
+			}
+		},
+		/**
+		 * Molto semplice: se c'e' gia' un ELEMENT lo cancello altrimenti lo creo
+		 * @param {import("store/url/utils").pAddIdentity} options 
+		 */
+		toggleIdentity: (options, store) => {
+			const { identity } = options
+			if (haveIdentity(identity)) {
+				store.removeIdentity(identity)
+			} else {
+				store.addIdentity(options)
+			}
+		},
+
+		setArray: ({ name, value }, store) => {
+			const valueStr = Array.isArray(value) && value.length > 0 ? value.join(DIV_PROP) : null
+			return store.setParam({ name, value: valueStr })
+		},
+
+		setParam: ({ name, value }, store) => {
+			const queryParams = new URLSearchParams(window.location.search)
+			if (value && value.toString().length > 0) {
+				queryParams.set(name, value)
+			} else {
+				queryParams.delete(name)
+			}
+			const search = "?" + queryParams.toString()
+			store.composeUrl({ search })
+		},
+
+		setHash: (hash, store) => {
+			store.composeUrl({ hash: hash ? `#${hash}` : "" })
+		},
+
+		composeUrl: ({ search, hash }, store) => {
+			const urlSearch = search ?? window.location.search
+			const urlHash = hash ?? window.location.hash
+			const hashChanged = urlHash != window.location.hash
+			const searchChanged = urlSearch != window.location.search
+
+			if (!searchChanged && !hashChanged) return
+
+			const url = urlSearch + urlHash
+			// if( hashChanged && !searchChanged ) {
+			window.history.pushState(null, null, url)
+			// } else {
+			//	window.history.replaceState(null, null, url)
+			// }
+
+			store.setUrl(url)
+		},
+
+	},
+	mutators: {
+
+		setUrl: url => ({ url }),
+
+	},
 }
 
-/**
- * restituisce il valore ARRAY di una PROP-URL
- * @param {string} name nome della PROP-URL 
- * @returns {string[]} valore array della PROP-URL
- */
-export function getUrlValueArray(name) {
-	const value = getUrlValue(name)
-	return value ? value.split(DIV_PROP) : []
-}
-// TODO
-export function setUrlValueArray(name, value) {
-}
+const store = createStore(setup)
 
-/**
- * Semplicemente l'HASH dell'URL (senza #)
- * @returns {string}
- */
-export function getUrlHash() {
-	const hash = window.location.hash
-	return hash.slice(1)
-}
-
-/**
- * Tutte le "identity" degli ELEMENT visualizzati
- * @returns {string[]}
- */
-export function getUrlIdentities() {
-	return getUrlValueArray("i")
-}
-
-/**
- * Se nellì'URL c'e' una IDENTITY o no
- * @param {string} identity 
- * @returns {boolean}
- */
-export function haveIdentity(identity) {
+window.addEventListener("popstate", (e) => {
+	store.setUrl(window.location.href)
+})
+document.addEventListener("keydown", (e) => {
 	const identities = getUrlIdentities()
-	return identities.includes(identity)
-}
+	switch (e.code) {
+		case "Tab":
+			let index = indexIdentity(getUrlHash())
+			index += e.shiftKey ? -1 : +1
+			if (index >= identities.length) index = 0
+			if (index < 0) index = identities.length - 1
+			store.setHash(identities[index])
+			break
+	}
+})
 
-/**
- * Posizione di una IDENTITY nella lista
- * @param {string} identity 
- * @returns {number} indice posizione
- */
-export function indexIdentity(identity) {
-	const identities = getUrlIdentities()
-	return identities.indexOf(identity)
-}
-
-
+export default store

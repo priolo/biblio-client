@@ -2,12 +2,12 @@
 //import { themeLight, themeDark } from "../../theme"
 //import Cookies from 'js-cookie'
 import { createStore, mixStores } from "@priolo/jon"
-import dialogStore from "./dialog"
-import dialogVStore from "./dialogV"
+import setupDialog from "./dialog"
+import setupDialogV from "./dialogV"
 
 
 
-const layoutSetup = {
+const setupLayout = {
 	state: {
 		busy: false,
 		title: "",
@@ -21,20 +21,19 @@ const layoutSetup = {
 
 	},
 	mutators: {
-		setBusy: (state, busy) => ({ busy }),
-		setTitle: (state, title) => ({ title }),
-		setFocus: (state, focus) => ({ focus }),
+		setBusy: busy => ({ busy }),
+		setTitle: title => ({ title }),
+		setFocus: focus => ({ focus }),
 		// toggleTheme: (state) => {
 		// 	Cookies.set("theme", state.theme == themeLight ? "dark" : "light" )
 		// 	return {
 		// 		theme: state.theme == themeLight ? themeDark : themeLight
 		// 	}
 		// },
-		setDrawerIsOpen: (state, drawerIsOpen) => ({ drawerIsOpen }),
+		setDrawerIsOpen: drawerIsOpen => ({ drawerIsOpen }),
 	},
 }
 
-const setup = mixStores(layoutSetup, dialogStore, dialogVStore)
-
-
-export default createStore(setup)
+const setup = mixStores(setupLayout, setupDialog, setupDialogV)
+const store = createStore(setup)
+export default store
