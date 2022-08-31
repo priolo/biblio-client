@@ -146,9 +146,9 @@ const store = createStore({
 	},
 	mutators: {
 		// [II] deve essere il layout che pesca lo user e adatta la lista non il contrario
-		setUser: ( user, store) => ({ user: ""}),
+		setUser: _ => ({ user: ""}),
 
-		setToken: ( token, store) => {
+		setToken: token => {
 			if (token == null) {
 				Cookies.remove('token');
 			} else {
@@ -157,9 +157,9 @@ const store = createStore({
 			return { token }
 		},
 
-		setEmail: ( email) => ({ email }),
-		setPassword: ( password) => ({ password }),
-		setActivationToken: ( activationToken) => ({ activationToken }),
+		setEmail: email => ({ email }),
+		setPassword: password => ({ password }),
+		setActivationToken: activationToken => ({ activationToken }),
 	},
 })
 

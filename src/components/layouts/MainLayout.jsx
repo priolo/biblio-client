@@ -1,4 +1,4 @@
-import styles from "./mainLayout.module.scss";
+import styles from "./MainLayout.module.scss";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import MenuLayout from "./MenuLayout";

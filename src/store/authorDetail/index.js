@@ -16,12 +16,11 @@ const setup = {
 	actions: {
 		fetch: (_, {state, ...store}) => {
 			const detail = details.find(detail => detail.id == state.id)
-			store.state = detail
-			store._update()
+			store.setState(detail)
 		}
 	},
 	mutators: {
-
+		setState: state => state,
 	},
 }
 

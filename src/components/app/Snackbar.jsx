@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import styles from './snackbar.module.scss';
+import styles from './Snackbar.module.scss';
 
 
 function Snackbar({

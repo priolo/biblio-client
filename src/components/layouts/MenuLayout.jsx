@@ -1,4 +1,4 @@
-import styles from "./menuLayout.module.scss"
+import styles from "./MenuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
 import storeMenu, { MAIN_MENU_ITEMS } from "store/menu"
@@ -51,11 +51,13 @@ export default function MenuLayout() {
 	return (
 		<div className={styles.container}>
 
+			{/* MENU' PRINCIPALE IN ALTO */}
 			<Menu className={styles.main}
 				items={main}
 				onClick={handleClickMain}
 			/>
 
+			{/* DOCUMENTI APERTI */}
 			<Menu className={styles.opened}
 				items={openend}
 				onClick={handleClickOpened}
@@ -63,6 +65,7 @@ export default function MenuLayout() {
 
 			<div className={styles.gap} />
 
+			{/* MENU' SECONDARIO */}
 			<Menu className={styles.secondary}
 				items={secondary}
 				onClick={handleClickSecondary}

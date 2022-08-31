@@ -8,9 +8,9 @@
     "@priolo/jon-utils#local": "file:C://Users//iorio//Documents//jon-utils"
   },
   "dependencies": {
-    "@monaco-editor/react": "^4.3.1",
-    "@priolo/jon": "file:C:/Users/iorio/Projects/jon",
-    "@priolo/jon-utils": "file:C:/Users/iorio/Projects/jon-utils",
+    "@monaco-editor/react": "^4.4.5",
+    "@priolo/jon": "C:/Users/iorio/Documents/Jon",
+    "@priolo/jon-utils": "file:C:/Users/iorio/Documents/jon-utils",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.0",
@@ -21,7 +21,7 @@
     "react-dom": "18",
     "react-i18next": "^11.17.0",
     "react-scripts": "5",
-    "react-transition-group": "^4.4.2",
+    "react-transition-group": "^4.4.5",
     "slate": "^0.81.0",
     "slate-history": "^0.66.0",
     "slate-react": "^0.81.0",

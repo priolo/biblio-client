@@ -1,4 +1,4 @@
-import styles from './control.module.scss';
+import styles from './Control.module.scss';
 
 
 function Control({
@@ -6,7 +6,7 @@ function Control({
 	children,
 }) {
 
-	const handleChange = e => onChange?.(e)
+	//const handleChange = e => onChange?.(e)
 
     return (
         <label 

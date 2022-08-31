@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off"*/
 
-import {createStore} from "@priolo/jon"
-import {getElementStore} from "store/doc"
+import { createStore } from "@priolo/jon"
+import { getElementStore } from "store/doc"
 import storeTypeDialog from "store/doc/dialogs/type"
 import { decomposeIdentity, getUrlIdentities, getUrlHash, haveIdentity, indexIdentity, ELEMENT_TYPE, DIV_PROP } from "store/url/utils"
 
@@ -41,7 +41,7 @@ const setup = {
 				})
 				if (index == -1) index = identities.length
 
-			// se non è per "level" allora controllo "righOf"
+				// se non è per "level" allora controllo "righOf"
 			} else {
 				index = rightOf ? indexIdentity(rightOf) + 1 : -1
 				if (index == -1) index = 0 // identities.length	
@@ -54,7 +54,7 @@ const setup = {
 			}
 
 			// setto anche il fuoco?
-			if (focus) await store._syncAct(store.setHash, identity)
+			if (focus) await store.setHash(identity)
 		},
 
 		/** Elimina un elemento gia' presente tra i doc visualizzati */
@@ -67,7 +67,7 @@ const setup = {
 					onClose?.()
 					const { close } = storeTypeDialog
 					close()
-				break
+					break
 			}
 
 			// resetto le identity nell'URL togliendo quella eliminata

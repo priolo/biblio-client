@@ -1,6 +1,6 @@
 import { Transforms } from "slate"
 import { BLOCK_TYPE } from "./utils"
-import utils from "@priolo/jon-utils"
+import { eq } from "@priolo/jon-utils"
 
 
 
@@ -27,7 +27,7 @@ export function withImages (editor) {
 				insertImage(editor, urlData)
 				return null
 			}
-		} else if (utils.isUrlImage(text)) {
+		} else if (eq.isUrlImage(text)) {
 			insertImage(editor, text)
 			return null
 		}

@@ -70,7 +70,7 @@ export class AjaxService {
 
 		// error
 		if (status >= 400) {
-			const error = body && body.errors && body.errors[0] ? body.errors[0] : { code: "default", field: "" }
+			const error = dataJson && dataJson.errors && dataJson.errors[0] ? dataJson.errors[0] : { code: "default", field: "" }
 			if (!options.noDialog) {
 				const i18nMsg = {
 					type: DIALOG_TYPES.ERROR,

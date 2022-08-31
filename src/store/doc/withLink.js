@@ -1,6 +1,6 @@
 import { BLOCK_TYPE } from "./utils"
 import { Editor } from 'slate'
-import utils from "@priolo/jon-utils"
+import { eq } from "@priolo/jon-utils"
 
 
 export function withLink(editor) {
@@ -11,7 +11,7 @@ export function withLink(editor) {
 		if (!fnOrigin) return null
 
 		const text = data.getData('text/plain')
-		if (utils.isUrl(text)) {
+		if (eq.isUrl(text)) {
 			Editor.insertNode(editor, {
 				type: BLOCK_TYPE.TEXT, 
 				children: [{ 

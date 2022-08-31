@@ -1,7 +1,7 @@
 import styles from "./PolyLayout.module.scss"
 import { CSSTransition } from "react-transition-group"
 
-import { createElement, useCallback, useEffect, useRef } from "react"
+import { createElement, useCallback, useEffect, useMemo, useRef } from "react"
 
 import DocLayout from "./doc/DocLayout"
 import AuthorsLayout from "./authors/AuthorsLayout"
@@ -50,7 +50,7 @@ export default function PolyLayout({
 	// RENDER
 	// costruisce il componente per l'ELEMENT
 	// notare che è dentro un useCallback quindi la costruzione viene chiamata solo quando l'"identity" cambia
-	const builElement = useCallback(() => {
+	const builElement = useMemo(() => {
 		switch (element.type) {
 			case ELEMENT_TYPE.AUTHORS:
 				return <AuthorsLayout element={element} />
@@ -59,16 +59,18 @@ export default function PolyLayout({
 				createAuthorDetailStore( element.identity )
 				return <AuthorDetailLayout element={element} />
 			}
+
 			case ELEMENT_TYPE.DOC: {
 				createDocStore( element.identity )
 				return <DocLayout element={element} />
 			}
+
 			case ELEMENT_TYPE.LOGIN: {
 				return <LoginLayout element={element} />
 			}
+
 			default:
 				return null
-
 		}
 		// <MenuLayout content={element} />,
 		// <LoginLayout content={element} />,
@@ -83,7 +85,7 @@ export default function PolyLayout({
 			tabIndex="0"
 			id={element.identity}
 		>
-			{builElement()}
+			{builElement}
 		</div>
 	)
 }
