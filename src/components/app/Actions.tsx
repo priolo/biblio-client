@@ -1,4 +1,4 @@
-import styles from './Actions.module.scss';
+import styles from 'Actions.module.scss';
 
 
 export default function Actions({
