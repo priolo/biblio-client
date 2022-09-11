@@ -1,4 +1,4 @@
-import styles from "./MenuLayout.module.scss"
+import styles from "./menuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
 import menuStore, { MAIN_MENU_ITEMS } from "store/menu"

@@ -2,7 +2,9 @@
 
 /build
 /node_modules
-.vscode/
+/.vscode
+/.parcel-cache
+/dist
 /resources
 
 # misc
