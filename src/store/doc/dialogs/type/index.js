@@ -2,8 +2,8 @@
 
 import { createStore } from "@priolo/jon"
 import { Transforms } from "slate"
-import { BLOCK_TYPE } from "store/doc/utils"
-import { ELEMENT_TYPE } from "store/url/utils"
+import { BLOCK_TYPE } from "/src/store/doc/utils"
+import { ELEMENT_TYPE } from "/src/store/url/utils"
 
 /**
  * Dialog per definire il tipo

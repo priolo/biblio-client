@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off" */
-import { ELEMENT_TYPE, composeIdentity, haveIdentity, getUrlHash } from "store/url/utils"
-import storeUrl from "store/url"
-import {getElementStore} from "store/doc"
+import { ELEMENT_TYPE, composeIdentity, haveIdentity, getUrlHash } from "/src/store/url/utils"
+import storeUrl from "/src/store/url"
+import {getElementStore} from "/src/store/doc"
 import {createStore} from "@priolo/jon"
 
 

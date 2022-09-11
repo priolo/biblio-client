@@ -2,12 +2,12 @@ import styles from "./AuthorDetailLayout.module.scss"
 
 import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
-import Actions from "components/app/Actions"
+import Actions from "/src/components/app/Actions"
 import DocItem from "./DocItem"
-import { composeIdentity, haveIdentity } from "store/url/utils"
-import urlStore from "store/url"
+import { composeIdentity, haveIdentity } from "/src/store/url/utils"
+import urlStore from "/src/store/url"
 import { useEffect } from "react"
-import {getElementStore} from "store/doc"
+import {getElementStore} from "/src/store/doc"
 import { useStore } from "@priolo/jon"
 
 

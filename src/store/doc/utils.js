@@ -1,6 +1,5 @@
-import { getStore, useStore } from '@priolo/jon'
 import { Node } from 'slate'
-import { ELEMENT_TYPE } from 'store/url/utils'
+import { ELEMENT_TYPE } from '/src/store/url/utils'
 
 
 /**

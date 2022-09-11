@@ -1,9 +1,9 @@
 /* eslint eqeqeq: "off"*/
 
 import { createStore } from "@priolo/jon"
-import { getElementStore } from "store/doc"
-import storeTypeDialog from "store/doc/dialogs/type"
-import { decomposeIdentity, getUrlIdentities, getUrlHash, haveIdentity, indexIdentity, ELEMENT_TYPE, DIV_PROP } from "store/url/utils"
+import { getElementStore } from "/src/store/doc"
+import storeTypeDialog from "/src/store/doc/dialogs/type"
+import { decomposeIdentity, getUrlIdentities, getUrlHash, haveIdentity, indexIdentity, ELEMENT_TYPE, DIV_PROP } from "/src/store/url/utils"
 
 
 const setup = {
@@ -24,7 +24,7 @@ const setup = {
 		/**
 		 * Aggiunge un ELEMENT alla collezione di documenti visualizzati
 		 * @param {*}
-		 * @param {import("store/url/utils").pAddIdentity} param1 
+		 * @param {import("/src/store/url/utils").pAddIdentity} param1 
 		 */
 		addIdentity: async ({ identity, by = "level", rightOf, focus }, store) => {
 			let identities = getUrlIdentities()
@@ -82,7 +82,7 @@ const setup = {
 		},
 		/**
 		 * Molto semplice: se c'e' gia' un ELEMENT lo cancello altrimenti lo creo
-		 * @param {import("store/url/utils").pAddIdentity} options 
+		 * @param {import("/src/store/url/utils").pAddIdentity} options 
 		 */
 		toggleIdentity: (options, store) => {
 			const { identity } = options

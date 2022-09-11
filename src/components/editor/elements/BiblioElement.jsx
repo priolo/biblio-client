@@ -1,4 +1,4 @@
-import { BLOCK_TYPE } from "store/doc/utils"
+import { BLOCK_TYPE } from "/src/store/doc/utils"
 import Chapter from "./Chapter"
 import Paragraph from "./Paragraph"
 import Text from "./Text"

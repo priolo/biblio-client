@@ -1,8 +1,8 @@
 import { useStore } from '@priolo/jon'
 import { Editor, Transforms, Text, Path } from 'slate'
 import { Editable } from 'slate-react'
-import {getElementStore} from 'store/doc'
-import { BLOCK_TYPE } from 'store/doc/utils'
+import {getElementStore} from '/src/store/doc'
+import { BLOCK_TYPE } from '/src/store/doc/utils'
 import BiblioElement from './elements/BiblioElement'
 import BiblioLeaf from './leafs/BiblioLeaf'
 

@@ -1,4 +1,4 @@
-// import { BLOCK_TYPE } from "store/doc"
+// import { BLOCK_TYPE } from "/src/store/doc"
 // import Chapter from "./Chapter"
 // import Paragraph from "./Paragraph"
 // import Text from "./Text"

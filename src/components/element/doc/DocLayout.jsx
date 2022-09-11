@@ -2,15 +2,15 @@ import styles from "./DocLayout.module.scss"
 import { useEffect, useRef } from 'react'
 
 import HeaderCmp from "../HeaderCmp"
-import BiblioEditable from "components/editor/BiblioEditable"
+import BiblioEditable from "/src/components/editor/BiblioEditable"
 
 import { ReactEditor, Slate } from 'slate-react'
 
-import typeDialogStore from "store/doc/dialogs/type"
+import typeDialogStore from "/src/store/doc/dialogs/type"
 
-import EditLinkPopUp from 'components/editor/components/LinkPopUp';
-import EditTypeDialog from 'components/editor/components/EditTypeDialog';
-import { getElementStore } from "store/doc"
+import EditLinkPopUp from '/src/components/editor/components/LinkPopUp';
+import EditTypeDialog from '/src/components/editor/components/EditTypeDialog';
+import { getElementStore } from "/src/store/doc"
 import { useStore } from "@priolo/jon"
 
 

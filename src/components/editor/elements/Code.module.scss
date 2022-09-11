@@ -1,6 +1,6 @@
 @import "text";
-@import 'style/colors';
-@import 'style/fonts';
+@import '/src/style/_colors';
+@import '/src/style/_fonts';
 
 .root {
 	@include base;

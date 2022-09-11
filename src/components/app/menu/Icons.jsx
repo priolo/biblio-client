@@ -1,7 +1,7 @@
-import FindIcon from "imeges/icons/FindIcon";
-import HeartIcon from "imeges/icons/HeartIcon";
-import NewspaperIcon from "imeges/icons/NewspaperIcon";
-import UsersIcon from "imeges/icons/UsersIcon";
+import FindIcon from "/src/imeges/icons/FindIcon";
+import HeartIcon from "/src/imeges/icons/HeartIcon";
+import NewspaperIcon from "/src/imeges/icons/NewspaperIcon";
+import UsersIcon from "/src/imeges/icons/UsersIcon";
 
 
 export default function Icons({

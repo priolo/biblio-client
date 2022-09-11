@@ -1,6 +1,6 @@
 /* eslint eqeqeq: "off" */
 import React from 'react';
-import MainLayout from 'components/layouts/MainLayout';
+import MainLayout from '/src/components/layouts/MainLayout';
 
 
 export default function App() {
@@ -8,4 +8,3 @@ export default function App() {
 		<MainLayout />
 	)
 }
-

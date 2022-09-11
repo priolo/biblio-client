@@ -1,6 +1,6 @@
 import styles from './Card.module.scss'
 
-import OptionsIcon from 'imeges/icons/OptionsIcon';
+import OptionsIcon from '/src/imeges/icons/OptionsIcon';
 import ButtonIcon from './ButtonIcon';
 import Image from './Image';
 import Rating from './Rating';

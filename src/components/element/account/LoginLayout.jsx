@@ -1,11 +1,11 @@
 import styles from "./LoginLayout.module.scss"
 
-import CloseIcon from "imeges/close"
-import Control from "components/app/Control"
-import Button from "components/app/Button"
-import Input from "components/app/Input"
+import CloseIcon from "/src/imeges/close"
+import Control from "/src/components/app/Control"
+import Button from "/src/components/app/Button"
+import Input from "/src/components/app/Input"
 
-import authStore from "store/auth"
+import authStore from "/src/store/auth"
 import HeaderCmp from "../HeaderCmp"
 import {useStore} from "@priolo/jon"
 

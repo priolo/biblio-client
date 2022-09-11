@@ -2,8 +2,8 @@
 
 import { createStore } from "@priolo/jon"
 import { Transforms } from "slate"
-import {getElementStore} from "store/doc"
-import { ELEMENT_TYPE } from "store/url/utils"
+import {getElementStore} from "/src/store/doc"
+import { ELEMENT_TYPE } from "/src/store/url/utils"
 
 const store = createStore({
 	state: {

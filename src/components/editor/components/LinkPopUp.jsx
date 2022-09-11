@@ -1,12 +1,12 @@
 import styles from './LinkPopUp.module.scss'
 
-import PopUp from 'components/app/popup/PopUp'
-import linkPopUpStore from 'store/doc/dialogs/link'
-import Input from 'components/app/Input'
+import PopUp from '/src/components/app/popup/PopUp'
+import linkPopUpStore from '/src/store/doc/dialogs/link'
+import Input from '/src/components/app/Input'
 import { Editor, Node, Transforms } from 'slate'
 import { useStore } from '@priolo/jon'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getElementStore } from 'store/doc'
+import { getElementStore } from '/src/store/doc'
 
 
 /**

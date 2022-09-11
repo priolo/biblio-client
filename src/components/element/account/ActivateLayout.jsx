@@ -1,11 +1,11 @@
 
 import styles from "./ActivateLayout.module.scss"
-import CloseIcon from "imeges/close"
+import CloseIcon from "/src/imeges/close"
 import Control from "../../app/Control"
 import Button from "../../app/Button"
 import Input from "../../app/Input"
 
-import { useAuth } from "store/auth"
+import { useAuth } from "/src/store/auth"
 
 
 

@@ -1,9 +1,9 @@
 import styles from "./HeaderCmp.module.scss"
 
-import ButtonIcon from "components/app/ButtonIcon"
-import CancelIcon from "imeges/icons/CancelIcon"
-import { getUrlByIdentity } from "store/url/utils"
-import urlStore from "store/url"
+import ButtonIcon from "/src/components/app/ButtonIcon"
+import CancelIcon from "/src/imeges/icons/CancelIcon"
+import { getUrlByIdentity } from "/src/store/url/utils"
+import urlStore from "/src/store/url"
 import { clipboard } from "@priolo/jon-utils"
 
 

@@ -2,6 +2,10 @@
   "name": "biblio-client",
   "version": "0.1.0",
   "private": false,
+  "scripts": {
+    "dev": "parcel ./public/index.html",
+    "build": "parcel build ./public/index.html"
+  },
   "//dependencies": {
     "@priolo/jon#local": "file:C://Users//iorio//Documents//Jon",
     "@priolo/jon": "0.3",
@@ -28,24 +32,13 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "cra-build-watch": "^3.4.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-watch": "cra-build-watch",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "eqeqeq": "off",
-      "react-hooks/exhaustive-deps": "off"
-    }
+    "@parcel/transformer-sass": "^2.7.0",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "parcel": "^2.7.0",
+    "process": "^0.11.10",
+    "sass": "^1.54.8",
+    "typescript": "^4.6.4"
   },
   "browserslist": {
     "production": [

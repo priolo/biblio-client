@@ -1,16 +1,16 @@
 import styles from './EditTypeDialog.module.scss'
 
-import DialogVertical from 'components/app/DialogVertical'
+import DialogVertical from '/src/components/app/DialogVertical'
 import Item from './Item'
-import ButtonIcon from 'components/app/ButtonIcon'
-import BoldIcon from 'imeges/icons/BoldIcon'
-import ItalicIcon from 'imeges/icons/ItalicIcon'
-import { ELEMENT_TYPE } from 'store/url/utils'
-import typeDialogStore from 'store/doc/dialogs/type'
+import ButtonIcon from '/src/components/app/ButtonIcon'
+import BoldIcon from '/src/imeges/icons/BoldIcon'
+import ItalicIcon from '/src/imeges/icons/ItalicIcon'
+import { ELEMENT_TYPE } from '/src/store/url/utils'
+import typeDialogStore from '/src/store/doc/dialogs/type'
 import { Text } from 'slate'
 import { useStore } from '@priolo/jon'
-import Swap from 'components/app/swap/Swap'
-import { getElementStore } from 'store/doc'
+import Swap from '/src/components/app/swap/Swap'
+import { getElementStore } from '/src/store/doc'
 
 
 /**

@@ -10,7 +10,7 @@ import { createStore, mixStores } from "@priolo/jon"
 import { withImages } from "./withImages"
 import { withCode } from "./withCode"
 
-import { composeIdentity, ELEMENT_TYPE, getUrlHash } from "store/url/utils"
+import { composeIdentity, ELEMENT_TYPE, getUrlHash } from "/src/store/url/utils"
 
 import setupEdit from "./storeEdit"
 import storeTypeDialog from "./dialogs/type"

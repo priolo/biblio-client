@@ -1,6 +1,6 @@
 import styles from './Rating.module.scss';
 
-import StarIcon from 'imeges/icons/StarIcon';
+import StarIcon from '/src/imeges/icons/StarIcon';
 
 
 export default function Rating({

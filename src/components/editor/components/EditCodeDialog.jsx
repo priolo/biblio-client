@@ -1,8 +1,8 @@
 import styles from './EditCodeDialog.module.scss'
 
-import Button from 'components/app/Button';
-import Dialog from 'components/app/Dialog';
-import codeDialogStore from 'store/doc/dialogs/code';
+import Button from '/src/components/app/Button';
+import Dialog from '/src/components/app/Dialog';
+import codeDialogStore from '/src/store/doc/dialogs/code';
 import Editor from "@monaco-editor/react";
 import {useStore} from '@priolo/jon';
 

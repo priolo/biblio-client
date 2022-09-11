@@ -5,11 +5,11 @@ import { useFocused, useSelected } from "slate-react"
 import { Node } from "slate"
 import { useMonaco } from "@monaco-editor/react";
 
-import ButtonIcon from "components/app/ButtonIcon";
-import BoldIcon from "imeges/icons/BoldIcon";
-import codeDialogStore from "store/doc/dialogs/code";
-import { getTextFromElement } from "store/doc/utils";
-import { getElementStore } from "store/doc";
+import ButtonIcon from "/src/components/app/ButtonIcon";
+import BoldIcon from "/src/imeges/icons/BoldIcon";
+import codeDialogStore from "/src/store/doc/dialogs/code";
+import { getTextFromElement } from "/src/store/doc/utils";
+import { getElementStore } from "/src/store/doc";
 import { useStore } from "@priolo/jon";
 
 

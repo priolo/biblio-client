@@ -1,6 +1,6 @@
 import styles from './Leaf.module.scss'
-import storeLinkPopUp from 'store/doc/dialogs/link'
-import {getElementStore} from 'store/doc'
+import storeLinkPopUp from '/src/store/doc/dialogs/link'
+import {getElementStore} from '/src/store/doc'
 import { useStore } from '@priolo/jon'
 
 

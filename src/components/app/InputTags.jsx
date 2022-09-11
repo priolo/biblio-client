@@ -2,9 +2,9 @@ import styles from './Input.module.scss';
 
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
-import FindIcon from "imeges/icons/FindIcon"
+import FindIcon from "/src/imeges/icons/FindIcon"
 import ButtonIcon from './ButtonIcon';
-import AddIcon from 'imeges/icons/AddIcon';
+import AddIcon from '/src/imeges/icons/AddIcon';
 import DialogVertical from './DialogVertical';
 
 

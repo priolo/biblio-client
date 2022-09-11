@@ -1,6 +1,6 @@
 import styles from './Dialog.module.scss'
 
-import CloseIcon from "imeges/close"
+import CloseIcon from "/src/imeges/close"
 
 
 export default function Dialog({

@@ -1,8 +1,8 @@
 import styles from "./DocItem.module.scss"
 
-import OptionsIcon from 'imeges/icons/OptionsIcon';
-import Rating from "components/app/Rating"
-import ButtonIcon from "components/app/ButtonIcon"
+import OptionsIcon from '/src/imeges/icons/OptionsIcon';
+import Rating from "/src/components/app/Rating"
+import ButtonIcon from "/src/components/app/ButtonIcon"
 
 
 export default function DocItem({

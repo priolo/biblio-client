@@ -7,7 +7,7 @@ import PolyLayout from "../element/PolyLayout";
 import MsgBox from "../app/MsgBox";
 //import DebugButton from "../app/debug/DebugButton";
 
-import urlStore from "store/url";
+import urlStore from "/src/store/url";
 
 //import EditTypeDialog from '../editor/components/EditTypeDialog';
 import EditCodeDialog from "../editor/components/EditCodeDialog";

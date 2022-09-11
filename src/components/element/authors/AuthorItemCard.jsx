@@ -1,6 +1,6 @@
 import styles from "./AuthorItemCard.module.scss"
 
-import Card from "components/app/Card"
+import Card from "/src/components/app/Card"
 
 
 export default function AuthorItemCard({

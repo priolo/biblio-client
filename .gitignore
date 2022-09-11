@@ -2,8 +2,10 @@
 
 /build
 /node_modules
-.vscode/
+/.vscode
+/.parcel-cache
 /resources
+/dist
 
 # misc
 .env.local

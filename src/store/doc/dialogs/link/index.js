@@ -1,5 +1,4 @@
 import { createStore } from "@priolo/jon"
-import storeTypeDialog from "store/doc/dialogs/type"
 
 const store = createStore({
 

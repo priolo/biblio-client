@@ -8,17 +8,17 @@ import AuthorsLayout from "./authors/AuthorsLayout"
 import AuthorDetailLayout from "./authors/AuthorDetailLayout"
 
 import {createDocStore} from "../../store/doc"
-import { ELEMENT_TYPE, getUrlHash } from "store/url/utils"
-import urlStore from "store/url"
+import { ELEMENT_TYPE, getUrlHash } from "/src/store/url/utils"
+import urlStore from "/src/store/url"
 import LoginLayout from "./account/LoginLayout"
 import {useStore} from "@priolo/jon"
-import {createAuthorDetailStore} from "store/authorDetail"
+import {createAuthorDetailStore} from "/src/store/authorDetail"
 
 
 
 /**
  * @typedef {object} Param
- * @property {import("store/url/utils").Identity} element l'ELEMENT che deve essere visualizzato
+ * @property {import("/src/store/url/utils").Identity} element l'ELEMENT che deve essere visualizzato
  */
 
 /**

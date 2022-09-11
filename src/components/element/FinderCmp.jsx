@@ -1,8 +1,8 @@
 import styles from "./FinderCmp.module.scss"
 
-import InputTags from "components/app/InputTags"
-import { useUrl, getUrlHash } from "store/url/utils"
-import { useCallback, useEffect, useRef } from "react"
+import InputTags from "/src/components/app/InputTags"
+import { getUrlHash } from "/src/store/url/utils"
+import { useCallback } from "react"
 
 
 

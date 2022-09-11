@@ -1,6 +1,6 @@
 import { createStore } from "@priolo/jon"
-import { addElementStore } from "store/doc"
-import { decomposeIdentity } from "store/url/utils"
+import { addElementStore } from "/src/store/doc"
+import { decomposeIdentity } from "/src/store/url/utils"
 import details from "./detail.mock"
 
 

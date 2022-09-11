@@ -2,11 +2,11 @@ import styles from "./Image.module.scss"
 import { useRef } from 'react';
 import { ReactEditor, useFocused, useSelected } from "slate-react"
 import { Transforms } from "slate";
-import ButtonIcon from "components/app/ButtonIcon";
-import BoldIcon from "imeges/icons/BoldIcon";
-import { urlDataFromFile, urlDataResize } from "store/doc/withImages";
+import ButtonIcon from "/src/components/app/ButtonIcon";
+import BoldIcon from "/src/imeges/icons/BoldIcon";
+import { urlDataFromFile, urlDataResize } from "/src/store/doc/withImages";
 import { useStore } from "@priolo/jon";
-import { getElementStore } from "store/doc";
+import { getElementStore } from "/src/store/doc";
 
 
 export default function ImageCmp({

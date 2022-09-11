@@ -1,12 +1,12 @@
 import styles from "./AuthorsLayout.module.scss"
 
-import storeAuthor from "store/author"
+import storeAuthor from "/src/store/author"
 import HeaderCmp from "../HeaderCmp"
 import FinderCmp from "../FinderCmp"
 import AuthorItemCard from "./AuthorItemCard"
-import Actions from "components/app/Actions"
-import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "store/url/utils"
-import urlStore from "store/url"
+import Actions from "/src/components/app/Actions"
+import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "/src/store/url/utils"
+import urlStore from "/src/store/url"
 import { useStore } from "@priolo/jon"
 
 

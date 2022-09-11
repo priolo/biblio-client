@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import linkStore from 'store/doc/dialogs/link'
+import linkStore from '/src/store/doc/dialogs/link'
 
 import styles from './PopUp.module.scss'
 

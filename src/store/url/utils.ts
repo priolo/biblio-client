@@ -44,6 +44,12 @@
  * @property {ElementTypeLevel} level
  * @property {string} identity	una stringa rappresentativa dell'IDENTITY
  */
+interface Element {
+	type:ELEMENT_TYPE,
+	id:string,
+	level:number,
+	identity:string,
+}
 
 /**
  * @constant {string} DIV_PROP per un PARAM di tipo ARRAY è il carattere divisorio tra gli items
@@ -53,17 +59,16 @@ const DIV_SUB = "."
 
 /**
  * Indica di che tipo è la visualizzazione contenuta nell'ELEMENT
- * @readonly @enum {string}
  */
-export const ELEMENT_TYPE = {
-	AUTHORS: "aths",
-	AUTHOR_DETAIL: "athDtl",
-	DOC: "doc",
+export enum ELEMENT_TYPE {
+	AUTHORS = "aths",
+	AUTHOR_DETAIL = "athDtl",
+	DOC = "doc",
 
-	LOGIN: "login",
-	REGISTER: "register",
-	ACTIVATE: "activate",
-	MENU: "menu",
+	LOGIN = "login",
+	REGISTER = "register",
+	ACTIVATE = "activate",
+	MENU = "menu",
 }
 /**
  * Indica il LEVEL dell'ELEMENT.
@@ -103,7 +108,7 @@ export function decomposeIdentity(identity) {
  * @param {string} identity 
  * @returns {string}
  */
- export function getUrlByIdentity ( identity ) {
+export function getUrlByIdentity(identity) {
 	return `${window.location.origin}/app?i=${identity}`
 }
 
