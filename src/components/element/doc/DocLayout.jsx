@@ -10,8 +10,8 @@ import typeDialogStore from "store/doc/dialogs/type"
 
 import EditLinkPopUp from 'components/editor/components/LinkPopUp';
 import EditTypeDialog from 'components/editor/components/EditTypeDialog';
-import {getElementStore} from "store/doc"
-import {useStore} from "@priolo/jon"
+import { getElementStore } from "store/doc"
+import { useStore } from "@priolo/jon"
 
 
 export default function DocLayout({
@@ -19,13 +19,15 @@ export default function DocLayout({
 }) {
 
 	// HOOKs
-	const { state: doc, fetch, } = getElementStore(element.id)
+	const store = getElementStore(element.identity)
+	const doc = useStore(store)
 	const dialog = useStore(typeDialogStore)
 
 	useEffect(() => {
-		fetch()
+		store.fetch()
 	}, [])
 
+	// se la "type_dialog" è cambiata in "open"
 	useEffect(() => {
 		if (dialog.isEditorCodeOpen) return
 		ReactEditor.focus(doc.editor)

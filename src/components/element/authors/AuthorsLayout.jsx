@@ -7,7 +7,7 @@ import AuthorItemCard from "./AuthorItemCard"
 import Actions from "components/app/Actions"
 import { ELEMENT_TYPE, composeIdentity, haveIdentity } from "store/url/utils"
 import urlStore from "store/url"
-import {useStore} from "@priolo/jon"
+import { useStore } from "@priolo/jon"
 
 
 export default function AuthorsLayout({
@@ -16,7 +16,9 @@ export default function AuthorsLayout({
 
 	// HOOKs
 
-	const authorStore = useStore(storeAuthor)
+	const author = useStore(storeAuthor)
+	// rendo il componente "reattivo" al cambio state di urlStore
+	const urlNs = useStore(urlStore)
 	const { addIdentity, toggleIdentity } = urlStore
 
 	// HANDLE
@@ -44,7 +46,7 @@ export default function AuthorsLayout({
 
 	// RENDER
 
-	const authors = authorStore.all
+	const authors = author.all
 	const isSelected = (author) => haveIdentity(composeIdentity(ELEMENT_TYPE.AUTHOR_DETAIL, author.id))
 
 	return (

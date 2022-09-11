@@ -1,5 +1,5 @@
 import { createStore } from "@priolo/jon"
-
+import storeTypeDialog from "store/doc/dialogs/type"
 
 const store = createStore({
 
@@ -16,12 +16,12 @@ const store = createStore({
 
 		/** Apre la DIALOG setandone la posizione */
 		open: ({ id, leaf, position }, store) => {
-			//const { setTabIndex } = getStoreTypeDialog()
 			const [node, path] = leaf
 			store.setPosition(position)
 			store.setIdOpen(id)
 			store.setPath(path)
-			//setTabIndex(1)
+
+			//storeTypeDialog.setTabIndex(1)
 		},
 
 		/** Chiude la DIALOG  */

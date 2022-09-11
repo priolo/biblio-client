@@ -1,6 +1,7 @@
 import styles from './Leaf.module.scss'
 import storeLinkPopUp from 'store/doc/dialogs/link'
 import {getElementStore} from 'store/doc'
+import { useStore } from '@priolo/jon'
 
 
 // [II] mettere fuori
@@ -16,10 +17,15 @@ export default function Leaf ({
 	doc,
 }) {
 
+	// HOOKs
+
+	const store = getElementStore(doc.identity)
+	const docNs = useStore(store)
+	const { getEntryTextSelect } = store
+
 	// HANDLER
 	const handleClick = leaf.link ? (e) => {
 		const { open } = storeLinkPopUp
-		const { state:docNs, getEntryTextSelect } = getElementStore(doc.identity)
 		
 		const left = e.target.offsetLeft// + e.target.offsetWidth
 		const top = e.target.offsetTop + e.target.offsetHeight

@@ -1,7 +1,7 @@
 import styles from "./MenuLayout.module.scss"
 
 import Menu from "components/app/menu/Menu"
-import storeMenu, { MAIN_MENU_ITEMS } from "store/menu"
+import menuStore, { MAIN_MENU_ITEMS } from "store/menu"
 import { ELEMENT_TYPE, composeIdentity } from "store/url/utils"
 import storeUrl  from "store/url"
 
@@ -11,7 +11,7 @@ export default function MenuLayout() {
 	// HOOKs
 
 	//const menu = useStore(storeMenu)
-	const { getMain, getOpened, getSecondary} = storeMenu
+	const { getMain, getOpened, getSecondary} = menuStore
 	const { addIdentity, setHash } = storeUrl
 
 	// HANDLEs

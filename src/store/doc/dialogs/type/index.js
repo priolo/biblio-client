@@ -25,6 +25,8 @@ const setup = {
 			{ id: BLOCK_TYPE.CODE, label: "Code", desc: "Codice" },
 			{ id: BLOCK_TYPE.IMAGE, label: "Image", desc: "Image" },
 		],
+
+		// è un string[] che indica gli ELEMENT_TYPE dentro la selezione
 		itemsIdSelect: [],
 
 		tabIndex: 0,

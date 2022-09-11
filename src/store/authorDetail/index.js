@@ -1,5 +1,6 @@
 import { createStore } from "@priolo/jon"
-import {addElementStore} from "store/doc"
+import { addElementStore } from "store/doc"
+import { decomposeIdentity } from "store/url/utils"
 import details from "./detail.mock"
 
 
@@ -14,8 +15,9 @@ const setup = {
 	getters: {
 	},
 	actions: {
-		fetch: (_, {state, ...store}) => {
-			const detail = details.find(detail => detail.id == state.id)
+		fetch: (_, { state, ...store }) => {
+			const entity = decomposeIdentity(state.id)
+			const detail = details.find(detail => detail.id == entity.id)
 			store.setState(detail)
 		}
 	},
@@ -26,12 +28,11 @@ const setup = {
 
 export default setup
 
-
-function createAuthorDetailStore( id ) {
+function createAuthorDetailStore(id) {
 	const newSetup = { ...setup }
 	newSetup.state = { ...newSetup.state, id }
 	const store = createStore(newSetup)
-	addElementStore ( id, store )
+	addElementStore(id, store)
 }
 
 export {

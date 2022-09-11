@@ -10,6 +10,7 @@ import typeDialogStore from 'store/doc/dialogs/type'
 import { Text } from 'slate'
 import { useStore } from '@priolo/jon'
 import Swap from 'components/app/swap/Swap'
+import { getElementStore } from 'store/doc'
 
 
 /**
@@ -22,7 +23,9 @@ export default function EditTypeDialog({
     // HOOKs
 	const dialog = useStore(typeDialogStore)
     const { isSelected } = typeDialogStore
-    const { state: docNs, changeSelectTypeAndMerge, changeSelectText, getEntryTextSelect, isSelect } = useStore(element.identity)
+    const store = getElementStore(element.identity)
+    const docNs = useStore(store)
+    const { changeSelectTypeAndMerge, changeSelectText, getEntryTextSelect, isSelect } = store
 
 
     // HANDLE
@@ -45,8 +48,8 @@ export default function EditTypeDialog({
     // RENDER
     if (!docNs || docNs.type != ELEMENT_TYPE.DOC) return null
     const [leaf] = getEntryTextSelect()
+    // indica se il documento è selezionato e quindi se questa dialog deve essere aperta o chiusa
     const isOpen = isSelect()//element.identity == dialog.idOpen
-
     const test = [
         { label: "primo" },
         { label: "secondo" },

@@ -31,7 +31,7 @@ const setupDoc = {
 	},
 
 	getters: {
-		getIdentity: (_, {state}) => composeIdentity(state.type, state.id),
+		getIdentity: (_, { state }) => state.id, //composeIdentity(state.type, state.id),
 		isSelect: (_, store) => {
 			// prelevo il DOC selezionato dall'URL
 			const docIdSelect = getUrlHash()
@@ -40,15 +40,15 @@ const setupDoc = {
 	},
 
 	actions: {
-		fetch: (_, {state, ...store}) => {
+		fetch: (_, { state, ...store }) => {
 			const identity = store.getIdentity()
-
+			if ( state.editor.children.length > 0 ) return 
 			const storage = window.localStorage
 			let value = storage.getItem(identity)
 			if (value) {
 				try {
 					value = JSON.parse(value)
-				} catch ( _ ) {
+				} catch (_) {
 					value = null
 				}
 			}
@@ -57,7 +57,7 @@ const setupDoc = {
 			}
 			Transforms.insertNodes(state.editor, value)
 		},
-		save: (_, {state, ...store}) => {
+		save: (_, { state, ...store }) => {
 
 			// lo memorizzo temporaneamente in locale
 			const storage = window.localStorage
@@ -78,18 +78,22 @@ const setupDoc = {
 
 const setup = mixStores(setupDoc, setupEdit)
 
+// in pratica creo e inserisco nello store un oggetto "Slate-editor"
 function init(store) {
 	// creo l'editor SLATE
 	const identity = store.getIdentity()
 	const editor = withLink(withImages(withCode(withHistory(withReact(createEditor())))))
-	const { insertData } = editor
 
+	
 	editor.onChange = () => {
 		const { setItemsIdSelect } = storeTypeDialog
 		time.debounce(identity, () => store.save(), 2000)
 		const types = store.getSelectedTypes()
 		setItemsIdSelect(types)
 	}
+
+	// sovrascivo "insertData". Devo memorizzare la vecchia funzione per poterla richiamare sulla nuova
+	const { insertData } = editor
 	editor.insertData = async (data) => {
 		const fnOrigin = await insertData(data)
 		if (!fnOrigin) return null
@@ -98,22 +102,21 @@ function init(store) {
 	store.setEditor(editor)
 }
 
-
 const ElementStores = new Map()
 
-function createDocStore ( id ) {
+function createDocStore(id) {
 	const newSetup = { ...setup }
 	newSetup.state = { ...newSetup.state, id }
 	const store = createStore(newSetup)
 	init(store)
-	addElementStore ( id, store )
+	addElementStore(id, store)
 }
 
-function addElementStore ( id, store ) {
-	ElementStores.set ( id, store )
+function addElementStore(id, store) {
+	ElementStores.set(id, store)
 }
 
-function getElementStore( id ) {
+function getElementStore(id) {
 	return ElementStores.get(id)
 }
 

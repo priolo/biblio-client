@@ -6,6 +6,7 @@ import ButtonIcon from "components/app/ButtonIcon";
 import BoldIcon from "imeges/icons/BoldIcon";
 import { urlDataFromFile, urlDataResize } from "store/doc/withImages";
 import { useStore } from "@priolo/jon";
+import { getElementStore } from "store/doc";
 
 
 export default function ImageCmp({
@@ -16,7 +17,9 @@ export default function ImageCmp({
 }) {
 
 	// HOOKs
-	const { state: docNs, getPathFromElement, modifyNode } = useStore(doc.identity)
+	const store = getElementStore(doc.identity)
+	const docNs = useStore(store)
+	const { getPathFromElement, modifyNode } = store
 	const selected = useSelected()
 	const focused = useFocused()
 	const inputRef = useRef(null) // input file

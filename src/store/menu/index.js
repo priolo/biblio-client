@@ -70,7 +70,7 @@ const setup = {
 			const { getElements } = storeUrl
 			return getElements().reduce ( (items, element) => {
 				if ( element.type != "doc" ) return items
-				const { state:doc } = getElementStore(element.id)
+				const { state:doc } = getElementStore(element.identity)
 				const selected = getUrlHash() == element.identity
 				items.push({
 					label: doc.title,

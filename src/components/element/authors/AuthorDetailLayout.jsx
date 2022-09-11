@@ -8,6 +8,7 @@ import { composeIdentity, haveIdentity } from "store/url/utils"
 import urlStore from "store/url"
 import { useEffect } from "react"
 import {getElementStore} from "store/doc"
+import { useStore } from "@priolo/jon"
 
 
 export default function AuthorDetailLayout({
@@ -16,11 +17,14 @@ export default function AuthorDetailLayout({
 
 	// HOOKs
 
-	const { state: author, fetch } = getElementStore(element.identity)
+	const store = getElementStore(element.identity)
+	const author = useStore(store)
+	// rendo il componente "reattivo" al cambio state di urlStore
+	const urlNs = useStore(urlStore)
 	const { toggleIdentity, addIdentity } = urlStore
 
 	useEffect(() => {
-		fetch()
+		store.fetch()
 	}, [])
 
 	// HANDLE
@@ -47,8 +51,8 @@ export default function AuthorDetailLayout({
 	}
 
 	// RENDER
-
-	const docs = author.docs
+	if ( !author ) return null
+	const docs = author.docs ?? []
 	const isSelected = (doc) => haveIdentity(composeIdentity("doc", doc.id))
 
 	return (

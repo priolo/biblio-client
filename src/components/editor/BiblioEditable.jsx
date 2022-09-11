@@ -18,7 +18,9 @@ export default function BiblioEditable({
 }) {
 
 	// HOOKs
-	const { state: doc, changeSelectText, getEntryTextSelect, getFirstSelectEntry, addNode } = getElementStore(element.identity)
+	const store = getElementStore(element.identity)
+	const doc = useStore(store)
+	const {changeSelectText, getEntryTextSelect, getFirstSelectEntry, addNode } = store
 
 	// HANDLE
 	const handleKeyDown = event => {

@@ -60,11 +60,13 @@ const setup = {
 		/** Elimina un elemento gia' presente tra i doc visualizzati */
 		removeIdentity: (identity, store) => {
 			const { type } = decomposeIdentity(identity)
+
+			// avverto il documento che deve essere chiuso
 			switch (type) {
 				case ELEMENT_TYPE.DOC:
 					// avverto lo store che sto chiudendo l'ELEMENT
-					const { onClose } = getElementStore(identity)
-					onClose?.()
+					const store = getElementStore(identity)
+					store?.onClose()
 					const { close } = storeTypeDialog
 					close()
 					break

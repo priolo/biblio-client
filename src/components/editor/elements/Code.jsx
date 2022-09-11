@@ -10,6 +10,7 @@ import BoldIcon from "imeges/icons/BoldIcon";
 import codeDialogStore from "store/doc/dialogs/code";
 import { getTextFromElement } from "store/doc/utils";
 import { getElementStore } from "store/doc";
+import { useStore } from "@priolo/jon";
 
 
 export default function Code({ 
@@ -21,7 +22,9 @@ export default function Code({
 
 	// HOOKs
 	const [html, setHtml] = useState("")
-	const { state: docNs, getEntryFromElement, getIdentity } = getElementStore(doc.identity)
+	const docStore = getElementStore(doc.identity)
+	const docNs = useStore(docStore)
+	const { getEntryFromElement, getIdentity } = docStore
 	const { setIsEditorCodeOpen, setCodeInEdit, setEntryInEdit, setDocId } = codeDialogStore
 	const monaco = useMonaco()
 	const selected = useSelected()
@@ -31,10 +34,13 @@ export default function Code({
 	const text = useMemo(() => getTextFromElement(element), [element])
 
 	// ricavo l'html dal testo in base al linguaggio usato
-	useEffect(async () => {
-		if (!monaco) return
-		const res = await monaco.editor.colorize(text, "javascript")
-		setHtml(res ?? "")
+	useEffect(() => {
+		const fn = async ()=> {
+			if (!monaco) return
+			const res = await monaco.editor.colorize(text, "javascript")
+			setHtml(res ?? "")
+		}
+		fn()
 	}, [monaco, text])
 
 

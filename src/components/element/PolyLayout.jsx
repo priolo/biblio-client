@@ -32,15 +32,16 @@ export default function PolyLayout({
 }) {
 
 	// HOOKs
-	const url = useStore(urlStore)
+	const urlNs = useStore(urlStore)
 	const { setHash } = urlStore
 	const contentRef = useRef(null)
 
+	// se cambia l'url allora forse è cambiata la selezione
 	useEffect(() => {
 		if (element && getUrlHash() != element.identity) return
 		contentRef.current?.focus()
 		contentRef.current?.scrollIntoView({ behavior: "smooth", /*block: "center",*/ inline: "center" })
-	}, [url.url])
+	}, [urlNs.url])
 
 
 	// HANDLEs
@@ -49,7 +50,7 @@ export default function PolyLayout({
 
 	// RENDER
 	// costruisce il componente per l'ELEMENT
-	// notare che è dentro un useCallback quindi la costruzione viene chiamata solo quando l'"identity" cambia
+	// notare che è dentro un useMemo quindi la costruzione viene chiamata solo quando l'"identity" cambia
 	const builElement = useMemo(() => {
 		switch (element.type) {
 			case ELEMENT_TYPE.AUTHORS:

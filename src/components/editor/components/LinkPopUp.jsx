@@ -6,7 +6,7 @@ import Input from 'components/app/Input'
 import { Editor, Node, Transforms } from 'slate'
 import { useStore } from '@priolo/jon'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {getElementStore} from 'store/doc'
+import { getElementStore } from 'store/doc'
 
 
 /**
@@ -17,21 +17,22 @@ export default function LinkPopUp({
 }) {
 
     // HOOKs
-    const { state: docNs, setFocus } = getElementStore(element.identity)
-	const linkNs = useStore( linkPopUpStore)
+    const store = getElementStore(element.identity)
+    const docNs = useStore(store)
+    const linkNs = useStore(linkPopUpStore)
     const { close } = linkPopUpStore
-    const [ value, setValue ] = useState("")
+    const [value, setValue] = useState("")
 
     const isOpen = element.identity == linkNs.idOpen
     const refInput = useCallback((nodeDom) => {
         if (!nodeDom || !isOpen || !path) return
-        if ( !Node.has(docNs.editor, path) ) return
+        if (!Node.has(docNs.editor, path)) return
         const [node] = Editor.leaf(docNs.editor, path)
-    
+
         setValue(node.url)
-        setTimeout(()=>nodeDom.select(), 200)
+        setTimeout(() => nodeDom.select(), 200)
     }, [isOpen])
-    
+
 
     // HANDLE
     const handleChange = (e) => {
@@ -51,7 +52,7 @@ export default function LinkPopUp({
         if (e.key == "Enter" || e.key == "Escape") {
             e.preventDefault()
             close()
-            setFocus()
+            store.setFocus()
         }
     }
 
